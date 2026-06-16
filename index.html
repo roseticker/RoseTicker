@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Primers</title>
+<style>
+  :root {
+    --green:#00c07f; --bg:#0d1117; --bg2:#161b22; --bg3:#21262d;
+    --border:#30363d; --text:#e6edf3; --muted:#8b949e; --radius:12px;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; }
+  .wrap { max-width:760px; margin:0 auto; padding:64px 20px 80px; }
+  .label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px; }
+  h1 { font-size:clamp(28px,6vw,44px); font-weight:800; line-height:1.15; margin-bottom:12px; }
+  .sub { color:var(--muted); font-size:16px; max-width:560px; margin-bottom:40px; }
+  .grid { display:grid; gap:16px; }
+  a.card { display:block; text-decoration:none; color:inherit; background:var(--bg2);
+    border:1px solid var(--border); border-radius:var(--radius); padding:22px 24px;
+    transition:border-color .2s, transform .15s, background .2s; }
+  a.card:hover { border-color:var(--green); background:var(--bg3); transform:translateY(-2px); }
+  .ticker { display:inline-block; background:var(--bg3); color:var(--green); font-weight:700;
+    font-size:12px; letter-spacing:.5px; padding:3px 10px; border-radius:6px; margin-bottom:10px; }
+  a.card:hover .ticker { background:rgba(0,192,127,.15); }
+  .card h2 { font-size:19px; font-weight:700; margin-bottom:6px; display:flex; align-items:center; gap:8px; }
+  .card p { font-size:14px; color:var(--muted); }
+  .arrow { color:var(--green); font-weight:700; transition:transform .15s; }
+  a.card:hover .arrow { transform:translateX(4px); }
+  .live { font-size:11px; color:var(--green); font-weight:600; }
+  .dot { display:inline-block; width:7px; height:7px; border-radius:50%; background:var(--green); margin-right:4px; vertical-align:middle; }
+  .foot { margin-top:48px; padding-top:20px; border-top:1px solid var(--border);
+    font-size:12px; color:var(--muted); line-height:1.6; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="label">Interactive · Plain-English</div>
+    <h1>Stock Primers</h1>
+    <p class="sub">One-page deep dives into individual stocks — what the company does, the bull and bear case, the valuation, the risks, and a "should I buy?" decision tool. Educational, not financial advice.</p>
+
+    <div class="grid">
+      <a class="card" href="bloom-energy-live-primer.html">
+        <span class="ticker">NYSE: BE</span>
+        <h2>Bloom Energy <span class="arrow">→</span></h2>
+        <p><span class="live"><span class="dot"></span>Live price</span> · Fuel cells and the AI data-center power thesis.</p>
+      </a>
+
+      <a class="card" href="NBIS_interactive_one_pager.html">
+        <span class="ticker">NASDAQ: NBIS</span>
+        <h2>Nebius Group <span class="arrow">→</span></h2>
+        <p>AI cloud infrastructure — the build-out, the backers, the bet.</p>
+      </a>
+
+      <a class="card" href="FAC_one_pager.html">
+        <span class="ticker">FAC</span>
+        <h2>FAC One-Pager <span class="arrow">→</span></h2>
+        <p>The quick-look summary at a glance.</p>
+      </a>
+    </div>
+
+    <div class="foot">
+      Built as educational primers. Not financial advice. Live quotes depend on a public data source and may occasionally be unavailable — reload if a price doesn't appear.
+    </div>
+  </div>
+</body>
+</html>
