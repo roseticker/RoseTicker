@@ -1,2 +1,984 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+<!DOCTYPE html>
+<script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Bloom Energy Live Primer",
+  "schemaVersion": 1,
+  "description": "Interactive Bloom Energy (BE) plain-English deep dive. Live share price, daily move, market cap, and 52-week range pulled from FMP (profile-symbol) on each open/reload; the investment calculator and 52-week range bar recompute off the live price.",
+  "mcpTools": [
+    "mcp__d73fc8f8-453d-410e-8685-ddede71bea8a__company"
+  ],
+  "mcpServerNames": [
+    "FMP"
+  ]
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bloom Energy (BE) — Plain-English Deep Dive</title>
+<style>
+  :root {
+    --green: #00c07f;
+    --green-dim: #00a06a;
+    --red: #e05555;
+    --yellow: #f5a623;
+    --blue: #4a90d9;
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #21262d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --card-radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; font-size: 16px; }
+
+  /* NAV */
+  nav { background: var(--bg2); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; padding: 10px 0; }
+  .nav-inner { max-width: 900px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .nav-brand { font-weight: 700; color: var(--green); margin-right: 10px; font-size: 14px; white-space: nowrap; }
+  nav a { font-size: 12px; color: var(--muted); text-decoration: none; padding: 4px 8px; border-radius: 5px; transition: all 0.2s; }
+  nav a:hover { color: var(--text); background: var(--bg3); }
+
+  /* LAYOUT */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 20px 80px; }
+
+  /* HERO */
+  .hero { padding: 48px 0 32px; border-bottom: 1px solid var(--border); }
+  .hero-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .hero h1 { font-size: clamp(24px, 5vw, 40px); font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+  .hero-sub { color: var(--muted); font-size: 15px; max-width: 640px; margin-bottom: 28px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 16px; }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+  .stat-value { font-size: 22px; font-weight: 700; line-height: 1.2; }
+  .stat-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .up { color: var(--green); }
+  .down { color: var(--red); }
+  .warn { color: var(--yellow); }
+
+  /* PRICE RANGE BAR */
+  .price-range-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 20px; margin-bottom: 20px; }
+  .price-range-label { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .price-range-bar { position: relative; height: 8px; background: linear-gradient(to right, var(--red), var(--yellow), var(--green)); border-radius: 4px; margin-bottom: 28px; }
+  .price-marker { position: absolute; top: -6px; width: 20px; height: 20px; background: #fff; border: 3px solid var(--bg); border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 0 2px var(--green); }
+  .price-range-ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .price-range-ends strong { color: var(--text); }
+  .price-context { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .price-context strong { color: var(--yellow); }
+
+  /* VERDICT BANNER */
+  .verdict { background: linear-gradient(135deg, #1a2a1a, #1a2233); border: 1px solid var(--green); border-radius: var(--card-radius); padding: 20px; margin-bottom: 8px; }
+  .verdict-label { font-size: 11px; color: var(--green); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .verdict p { font-size: 15px; color: var(--text); line-height: 1.6; }
+
+  /* SECTIONS */
+  section { padding: 48px 0 0; }
+  .section-num { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .section-title { font-size: clamp(20px, 4vw, 28px); font-weight: 700; margin: 6px 0 20px; }
+
+  /* THREE-COL CARDS */
+  .three-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 20px 0; }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 20px; }
+  .card-icon { font-size: 22px; margin-bottom: 10px; }
+  .card h4 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  .card p, .card li { font-size: 14px; color: var(--muted); line-height: 1.55; }
+  .card ul { padding-left: 16px; }
+  .card li { margin-bottom: 4px; }
+  .card.green-border { border-color: var(--green); }
+  .card.red-border { border-color: var(--red); }
+  .card.yellow-border { border-color: var(--yellow); }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; margin: 20px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: var(--bg3); color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  td { padding: 12px 14px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+  .tag-green { background: rgba(0,192,127,.15); color: var(--green); }
+  .tag-red { background: rgba(224,85,85,.15); color: var(--red); }
+  .tag-yellow { background: rgba(245,166,35,.15); color: var(--yellow); }
+
+  /* PROGRESS BARS */
+  .bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .bar-label { font-size: 13px; min-width: 130px; color: var(--text); }
+  .bar-track { flex: 1; height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 4px; transition: width 1s ease; }
+  .bar-val { font-size: 13px; font-weight: 600; min-width: 50px; text-align: right; }
+
+  /* RISK CARDS */
+  .risk-item { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-radius); margin-bottom: 10px; overflow: hidden; }
+  .risk-header { padding: 16px 20px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: background 0.2s; }
+  .risk-header:hover { background: var(--bg3); }
+  .risk-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+  .risk-body { padding: 0 20px 16px; font-size: 14px; color: var(--muted); line-height: 1.6; display: none; }
+  .risk-body.open { display: block; }
+  .chevron { transition: transform 0.3s; color: var(--muted); font-size: 12px; }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* BULL / BEAR */
+  .bb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+  @media (max-width: 600px) { .bb-grid { grid-template-columns: 1fr; } }
+  .bb-card { background: var(--bg2); border-radius: var(--card-radius); padding: 20px; }
+  .bb-card.bull { border: 1px solid var(--green); }
+  .bb-card.bear { border: 1px solid var(--red); }
+  .bb-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+  .bb-title.bull { color: var(--green); }
+  .bb-title.bear { color: var(--red); }
+  .condition { display: flex; gap: 8px; margin-bottom: 10px; font-size: 13px; color: var(--text); line-height: 1.5; }
+  .condition-icon { flex-shrink: 0; margin-top: 1px; }
+  .bb-price { font-size: 22px; font-weight: 800; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+
+  /* CALCULATOR */
+  .calc-box { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 24px; margin: 20px 0; }
+  .calc-box h4 { font-size: 15px; font-weight: 700; margin-bottom: 16px; }
+  .calc-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .calc-row label { font-size: 13px; color: var(--muted); min-width: 120px; }
+  .calc-row input[type=range] { flex: 1; min-width: 120px; accent-color: var(--green); }
+  .calc-row .calc-val { font-size: 15px; font-weight: 700; color: var(--green); min-width: 80px; }
+  .calc-scenarios { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+  @media (max-width: 500px) { .calc-scenarios { grid-template-columns: 1fr; } }
+  .scenario { background: var(--bg3); border-radius: 8px; padding: 14px; text-align: center; }
+  .scenario-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+  .scenario-price { font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+  .scenario-result { font-size: 20px; font-weight: 800; }
+  .scenario-pct { font-size: 12px; font-weight: 600; }
+
+  /* DECISION QUIZ */
+  .quiz-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 24px; margin: 20px 0; }
+  .quiz-progress { height: 4px; background: var(--bg3); border-radius: 2px; margin-bottom: 24px; overflow: hidden; }
+  .quiz-progress-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.4s; }
+  .quiz-q { font-size: 17px; font-weight: 600; margin-bottom: 18px; }
+  .quiz-context { font-size: 13px; color: var(--muted); margin-bottom: 16px; margin-top: -12px; font-style: italic; }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-btn { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; text-align: left; cursor: pointer; color: var(--text); font-size: 14px; transition: all 0.2s; display: flex; align-items: flex-start; gap: 12px; }
+  .quiz-btn:hover { border-color: var(--green); background: rgba(0,192,127,.08); }
+  .quiz-btn .q-label { font-weight: 600; color: var(--green); min-width: 24px; }
+  .quiz-btn .q-sub { font-size: 12px; color: var(--muted); margin-top: 3px; display: block; }
+  .quiz-result { display: none; }
+  .result-verdict { border-radius: var(--card-radius); padding: 24px; margin-bottom: 18px; }
+  .result-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px; }
+  .result-title { font-size: 24px; font-weight: 800; margin-bottom: 12px; }
+  .result-body { font-size: 14px; line-height: 1.65; color: var(--text); }
+  .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+  .result-item { background: var(--bg3); border-radius: 8px; padding: 14px; }
+  .result-item-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); margin-bottom: 6px; }
+  .result-item-val { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .quiz-restart { background: none; border: 1px solid var(--border); color: var(--muted); padding: 10px 18px; border-radius: 6px; cursor: pointer; font-size: 13px; margin-top: 16px; transition: all 0.2s; }
+  .quiz-restart:hover { color: var(--text); border-color: var(--text); }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 24px; margin: 20px 0; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 24px; }
+  .tl-dot { position: absolute; left: -29px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--green); border: 2px solid var(--bg); }
+  .tl-date { font-size: 12px; color: var(--green); font-weight: 600; margin-bottom: 4px; }
+  .tl-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .tl-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* FOOTER */
+  .footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); text-align: center; font-size: 12px; color: var(--muted); }
+
+  /* UTILITIES */
+  .highlight-box { background: rgba(0,192,127,.08); border-left: 3px solid var(--green); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+  .warn-box { background: rgba(245,166,35,.08); border-left: 3px solid var(--yellow); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+  .inline-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  @media (max-width: 550px) { .inline-grid { grid-template-columns: 1fr; } }
+  .metric-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+  .metric-row:last-child { border-bottom: none; }
+  .metric-label { color: var(--muted); }
+  .metric-val { font-weight: 600; }
+  p.body { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
+  strong { color: var(--text); }
+
+  /* LIVE BADGE */
+  .live-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(0,192,127,.12); border: 1px solid var(--green); color: var(--green); border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 14px; }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 0 rgba(0,192,127,.7); animation: livepulse 1.8s infinite; }
+  @keyframes livepulse { 0% { box-shadow: 0 0 0 0 rgba(0,192,127,.6); } 70% { box-shadow: 0 0 0 7px rgba(0,192,127,0); } 100% { box-shadow: 0 0 0 0 rgba(0,192,127,0); } }
+  .stat-card.live-stat { border-color: var(--green); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">BE · Deep Dive</span>
+    <a href="#snapshot">Snapshot</a>
+    <a href="#thesis">The Thesis</a>
+    <a href="#financials">Financials</a>
+    <a href="#hype-tax">Hype Tax</a>
+    <a href="#risks">Risks</a>
+    <a href="#conditions">What Needs to Be True</a>
+    <a href="#decide">Should I Buy?</a>
+    <a href="#catalysts">Dates</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero" id="top">
+    <div class="hero-label">Interactive stock primer · for curious investors</div>
+    <span class="live-badge"><span class="live-dot"></span> Live · <span id="live-asof">fetching…</span></span>
+    <h1>Bloom Energy<br><span style="color:var(--muted); font-weight:400; font-size:0.65em">NYSE: BE</span></h1>
+    <p class="hero-sub">A fuel cell company that went from $18 to $300+ in twelve months by becoming the answer to AI's biggest unsolved problem: <em>where does the power come from?</em> Here's everything you need to decide if it belongs in your portfolio — in plain English.</p>
+
+    <div class="hero-stats">
+      <div class="stat-card live-stat">
+        <div class="stat-label">Price · Live</div>
+        <div class="stat-value" id="live-price">$—</div>
+        <div class="stat-sub" id="live-change">loading…</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">1-Year Return</div>
+        <div class="stat-value up">+1,259%</div>
+        <div class="stat-sub">vs. S&P +23%</div>
+      </div>
+      <div class="stat-card live-stat">
+        <div class="stat-label">Market Cap · Live</div>
+        <div class="stat-value" id="live-mcap">$—</div>
+        <div class="stat-sub" id="live-mcap-sub">loading…</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Q1 '26 Revenue</div>
+        <div class="stat-value up">$751M</div>
+        <div class="stat-sub">▲ +130% YoY</div>
+      </div>
+    </div>
+
+    <!-- 52-WEEK RANGE -->
+    <div class="price-range-wrap">
+      <div class="price-range-label" id="range-label">52-week price range — where the live price sits today</div>
+      <div class="price-range-bar">
+        <div class="price-marker" id="range-marker" style="left: 82%"></div>
+      </div>
+      <div class="price-range-ends">
+        <span><strong id="range-low">$—</strong> · 52-wk low</span>
+        <span style="color:var(--green)">▲ You are here: <span id="range-here">$—</span></span>
+        <span><strong id="range-high">$—</strong> · 52-wk high</span>
+      </div>
+      <p class="price-context">You are buying near the <strong>top of a 15x range</strong>. This is not a "caught it early" situation. That opportunity was a year ago. Today the question is: <strong>does the story justify the price?</strong></p>
+    </div>
+
+    <div class="verdict">
+      <div class="verdict-label">One-line verdict</div>
+      <p>Bloom Energy is a <strong>real company solving a real problem</strong> — AI data centers desperately need reliable on-site power, and Bloom has a product that works. But the stock has already priced in years of perfection. At 663× EBITDA, you are not buying a bargain — you are buying a bet that momentum and execution both continue flawlessly. This fits a <strong>small, high-conviction position</strong> in a diversified portfolio, not a concentrated bet.</p>
+    </div>
+  </div>
+
+  <!-- 01 SNAPSHOT -->
+  <section id="snapshot">
+    <div class="section-num">01 · Snapshot</div>
+    <div class="section-title">The 30-second version</div>
+    <div class="three-col">
+      <div class="card green-border">
+        <div class="card-icon">✓</div>
+        <h4>What's working</h4>
+        <ul>
+          <li>Revenue +130% YoY — fastest growth in company history</li>
+          <li>FY2026 guidance raised to $3.4–3.8B (+80% YoY)</li>
+          <li>Gross margins expanding: now 30%, target 34%</li>
+          <li>Massive backlog: Brookfield $5B, AEP $2.65B, Oracle multi-GW</li>
+          <li>Manufacturing capacity doubling to 2GW by end of 2026</li>
+        </ul>
+      </div>
+      <div class="card red-border">
+        <div class="card-icon">!</div>
+        <h4>What to worry about</h4>
+        <ul>
+          <li>663× EBITDA — already above analyst consensus target</li>
+          <li>Customer concentration: two deals dominate revenue</li>
+          <li>Manufacturing ramp could hit delays or cost overruns</li>
+          <li>IRA tax credit dependency — policy risk</li>
+          <li>AI capex could cool faster than anyone expects</li>
+        </ul>
+      </div>
+      <div class="card yellow-border">
+        <div class="card-icon">?</div>
+        <h4>Who it's for</h4>
+        <ul>
+          <li><strong>3+ year horizon</strong> minimum</li>
+          <li>Already owns diversified core (index funds)</li>
+          <li>Comfortable with 50% drawdowns</li>
+          <li>Believes AI infrastructure buildout is multi-year</li>
+          <li>Treats this as the "spicy 5%" of their portfolio</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 WHAT THEY DO -->
+  <section id="business">
+    <div class="section-num">02 · Business</div>
+    <div class="section-title">What Bloom Energy actually does</div>
+    <p class="body">Bloom makes <strong>solid oxide fuel cells</strong> — boxes about the size of a parking space that turn natural gas (or hydrogen) into electricity <em>without burning anything</em>. The chemistry is electrochemical, like a battery in reverse. No flames, no turbines, no moving parts. Just fuel in, electricity out.</p>
+    <p class="body">Their main product is the <strong>Energy Server</strong> — a modular unit you can stack to generate anywhere from 100kW to hundreds of megawatts. You install it on-site at a data center, factory, or hospital, and it generates power independently of the grid.</p>
+
+    <div class="highlight-box">
+      <strong>The plain-English version:</strong> Think of a traditional power plant as a giant bonfire — wasteful, centralized, grid-dependent. Bloom's box is more like a very efficient chemical reaction in a cabinet. A Google data center can have 50 of these boxes in a parking lot and be almost entirely grid-independent.
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>Old way (utility grid)</th><th>Bloom's way (on-site fuel cell)</th></tr></thead>
+        <tbody>
+          <tr><td>Time to power</td><td>3–7 years to build new transmission</td><td>55 days (real Oracle deployment)</td></tr>
+          <tr><td>Reliability</td><td>Subject to grid outages</td><td>99.999% uptime claimed</td></tr>
+          <tr><td>Fuel flexibility</td><td>Fixed (whatever the grid uses)</td><td>Natural gas today, hydrogen tomorrow</td></tr>
+          <tr><td>Emissions</td><td>Depends on the grid mix</td><td>Lower than combustion, hydrogen = zero</td></tr>
+          <tr><td>Scalability</td><td>All-or-nothing infrastructure projects</td><td>Modular — add boxes as you grow</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 03 THE AI THESIS -->
+  <section id="thesis">
+    <div class="section-num">03 · The AI Power Thesis</div>
+    <div class="section-title">Why the stock went up 1,259%</div>
+    <p class="body">AI models require <strong>enormous, uninterrupted power</strong>. Training a single large model can consume as much electricity as a small city for weeks. And inference — the part that runs every time you use ChatGPT — never stops.</p>
+    <p class="body">The problem: <strong>the grid can't keep up</strong>. Building new transmission lines takes 5–10 years and faces permitting hell. Hyperscalers (Microsoft, Google, Amazon, Oracle) need megawatts of power <em>right now</em>.</p>
+
+    <div class="warn-box">
+      <strong>The bottleneck that made Bloom famous:</strong> Oracle famously powered a new AI data center campus using Bloom Energy Servers in <strong>55 days</strong>. Getting that same power from the utility grid would have taken years. That single story changed how investors see the company.
+    </div>
+
+    <div class="three-col">
+      <div class="card">
+        <div class="stat-label">Brookfield Asset Mgmt</div>
+        <div style="font-size:24px; font-weight:800; color:var(--green); margin:8px 0">$5B</div>
+        <p>Multi-year partnership. Largest single deal in Bloom's history. Supplies power for data center campuses.</p>
+      </div>
+      <div class="card">
+        <div class="stat-label">American Electric Power</div>
+        <div style="font-size:24px; font-weight:800; color:var(--green); margin:8px 0">$2.65B</div>
+        <p>Tied to a Wyoming data center campus. AEP is essentially outsourcing on-site generation to Bloom.</p>
+      </div>
+      <div class="card">
+        <div class="stat-label">Quanta Computer</div>
+        <div style="font-size:24px; font-weight:800; color:var(--green); margin:8px 0">$502M</div>
+        <p>Hardware manufacturer building AI server racks. Needs guaranteed power for their manufacturing operations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 FINANCIALS -->
+  <section id="financials">
+    <div class="section-num">04 · Financials</div>
+    <div class="section-title">The numbers that matter</div>
+
+    <div class="inline-grid">
+      <div class="card">
+        <div class="stat-label">Q1 2025</div>
+        <div class="metric-row"><span class="metric-label">Revenue</span><span class="metric-val">$327M</span></div>
+        <div class="metric-row"><span class="metric-label">Gross Margin</span><span class="metric-val">28.7%</span></div>
+        <div class="metric-row"><span class="metric-label">Adj. EBITDA</span><span class="metric-val">~$35M</span></div>
+        <div class="metric-row"><span class="metric-label">Non-GAAP EPS</span><span class="metric-val">$0.06</span></div>
+      </div>
+      <div class="card" style="border-color:var(--green)">
+        <div class="stat-label" style="color:var(--green)">Q1 2026 ↑</div>
+        <div class="metric-row"><span class="metric-label">Revenue</span><span class="metric-val up">$751M <span style="font-size:11px">+130%</span></span></div>
+        <div class="metric-row"><span class="metric-label">Gross Margin</span><span class="metric-val up">30.0%</span></div>
+        <div class="metric-row"><span class="metric-label">Adj. EBITDA</span><span class="metric-val up">$143M</span></div>
+        <div class="metric-row"><span class="metric-label">Non-GAAP EPS</span><span class="metric-val up">$0.44 <span style="font-size:11px">vs $0.15 est.</span></span></div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      <strong>The operating leverage story:</strong> EPS grew from $0.06 to $0.44 while revenue doubled. That's earnings growing <strong>7× faster than sales</strong>. As more boxes ship, costs stay fixed and nearly every new dollar of revenue becomes profit. This is why analysts are excited — and why the stock re-rated so violently.
+    </div>
+
+    <p class="body"><strong>Full Year 2026 Guidance (raised):</strong> Revenue $3.4B–$3.8B (+80% YoY at midpoint). Gross margin ~34%. Non-GAAP operating income $600M–$750M.</p>
+  </section>
+
+  <!-- 05 MOAT -->
+  <section id="moat">
+    <div class="section-num">05 · The Moat</div>
+    <div class="section-title">Why isn't everyone doing this?</div>
+    <p class="body">Solid oxide fuel cells are hard to build. The ceramics operate at 700–900°C. The manufacturing requires extreme precision. Bloom has 20+ years of IP and a learning curve competitors can't shortcut.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Competitor</th><th>Technology</th><th>Status</th><th>Threat level</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>FuelCell Energy</strong></td>
+            <td>Molten carbonate (different tech)</td>
+            <td>Struggling, burning cash</td>
+            <td><span class="tag tag-green">Low</span></td>
+          </tr>
+          <tr>
+            <td><strong>Plug Power</strong></td>
+            <td>Hydrogen fuel cells (PEM)</td>
+            <td>Near-bankruptcy risk, different market</td>
+            <td><span class="tag tag-green">Low</span></td>
+          </tr>
+          <tr>
+            <td><strong>GE Vernova</strong></td>
+            <td>Gas turbines, grid infrastructure</td>
+            <td>Profitable, large, but slower to deploy</td>
+            <td><span class="tag tag-yellow">Medium</span></td>
+          </tr>
+          <tr>
+            <td><strong>Ceres Power</strong></td>
+            <td>SOFC (same tech, UK-based)</td>
+            <td>Early stage, no large deployments yet</td>
+            <td><span class="tag tag-yellow">Medium (long-term)</span></td>
+          </tr>
+          <tr>
+            <td><strong>Small modular reactors</strong></td>
+            <td>Nuclear (Oklo, NuScale)</td>
+            <td>5–10 years from commercial scale</td>
+            <td><span class="tag tag-yellow">Future risk</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="body">Bloom's real moat isn't the technology alone — it's the <strong>combination of tech + manufacturing scale + proven deployments</strong>. When Oracle needs power in 55 days, they don't have time to try an unproven vendor.</p>
+  </section>
+
+  <!-- 06 THE HYPE TAX -->
+  <section id="hype-tax">
+    <div class="section-num">06 · The Hype Tax</div>
+    <div class="section-title">What you're actually paying for</div>
+    <p class="body">This is the section the original RSI page doesn't have — and it's the most important one for Bloom Energy, because the valuation is unlike almost anything in the market.</p>
+
+    <div class="warn-box">
+      <strong>Reality check:</strong> The stock trades at <strong>663× EV/EBITDA</strong> and 80× book value. The analyst median price target is $257 — <em>the stock is already above what most analysts think it's worth.</em> You are not finding value here. You are deciding whether momentum and execution can push it higher.
+    </div>
+
+    <div class="bar-row"><span class="bar-label">BE EV/EBITDA</span><div class="bar-track"><div class="bar-fill" style="width:99%; background:var(--red)"></div></div><span class="bar-val down">663×</span></div>
+    <div class="bar-row"><span class="bar-label">GE Vernova EV/EBITDA</span><div class="bar-track"><div class="bar-fill" style="width:25%; background:var(--green)"></div></div><span class="bar-val up">~25×</span></div>
+    <div class="bar-row"><span class="bar-label">S&P 500 median P/E</span><div class="bar-track"><div class="bar-fill" style="width:20%; background:var(--green)"></div></div><span class="bar-val up">~21×</span></div>
+    <div class="bar-row"><span class="bar-label">RSI (for comparison)</span><div class="bar-track"><div class="bar-fill" style="width:82%; background:var(--yellow)"></div></div><span class="bar-val warn">~81×</span></div>
+
+    <!-- INVESTMENT CALCULATOR -->
+    <div class="calc-box">
+      <h4>💰 What happens to $X at different outcomes?</h4>
+      <div class="calc-row">
+        <label>I'm investing:</label>
+        <input type="range" id="invest-amount" min="500" max="50000" step="500" value="5000" oninput="updateCalc()">
+        <span class="calc-val" id="invest-display">$5,000</span>
+      </div>
+      <div class="calc-scenarios" id="calc-scenarios">
+        <div class="scenario">
+          <div class="scenario-label" style="color:var(--red)">🐻 Bear Case</div>
+          <div class="scenario-price" id="bear-price">Target: $150</div>
+          <div class="scenario-result down" id="bear-result">$2,634</div>
+          <div class="scenario-pct down" id="bear-pct">-47%</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-label" style="color:var(--muted)">📊 Base Case</div>
+          <div class="scenario-price" id="base-price">Target: $257</div>
+          <div class="scenario-result" id="base-result" style="color:var(--muted)">$4,511</div>
+          <div class="scenario-pct" id="base-pct" style="color:var(--muted)">-10%</div>
+        </div>
+        <div class="scenario">
+          <div class="scenario-label" style="color:var(--green)">🐂 Bull Case</div>
+          <div class="scenario-price" id="bull-price">Target: $335</div>
+          <div class="scenario-result up" id="bull-result">$5,880</div>
+          <div class="scenario-pct up" id="bull-pct">+18%</div>
+        </div>
+      </div>
+      <p style="font-size:12px; color:var(--muted); margin-top:12px">Bear = multiple compression to analyst floor. Base = median analyst target. Bull = 52-wk high re-test. Not financial advice — illustrative only.</p>
+    </div>
+  </section>
+
+  <!-- 07 RISKS -->
+  <section id="risks">
+    <div class="section-num">07 · Risks</div>
+    <div class="section-title">What could go wrong</div>
+    <p class="body" style="margin-bottom:16px">Click each risk to expand. These are ordered by severity, not probability.</p>
+
+    <div class="risk-item">
+      <div class="risk-header" onclick="toggleRisk(this)">
+        <div class="risk-title"><span class="tag tag-red">Critical</span> Valuation re-rating</div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="risk-body">At 663× EBITDA, the stock prices in flawless execution through 2028+. A single earnings miss, guidance cut, or macro shift could trigger a 40–60% drawdown even if the underlying business is fine. This isn't a "what if the company fails" risk — it's a "what if investors simply decide this multiple is too high" risk. And that can happen for no fundamental reason at all.
+      </div>
+    </div>
+
+    <div class="risk-item">
+      <div class="risk-header" onclick="toggleRisk(this)">
+        <div class="risk-title"><span class="tag tag-red">Critical</span> Customer concentration</div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="risk-body">The Brookfield and AEP deals dominate Bloom's revenue. If either relationship slows — due to their own capital allocation shifts, project delays, or renegotiation — it directly craters Bloom's numbers. Concentrated revenue is a feature when deals are growing; it's a flaw when they aren't.
+      </div>
+    </div>
+
+    <div class="risk-item">
+      <div class="risk-header" onclick="toggleRisk(this)">
+        <div class="risk-title"><span class="tag tag-red">High</span> Manufacturing ramp risk</div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="risk-body">Bloom is doubling manufacturing capacity to 2GW by end of 2026. Scaling precision ceramic manufacturing is extremely hard. Any delays, yield problems, or cost overruns could cause them to miss the revenue guidance that justifies the current multiple — a double hit: lower earnings AND a lower valuation multiple.
+      </div>
+    </div>
+
+    <div class="risk-item">
+      <div class="risk-header" onclick="toggleRisk(this)">
+        <div class="risk-title"><span class="tag tag-yellow">Medium</span> AI capex cooling</div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="risk-body">The entire investment thesis is built on hyperscalers spending $500B+/year on AI infrastructure indefinitely. If Microsoft or Google signals capex cuts — as they've done before after tech bubbles — the data center power demand story weakens fast. The stock could de-rate simply on sentiment, regardless of Bloom's order backlog.
+      </div>
+    </div>
+
+    <div class="risk-item">
+      <div class="risk-header" onclick="toggleRisk(this)">
+        <div class="risk-title"><span class="tag tag-yellow">Medium</span> IRA tax credit risk</div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="risk-body">Bloom's economics depend partly on Inflation Reduction Act tax credits for clean energy. Any rollback by Congress would directly impact project economics and customer ROI calculations. This is a policy risk, not a business risk — but policy can move fast.
+      </div>
+    </div>
+
+    <div class="risk-item">
+      <div class="risk-header" onclick="toggleRisk(this)">
+        <div class="risk-title"><span class="tag tag-yellow">Medium</span> Tariff & supply chain exposure</div>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="risk-body">Bloom manufactures in the U.S. but sources some materials internationally. Tariffs on rare earths, ceramics, or other inputs could compress the margins they've worked hard to expand. Management has flagged this but hasn't quantified the full exposure.
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 WHAT NEEDS TO BE TRUE -->
+  <section id="conditions">
+    <div class="section-num">08 · What Needs to Be True</div>
+    <div class="section-title">The explicit bull and bear conditions</div>
+    <p class="body">Most stock analysis is vague. This isn't. Here are the <em>specific things that need to happen</em> for each scenario to play out — so you can track them.</p>
+
+    <div class="bb-grid">
+      <div class="bb-card bull">
+        <div class="bb-title bull">🐂 Bull case</div>
+        <div class="condition"><span class="condition-icon">✅</span><span>AI hyperscaler capex stays $400B+/year through 2028</span></div>
+        <div class="condition"><span class="condition-icon">✅</span><span>Bloom hits 2GW manufacturing by Q4 2026 with no major delays</span></div>
+        <div class="condition"><span class="condition-icon">✅</span><span>Gross margins reach 34% as guided</span></div>
+        <div class="condition"><span class="condition-icon">✅</span><span>New hyperscaler wins beyond Brookfield/AEP diversify revenue</span></div>
+        <div class="condition"><span class="condition-icon">✅</span><span>IRA credits survive political headwinds</span></div>
+        <div class="condition"><span class="condition-icon">✅</span><span>Hydrogen transition gains traction (longer-term)</span></div>
+        <div class="bb-price up">Target: $335–$400+</div>
+      </div>
+      <div class="bb-card bear">
+        <div class="bb-title bear">🐻 Bear case</div>
+        <div class="condition"><span class="condition-icon">🚩</span><span>Any major hyperscaler announces capex cuts or delays</span></div>
+        <div class="condition"><span class="condition-icon">🚩</span><span>Q2 or Q3 revenue misses guidance — multiple compression begins</span></div>
+        <div class="condition"><span class="condition-icon">🚩</span><span>Brookfield slows orders (concentration flaw exposed)</span></div>
+        <div class="condition"><span class="condition-icon">🚩</span><span>IRA credits reduced or eliminated</span></div>
+        <div class="condition"><span class="condition-icon">🚩</span><span>Interest rates rise further (pressures expensive growth multiples)</span></div>
+        <div class="bb-price down">Target: $149 (−47% from today)</div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <strong>The uncomfortable truth:</strong> You don't need the company to fail for a massive loss. If Bloom delivers exactly as promised — $3.6B revenue, 34% margins — but the market decides 663× EBITDA was too rich and compresses to 200×, the stock still drops 70%. <strong>Valuation matters even when the business works.</strong>
+    </div>
+  </section>
+
+  <!-- 09 DECISION TOOL -->
+  <section id="decide">
+    <div class="section-num">09 · Should You Buy?</div>
+    <div class="section-title">Your personal fit check</div>
+    <p class="body" style="margin-bottom:16px">Answer 5 questions honestly. Unlike a simple quiz, this weights your answers to give a specific recommendation — including a price target range, position size guide, and the specific signals that should make you exit.</p>
+
+    <div class="quiz-wrap" id="quiz">
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="quiz-prog" style="width:0%"></div></div>
+      <div id="quiz-questions">
+        <!-- Q1 -->
+        <div class="quiz-step" id="step-0">
+          <div class="quiz-q">Q1 · How long can you leave this money alone without needing it back?</div>
+          <div class="quiz-context">This is the single most important variable. Bloom is a long-duration story — the payoff (if it comes) takes years.</div>
+          <div class="quiz-options">
+            <button class="quiz-btn" onclick="answer(0,0)"><span class="q-label">A</span><div><span>Less than 1 year</span><span class="q-sub">I might need this money back</span></div></button>
+            <button class="quiz-btn" onclick="answer(0,1)"><span class="q-label">B</span><div><span>1–3 years</span><span class="q-sub">I have some patience but not infinite</span></div></button>
+            <button class="quiz-btn" onclick="answer(0,2)"><span class="q-label">C</span><div><span>3+ years</span><span class="q-sub">I can completely forget this money exists</span></div></button>
+          </div>
+        </div>
+        <!-- Q2 -->
+        <div class="quiz-step" id="step-1" style="display:none">
+          <div class="quiz-q">Q2 · If Bloom dropped 50% in 3 months — not on bad news, just multiple compression — you'd:</div>
+          <div class="quiz-context">This happened to many AI-adjacent stocks in 2022–23. It can happen from $285 to $140 even if revenues keep growing.</div>
+          <div class="quiz-options">
+            <button class="quiz-btn" onclick="answer(1,0)"><span class="q-label">A</span><div><span>Sell — that's terrifying</span><span class="q-sub">I can't stomach seeing my account down that much</span></div></button>
+            <button class="quiz-btn" onclick="answer(1,1)"><span class="q-label">B</span><div><span>Hold, stressed but disciplined</span><span class="q-sub">I'd re-read my thesis and stay the course</span></div></button>
+            <button class="quiz-btn" onclick="answer(1,2)"><span class="q-label">C</span><div><span>Buy more — it's on sale if the thesis holds</span><span class="q-sub">I have dry powder ready for exactly this</span></div></button>
+          </div>
+        </div>
+        <!-- Q3 -->
+        <div class="quiz-step" id="step-2" style="display:none">
+          <div class="quiz-q">Q3 · Do you believe AI data center power demand will stay at current levels for 3+ more years?</div>
+          <div class="quiz-context">Bloom's entire upside depends on hyperscalers continuing to spend aggressively. If AI capex plateaus, this stock re-rates fast.</div>
+          <div class="quiz-options">
+            <button class="quiz-btn" onclick="answer(2,0)"><span class="q-label">A</span><div><span>Skeptical — this feels like a bubble</span><span class="q-sub">AI spending could plateau or slow sharply</span></div></button>
+            <button class="quiz-btn" onclick="answer(2,1)"><span class="q-label">B</span><div><span>Likely, but not guaranteed</span><span class="q-sub">I think it continues but there will be bumps</span></div></button>
+            <button class="quiz-btn" onclick="answer(2,2)"><span class="q-label">C</span><div><span>Absolutely — this is the defining infrastructure buildout</span><span class="q-sub">We're in early innings of a decade-long cycle</span></div></button>
+          </div>
+        </div>
+        <!-- Q4 -->
+        <div class="quiz-step" id="step-3" style="display:none">
+          <div class="quiz-q">Q4 · How would this position fit in your overall portfolio?</div>
+          <div class="quiz-context">Position sizing is the difference between an exciting bet and a life-altering loss. The answer changes the right advice dramatically.</div>
+          <div class="quiz-options">
+            <button class="quiz-btn" onclick="answer(3,0)"><span class="q-label">A</span><div><span>A large chunk (20%+)</span><span class="q-sub">This would be one of my biggest positions</span></div></button>
+            <button class="quiz-btn" onclick="answer(3,1)"><span class="q-label">B</span><div><span>A meaningful slice (5–20%)</span><span class="q-sub">Part of a diversified portfolio, but notable</span></div></button>
+            <button class="quiz-btn" onclick="answer(3,2)"><span class="q-label">C</span><div><span>A small spicy bet (&lt;5%)</span><span class="q-sub">I have boring index funds as the core</span></div></button>
+          </div>
+        </div>
+        <!-- Q5 -->
+        <div class="quiz-step" id="step-4" style="display:none">
+          <div class="quiz-q">Q5 · Does the stock being above analyst consensus ($257 median target) change your view?</div>
+          <div class="quiz-context">The stock at $285 is already above what the average analyst thinks it's worth. This isn't unusual for momentum stocks — but it is meaningful context.</div>
+          <div class="quiz-options">
+            <button class="quiz-btn" onclick="answer(4,0)"><span class="q-label">A</span><div><span>Yes — if analysts think it's overvalued, I should wait</span><span class="q-sub">Consensus provides useful guardrails for me</span></div></button>
+            <button class="quiz-btn" onclick="answer(4,1)"><span class="q-label">B</span><div><span>Partially — I'd be more cautious about sizing</span><span class="q-sub">I'd keep the position smaller because of this</span></div></button>
+            <button class="quiz-btn" onclick="answer(4,2)"><span class="q-label">C</span><div><span>No — analysts lag on hypergrowth stories</span><span class="q-sub">Targets will get raised as results keep coming in</span></div></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULT -->
+      <div class="quiz-result" id="quiz-result">
+        <div class="result-verdict" id="result-verdict-box">
+          <div class="result-tag" id="result-tag"></div>
+          <div class="result-title" id="result-title"></div>
+          <div class="result-body" id="result-body"></div>
+        </div>
+        <div class="result-grid" id="result-grid"></div>
+        <button class="quiz-restart" onclick="restartQuiz()">↩ Retake quiz</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 KEY DATES -->
+  <section id="catalysts">
+    <div class="section-num">10 · Catalysts to Watch</div>
+    <div class="section-title">Key dates and events</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">Q1 2026 (Done)</div>
+        <div class="tl-title">Record-breaking earnings — thesis validated</div>
+        <div class="tl-desc">Revenue +130%, EPS 3× above estimates. Guidance raised. This is the print that drove the stock to ATH. Already priced in.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--yellow)"></div>
+        <div class="tl-date">Q2 2026 Report (July/Aug)</div>
+        <div class="tl-title">⚡ Next major test</div>
+        <div class="tl-desc">Must show continued ramp. Any sequential slowdown = multiple compression. Watch gross margin trajectory toward 34% target.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--yellow)"></div>
+        <div class="tl-date">Q3/Q4 2026</div>
+        <div class="tl-title">Manufacturing capacity hits 2GW</div>
+        <div class="tl-desc">This is the execution milestone. If they hit it cleanly with no cost overruns, bull case strengthens. If they miss, the entire ramp thesis gets questioned.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--muted)"></div>
+        <div class="tl-date">2027</div>
+        <div class="tl-title">Revenue target: $4B–$5B range</div>
+        <div class="tl-desc">If FY2026 guidance ($3.4–3.8B) is met, analysts project continued growth. The bear case is these numbers disappoint on margins or order mix.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--muted)"></div>
+        <div class="tl-date">2028+</div>
+        <div class="tl-title">Hydrogen transition (long-dated optionality)</div>
+        <div class="tl-desc">Bloom's boxes already work on hydrogen. If green hydrogen costs fall (currently uneconomic), the same installed base flips to near-zero emissions. This isn't priced in — it's free optionality.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 GLOSSARY -->
+  <section id="glossary">
+    <div class="section-num">11 · Jargon Decoder</div>
+    <div class="section-title">The terms you need</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Term</th><th>Plain English</th></tr></thead>
+        <tbody>
+          <tr><td><strong>EV/EBITDA</strong></td><td>How many years of operating profit you're paying for the whole company. 663× means paying 663 years of today's earnings upfront — only justified if earnings grow massively.</td></tr>
+          <tr><td><strong>SOFC</strong></td><td>Solid Oxide Fuel Cell. Bloom's core technology. Electrochemical conversion of fuel to electricity — no combustion, no moving parts.</td></tr>
+          <tr><td><strong>Operating leverage</strong></td><td>When revenue grows faster than costs, so profit grows even faster. Bloom's EPS grew 7× faster than revenue last quarter.</td></tr>
+          <tr><td><strong>Multiple compression</strong></td><td>When the valuation ratio (P/E, EV/EBITDA) shrinks. Can cause the stock to fall 40–60% even if the business is growing. The main risk here.</td></tr>
+          <tr><td><strong>IRA credits</strong></td><td>Inflation Reduction Act tax credits for clean energy investments. Help make Bloom's product economics work for customers. Policy risk if repealed.</td></tr>
+          <tr><td><strong>Customer concentration</strong></td><td>When a few customers make up most of revenue. Great when deals are growing; dangerous if any one customer slows down.</td></tr>
+          <tr><td><strong>Backlog</strong></td><td>Signed orders not yet delivered. Gives revenue visibility. Bloom has billions in backlog — but it only converts to revenue when boxes are shipped and installed.</td></tr>
+          <tr><td><strong>Behind the meter</strong></td><td>Power generated on-site, bypassing the utility grid entirely. The key advantage for data centers that can't wait for grid interconnection.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="footer">
+    <p>BE · Plain-English Sheet &nbsp;·&nbsp; Built as an educational primer. Not financial advice. Price, market cap &amp; 52-week range are live from FMP and refresh each time you open or reload this page; fundamentals (revenue, margins, deals) reflect Q1 2026 reporting.</p>
+  </div>
+
+</div>
+
+<script>
+  // --- LIVE PRICE STATE (updated by loadLive on each open/reload) ---
+  let LIVE_PRICE = 289.28; // fallback until live fetch resolves
+
+  // --- CALCULATOR ---
+  function updateCalc() {
+    const amt = parseInt(document.getElementById('invest-amount').value);
+    document.getElementById('invest-display').textContent = '$' + amt.toLocaleString();
+    const current = LIVE_PRICE;
+    const scenarios = [
+      { id: 'bear', target: 149.93, label: 'Target: $150', color: '#e05555' },
+      { id: 'base', target: 257.00, label: 'Target: $257', color: '#8b949e' },
+      { id: 'bull', target: 335.00, label: 'Target: $335', color: '#00c07f' }
+    ];
+    scenarios.forEach(s => {
+      const result = (amt * s.target / current);
+      const pct = ((s.target - current) / current * 100);
+      document.getElementById(s.id + '-price').textContent = s.label;
+      document.getElementById(s.id + '-result').textContent = '$' + Math.round(result).toLocaleString();
+      document.getElementById(s.id + '-pct').textContent = (pct >= 0 ? '+' : '') + pct.toFixed(0) + '%';
+      document.getElementById(s.id + '-result').style.color = s.color;
+      document.getElementById(s.id + '-pct').style.color = s.color;
+    });
+  }
+  updateCalc();
+
+  // --- RISK TOGGLES ---
+  function toggleRisk(header) {
+    const body = header.nextElementSibling;
+    const chevron = header.querySelector('.chevron');
+    body.classList.toggle('open');
+    chevron.classList.toggle('open');
+  }
+
+  // --- QUIZ ---
+  const scores = [0, 0, 0, 0, 0];
+  let currentStep = 0;
+
+  function answer(q, score) {
+    scores[q] = score;
+    currentStep++;
+    document.getElementById('step-' + q).style.display = 'none';
+    const pct = (currentStep / 5) * 100;
+    document.getElementById('quiz-prog').style.width = pct + '%';
+    if (currentStep < 5) {
+      document.getElementById('step-' + currentStep).style.display = 'block';
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    document.getElementById('quiz-questions').style.display = 'none';
+    const el = document.getElementById('quiz-result');
+    el.style.display = 'block';
+    const total = scores.reduce((a, b) => a + b, 0);
+
+    let tag, title, body, color, items;
+
+    if (scores[0] === 0) {
+      // Short horizon override — no matter what else
+      tag = 'PASS';
+      title = 'Not right for you right now';
+      color = '#e05555';
+      body = 'With a time horizon under a year, Bloom Energy is the wrong vehicle. This stock can drop 40–50% in a quarter on nothing but sentiment. You cannot afford to wait out a valuation reset. <strong>Come back when you have 3+ years of runway.</strong>';
+      items = [
+        { label: 'Entry price guide', val: 'N/A — don\'t enter' },
+        { label: 'Max position size', val: '0%' },
+        { label: 'Exit signal', val: 'N/A' },
+        { label: 'What to do instead', val: 'Index funds, dividend stocks' }
+      ];
+    } else if (scores[3] === 0) {
+      // Large position size override
+      tag = 'CONCENTRATED RISK';
+      title = 'Reduce sizing first';
+      color = '#e05555';
+      body = 'A 20%+ position in a stock at 663× EBITDA is how portfolios get destroyed. Even if you\'re right on the thesis, one bad earnings print can take the stock down 40% in a day. No single idea deserves that much of your net worth at this valuation. <strong>Max 5% position size. Full stop.</strong>';
+      items = [
+        { label: 'Entry price guide', val: '$220–250 (pullback)' },
+        { label: 'Max position size', val: '≤5% of portfolio' },
+        { label: 'Exit signal', val: 'Miss on manufacturing ramp' },
+        { label: 'Retest this', val: 'After Q2 earnings' }
+      ];
+    } else if (total <= 4) {
+      tag = 'NOT A FIT';
+      title = 'Wait for a pullback';
+      color = '#f5a623';
+      body = 'Your answers suggest this stock would keep you up at night. That\'s not a knock — it means the risk profile doesn\'t match your temperament. At $285, the stock has already surged 1,259%. <strong>If you\'re interested at all, wait for a pullback to the $180–220 range</strong> to get a better risk/reward entry. Set a price alert and walk away until then.';
+      items = [
+        { label: 'Entry price guide', val: '$180–220 on pullback' },
+        { label: 'Max position size', val: '2–3% of portfolio' },
+        { label: 'Exit signal', val: 'Manufacturing delay or guidance cut' },
+        { label: 'Thesis check point', val: 'Q2 2026 earnings' }
+      ];
+    } else if (total <= 7) {
+      tag = 'CAUTIOUS FIT';
+      title = 'Small position, strict rules';
+      color = '#4a90d9';
+      body = 'You have the patience and conviction this story needs, but the current valuation is stretched and the stock is above analyst consensus. A <strong>small position (3–5% max)</strong> makes sense if you\'re prepared to hold through volatility. Do not average down more than once, and set clear exit conditions before you enter — not after.';
+      items = [
+        { label: 'Entry price guide', val: 'Current or $250 dip' },
+        { label: 'Max position size', val: '3–5% of portfolio' },
+        { label: 'Exit signal', val: 'Q2 miss or Brookfield slowdown' },
+        { label: 'Horizon', val: '3+ years minimum' }
+      ];
+    } else {
+      tag = 'STRONG FIT';
+      title = 'Classic high-risk / high-reward profile';
+      color = '#00c07f';
+      body = 'You have the time horizon, volatility tolerance, and conviction this story demands. The valuation is stretched, but momentum stocks at inflection points often stay expensive longer than bears expect. <strong>A small, disciplined position (5% max)</strong> fits your profile. Resist the urge to go bigger just because you\'re confident — your edge is patience, not position size.';
+      items = [
+        { label: 'Entry price guide', val: 'Current price is acceptable' },
+        { label: 'Max position size', val: '5% of portfolio' },
+        { label: 'Conviction add point', val: '$200–220 on pullback' },
+        { label: 'Exit signal', val: 'Manufacturing miss or AI capex cuts' }
+      ];
+    }
+
+    const box = document.getElementById('result-verdict-box');
+    box.style.background = color + '18';
+    box.style.border = '1px solid ' + color;
+    document.getElementById('result-tag').style.color = color;
+    document.getElementById('result-tag').textContent = tag;
+    document.getElementById('result-title').textContent = title;
+    document.getElementById('result-body').innerHTML = body;
+
+    const grid = document.getElementById('result-grid');
+    grid.innerHTML = items.map(i => `
+      <div class="result-item">
+        <div class="result-item-label">${i.label}</div>
+        <div class="result-item-val">${i.val}</div>
+      </div>
+    `).join('');
+  }
+
+  function restartQuiz() {
+    currentStep = 0;
+    for (let i = 0; i < 5; i++) scores[i] = 0;
+    document.getElementById('quiz-questions').style.display = 'block';
+    document.getElementById('quiz-result').style.display = 'none';
+    document.getElementById('quiz-prog').style.width = '0%';
+    for (let i = 0; i < 5; i++) {
+      document.getElementById('step-' + i).style.display = i === 0 ? 'block' : 'none';
+    }
+  }
+
+  // --- LIVE DATA ---
+  // Works in two environments:
+  //   1. Inside Claude Cowork  -> uses the FMP connector (window.cowork.callMcpTool)
+  //   2. On the open web / GitHub Pages -> uses Yahoo Finance via a public CORS proxy
+  // Either way it normalizes to { price, change, pct, marketCap, low, high } and renders.
+  const SHARES_OUT = 284.45e6; // ~shares outstanding, used to derive market cap on the web source
+
+  function fmtMoney(n) {
+    if (n == null || isNaN(n)) return '$—';
+    if (n >= 1e12) return '$' + (n / 1e12).toFixed(2) + 'T';
+    if (n >= 1e9)  return '$' + (n / 1e9).toFixed(1) + 'B';
+    if (n >= 1e6)  return '$' + (n / 1e6).toFixed(0) + 'M';
+    return '$' + Math.round(n).toLocaleString();
+  }
+
+  // Source A: Cowork connector (only available inside the Cowork app)
+  async function fromCowork() {
+    const r = await window.cowork.callMcpTool(
+      'mcp__d73fc8f8-453d-410e-8685-ddede71bea8a__company',
+      { endpoint: 'profile-symbol', symbol: 'BE' }
+    );
+    const data = r.structuredContent ?? JSON.parse(r.content[0].text);
+    const q = Array.isArray(data) ? data[0] : (data.results ? data.results[0] : data);
+    if (!q || q.price == null) throw new Error('no price');
+    let low = null, high = null;
+    if (q.range && q.range.indexOf('-') > -1) {
+      const p = q.range.split('-').map(parseFloat);
+      low = p[0]; high = p[1];
+    }
+    return { price: q.price, change: q.change || 0, pct: q.changePercentage || 0,
+             marketCap: q.marketCap, low: low, high: high };
+  }
+
+  // Source B: Yahoo Finance v8 chart endpoint, tunneled through a public CORS proxy.
+  // No API key, so nothing secret is exposed in this public page.
+  async function fromYahoo() {
+    const url = 'https://query1.finance.yahoo.com/v8/finance/chart/BE?interval=1d&range=1d';
+    const proxies = [
+      function (u) { return 'https://corsproxy.io/?url=' + encodeURIComponent(u); },
+      function (u) { return 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u); }
+    ];
+    let meta = null;
+    for (const wrap of proxies) {
+      try {
+        const res = await fetch(wrap(url), { cache: 'no-store' });
+        if (!res.ok) continue;
+        const j = await res.json();
+        meta = j.chart.result[0].meta;
+        if (meta && meta.regularMarketPrice != null) break;
+        meta = null;
+      } catch (e) { /* try next proxy */ }
+    }
+    if (!meta) throw new Error('all proxies failed');
+    const price = meta.regularMarketPrice;
+    const prev = meta.previousClose != null ? meta.previousClose : meta.chartPreviousClose;
+    const change = prev != null ? price - prev : 0;
+    const pct = prev ? (change / prev) * 100 : 0;
+    return { price: price, change: change, pct: pct,
+             marketCap: price * SHARES_OUT,
+             low: meta.fiftyTwoWeekLow, high: meta.fiftyTwoWeekHigh };
+  }
+
+  function render(d) {
+    const price = d.price;
+    LIVE_PRICE = price;
+
+    document.getElementById('live-price').textContent =
+      '$' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    const chgEl = document.getElementById('live-change');
+    const up = d.change >= 0;
+    chgEl.textContent = (up ? '▲ +' : '▼ ') + d.change.toFixed(2) + ' (' + (up ? '+' : '') + d.pct.toFixed(2) + '%) today';
+    chgEl.className = 'stat-sub ' + (up ? 'up' : 'down');
+
+    if (d.marketCap != null) {
+      document.getElementById('live-mcap').textContent = fmtMoney(d.marketCap);
+      document.getElementById('live-mcap-sub').textContent = 'Large-cap';
+    }
+
+    if (d.low != null && d.high != null && d.high > d.low) {
+      const posPct = Math.max(0, Math.min(100, ((price - d.low) / (d.high - d.low)) * 100));
+      document.getElementById('range-marker').style.left = posPct.toFixed(1) + '%';
+      document.getElementById('range-low').textContent = '$' + d.low.toFixed(2);
+      document.getElementById('range-high').textContent = '$' + d.high.toFixed(2);
+      document.getElementById('range-here').textContent =
+        '$' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      document.getElementById('range-label').textContent =
+        '52-week price range — where $' + price.toFixed(0) + ' sits today (' + posPct.toFixed(0) + '% of range)';
+    }
+
+    document.getElementById('live-asof').textContent =
+      new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+
+    updateCalc();
+  }
+
+  async function loadLive() {
+    try {
+      const hasCowork = (typeof window !== 'undefined' && window.cowork && window.cowork.callMcpTool);
+      const d = hasCowork ? await fromCowork() : await fromYahoo();
+      render(d);
+    } catch (e) {
+      document.getElementById('live-asof').textContent = 'price unavailable';
+      document.getElementById('live-price').textContent = '$' + LIVE_PRICE.toFixed(2);
+      document.getElementById('live-change').textContent = 'live fetch failed — showing last known snapshot';
+    }
+  }
+
+  loadLive();
+</script>
+</body>
+</html>
