@@ -1,0 +1,16 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Never commit personal financial data into this public repo
+*budget*
+*account*
+*portfolio_strategy*
+*rollover*
+*retirement*
+*.xlsx
+*.docx
+*.pptx

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Factorial Energy (FAC) — One-Page Investor Primer</title>
+<style>
+  :root{
+    --ink:#15212b; --muted:#5a6b78; --line:#e3e9ee;
+    --bg:#f4f6f8; --card:#ffffff;
+    --green:#1f8a52; --greenbg:#e8f5ee;
+    --red:#c0392b; --redbg:#fbeae8;
+    --blue:#1f6feb; --bluebg:#e9f1fe;
+    --amber:#b7791f; --amberbg:#fcf3e3;
+    --slate:#334e68;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:980px; margin:0 auto; padding:28px 22px 60px;}
+
+  /* Header */
+  .head{
+    background:linear-gradient(135deg,#15212b 0%,#27414f 100%);
+    color:#fff; border-radius:16px; padding:26px 28px; position:relative; overflow:hidden;
+  }
+  .head:after{content:"⚡"; position:absolute; right:24px; top:50%; transform:translateY(-50%);
+    font-size:90px; opacity:.10;}
+  .ticker{display:inline-block; background:#ffffff; color:#15212b; font-weight:800;
+    border-radius:8px; padding:4px 12px; letter-spacing:.5px; font-size:15px;}
+  .head h1{margin:12px 0 4px; font-size:27px; letter-spacing:-.3px;}
+  .head p{margin:0; color:#c5d2dc; max-width:640px; font-size:14.5px;}
+  .head .ex{margin-top:14px; font-size:12.5px; color:#9fb2bf;}
+
+  /* Snapshot strip */
+  .strip{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:16px 0;}
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;}
+  .stat .k{font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); font-weight:700;}
+  .stat .v{font-size:21px; font-weight:800; margin-top:3px;}
+  .stat .s{font-size:11.5px; color:var(--muted); margin-top:1px;}
+
+  /* Generic card */
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px; margin-bottom:16px;}
+  .card h2{margin:0 0 4px; font-size:17px; display:flex; align-items:center; gap:9px;}
+  .card h2 .dot{width:26px; height:26px; border-radius:7px; display:inline-flex; align-items:center; justify-content:center; font-size:15px;}
+  .lead{color:var(--muted); font-size:13.5px; margin:0 0 14px;}
+
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:760px){ .two,.strip{grid-template-columns:1fr 1fr;} }
+  @media(max-width:520px){ .two,.strip{grid-template-columns:1fr;} }
+
+  /* Plain-English explainer rows */
+  .pe{border-left:3px solid var(--blue); background:var(--bluebg); border-radius:0 8px 8px 0;
+     padding:10px 14px; margin:10px 0; font-size:13.5px;}
+  .pe b{color:var(--slate);}
+
+  /* Pros / Cons */
+  .pc{border-radius:12px; padding:18px 20px;}
+  .pc.pro{background:var(--greenbg); border:1px solid #c7e6d4;}
+  .pc.con{background:var(--redbg); border:1px solid #f1cdc8;}
+  .pc h3{margin:0 0 12px; font-size:15px; display:flex; align-items:center; gap:8px;}
+  .pc.pro h3{color:var(--green);}
+  .pc.con h3{color:var(--red);}
+  .pc ul{margin:0; padding:0; list-style:none;}
+  .pc li{position:relative; padding:7px 0 7px 24px; font-size:13.3px; border-top:1px solid rgba(0,0,0,.05);}
+  .pc li:first-child{border-top:none;}
+  .pc li b{display:block; font-size:13.3px;}
+  .pc li span{color:var(--muted); font-size:12.3px;}
+  .pc.pro li:before{content:"✓"; position:absolute; left:0; top:7px; color:var(--green); font-weight:800;}
+  .pc.con li:before{content:"!"; position:absolute; left:2px; top:7px; color:var(--red); font-weight:800;}
+
+  /* tech compare table */
+  table{width:100%; border-collapse:collapse; font-size:13px; margin-top:6px;}
+  th,td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--line);}
+  th{font-size:11px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted);}
+  td.hi{font-weight:700; color:var(--green);}
+
+  /* who's in */
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:4px;}
+  .chip{background:#eef2f5; border:1px solid var(--line); border-radius:20px; padding:5px 12px; font-size:12.5px; font-weight:600;}
+  .chip b{color:var(--blue);}
+
+  /* timeline */
+  .tl{list-style:none; margin:6px 0 0; padding:0;}
+  .tl li{position:relative; padding:0 0 14px 22px; border-left:2px solid var(--line); margin-left:6px;}
+  .tl li:last-child{border-left:2px solid transparent;}
+  .tl li:before{content:""; position:absolute; left:-7px; top:2px; width:12px; height:12px; border-radius:50%; background:var(--amber); border:2px solid #fff;}
+  .tl b{font-size:13.3px;} .tl span{display:block; color:var(--muted); font-size:12.3px;}
+
+  /* questions */
+  .q{background:#fff; border:1px dashed #b9c6d0; border-radius:10px; padding:12px 16px; margin:8px 0; font-size:13.3px;}
+  .q b{color:var(--slate);}
+
+  /* verdict / bottom line */
+  .bottom{background:#15212b; color:#e8eef2; border-radius:14px; padding:22px 24px;}
+  .bottom h2{color:#fff; margin:0 0 8px; font-size:17px;}
+  .bottom p{margin:0 0 10px; font-size:13.6px; color:#c5d2dc;}
+  .bottom .tag{display:inline-block; background:#27414f; color:#bfe3cd; border-radius:6px; padding:3px 10px; font-size:12px; font-weight:700; margin-right:6px;}
+
+  .disclaimer{font-size:11.5px; color:var(--muted); margin-top:18px; line-height:1.55; border-top:1px solid var(--line); padding-top:14px;}
+  .as-of{font-size:11.5px; color:var(--muted); text-align:right; margin:4px 2px 0;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="head">
+    <span class="ticker">NASDAQ: FAC</span>
+    <h1>Factorial Energy, Inc.</h1>
+    <p>A solid-state battery startup that went public on June 8, 2026 by merging with a SPAC (Cartesian Growth Corp III). The pitch: batteries that go further, charge faster, and are safer than today's — built so carmakers can use their <em>existing</em> factory lines.</p>
+    <div class="ex">Plain-English primer for someone deciding whether to buy. This is educational, not financial advice.</div>
+  </div>
+
+  <!-- SNAPSHOT -->
+  <div class="strip">
+    <div class="stat"><div class="k">Share price</div><div class="v">~$15.55</div><div class="s">very volatile</div></div>
+    <div class="stat"><div class="k">Market value</div><div class="v">~$1.6–1.8B</div><div class="s">priced on promise, not profit</div></div>
+    <div class="stat"><div class="k">Revenue</div><div class="v">$0</div><div class="s">pre-revenue startup</div></div>
+    <div class="stat"><div class="k">Cash runway</div><div class="v">~12 mo</div><div class="s">to ~mid-2027</div></div>
+  </div>
+
+  <!-- WHAT THEY DO -->
+  <div class="card">
+    <h2><span class="dot" style="background:var(--bluebg)">🔋</span> What the company actually does</h2>
+    <p class="lead">Factorial makes "quasi-solid-state" batteries — a next-generation design aimed mainly at electric vehicles, with an eye toward aerospace, defense and data centers.</p>
+    <div class="two">
+      <div>
+        <div class="pe"><b>FEST</b> — its main battery platform. The big selling point: it works with the battery factory equipment carmakers already own, so they avoid building costly new plants. Factorial calls this "capital-light."</div>
+        <div class="pe"><b>Solstice</b> — a higher-performance version targeting the most demanding uses (aerospace, defense) where energy density and safety matter most.</div>
+      </div>
+      <div>
+        <table>
+          <tr><th>Measure</th><th>Normal EV battery</th><th>Factorial (claimed)</th></tr>
+          <tr><td>Energy density</td><td>~250–300 Wh/kg</td><td class="hi">&gt;400 Wh/kg</td></tr>
+          <tr><td>Fire risk</td><td>Flammable liquid inside</td><td class="hi">Low / none</td></tr>
+          <tr><td>Charging</td><td>Heat-limited</td><td class="hi">Fast-charge capable</td></tr>
+          <tr><td>Factory fit</td><td>Existing lines</td><td class="hi">Uses existing lines</td></tr>
+        </table>
+        <p class="lead" style="margin-top:8px;">Higher energy density ≈ more driving range for the same battery weight. A modified Mercedes EQS using Factorial cells reportedly drove <b>1,200+ km on one charge</b> in road testing.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHO'S BACKING IT -->
+  <div class="card">
+    <h2><span class="dot" style="background:var(--greenbg)">🤝</span> Who's backing it (a real strength)</h2>
+    <p class="lead">A surprising number of big automakers and even a U.S. national-security fund have money or partnerships here — a strong vote of confidence for such a young company.</p>
+    <div class="chips">
+      <span class="chip"><b>Mercedes-Benz</b> · 8.1% owner + board seats</span>
+      <span class="chip"><b>Stellantis</b> · testing cells in a Dodge Charger Daytona</span>
+      <span class="chip"><b>In-Q-Tel</b> · U.S. national-security investor</span>
+      <span class="chip">Hyundai</span>
+      <span class="chip">Kia</span>
+      <span class="chip">PowerCo (VW)</span>
+    </div>
+    <p class="lead" style="margin-top:12px;">The board includes <b>Dr. Dieter Zetsche</b> (former chairman of Daimler / Mercedes-Benz). Founders <b>Dr. Siyu Huang</b> (CEO) and <b>Dr. Alex Yu</b> (CTO) built the technology and still run the company.</p>
+  </div>
+
+  <!-- PROS AND CONS -->
+  <div class="two">
+    <div class="pc pro">
+      <h3>👍 The bull case (reasons to be interested)</h3>
+      <ul>
+        <li><b>Practical technology path</b><span>Fits existing factories, so it could reach market faster and cheaper than rivals needing all-new plants.</span></li>
+        <li><b>Blue-chip partners</b><span>Mercedes, Stellantis, Hyundai/Kia, VW's PowerCo and In-Q-Tel are involved — rare validation.</span></li>
+        <li><b>Real-world results</b><span>1,200+ km Mercedes test drive; Stellantis verified cells and is road-testing them.</span></li>
+        <li><b>Huge market if it works</b><span>Solid-state is widely seen as the likely successor to today's lithium-ion batteries.</span></li>
+        <li><b>Cash crunch eased — for now</b><span>The deal raised ~$112M gross, funding roughly 12 months of operations.</span></li>
+      </ul>
+    </div>
+    <div class="pc con">
+      <h3>👎 The bear case (reasons for caution)</h3>
+      <ul>
+        <li><b>No revenue, burning cash</b><span>Lost $8.6M in Q1 2026; will likely need to raise more money by ~mid-2027.</span></li>
+        <li><b>Dilution risk</b><span>~80.6M insider/investor shares set to become sellable, plus warrants &amp; cheap options. More shares can push the price down.</span></li>
+        <li><b>You get almost no say</b><span>Founders' special shares carry 10 votes each; public shares get 1. Insiders control the company.</span></li>
+        <li><b>Wild price swings</b><span>Very few shares trade freely ("low float"), causing 10–20% moves in a day.</span></li>
+        <li><b>Tech could still fail at scale</b><span>Working prototypes ≠ mass production; solid-state has a history of durability problems.</span></li>
+        <li><b>Tough competition &amp; rates</b><span>QuantumScape, Solid Power and others compete; high interest rates pressure speculative stocks.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- HOW IT WENT PUBLIC -->
+  <div class="card">
+    <h2><span class="dot" style="background:var(--amberbg)">📋</span> The catch in how it went public</h2>
+    <p class="lead">It listed via a SPAC merger. A big issue: most original SPAC investors pulled their money out before the deal closed.</p>
+    <div class="strip" style="margin:0;">
+      <div class="stat"><div class="k">Cash in the pot</div><div class="v">$287M</div><div class="s">before the vote</div></div>
+      <div class="stat"><div class="k">Pulled out</div><div class="v" style="color:var(--red)">~$240M</div><div class="s">investors redeemed</div></div>
+      <div class="stat"><div class="k">Left from SPAC</div><div class="v">$11.2M</div><div class="s">only this much remained</div></div>
+      <div class="stat"><div class="k">Rescue funding (PIPE)</div><div class="v">$100.9M</div><div class="s">new investors stepped in</div></div>
+    </div>
+    <div class="pe" style="margin-top:14px;"><b>Why it matters:</b> the heavy "redemptions" left less cash than hoped, and the small number of freely traded shares is exactly why the stock whips around so much. The sponsor's earlier deals (e.g., AlTi Global) have traded well below their starting price — a reminder that strong backers don't guarantee returns.</div>
+  </div>
+
+  <!-- WHAT TO WATCH -->
+  <div class="card">
+    <h2><span class="dot" style="background:var(--bluebg)">📅</span> What to watch next (catalysts)</h2>
+    <ul class="tl">
+      <li><b>Aug 13, 2026 — Q2 earnings</b><span>First full report as a public company; shows how fast it's spending cash.</span></li>
+      <li><b>Resale registration goes effective</b><span>Ends the "low float" era — a flood of insider shares could become sellable and pressure the price.</span></li>
+      <li><b>Karma Automotive production launch</b><span>First U.S. production program — the first sign of real revenue.</span></li>
+      <li><b>Data-center energy storage deals</b><span>Management hints at AI data-center use, which would diversify beyond cars.</span></li>
+      <li><b>$4.9M arbitration ruling</b><span>A vendor dispute; an adverse outcome would dent cash and sentiment.</span></li>
+    </ul>
+  </div>
+
+  <!-- QUESTIONS TO ASK YOURSELF -->
+  <div class="card">
+    <h2><span class="dot" style="background:var(--amberbg)">🧭</span> Questions to ask yourself before buying</h2>
+    <div class="q"><b>Can I stomach big swings?</b> This can move 10–20% in a day and could fall sharply when more shares hit the market.</div>
+    <div class="q"><b>Am I OK owning shares with little voting power?</b> Insiders control major decisions.</div>
+    <div class="q"><b>Do I believe they can scale the tech <i>and</i> raise more cash</b> on good terms before mid-2027?</div>
+    <div class="q"><b>Is this money I can afford to lose?</b> Pre-revenue, speculative stocks can go to zero.</div>
+    <div class="q"><b>How does it compare to rivals</b> like QuantumScape and Solid Power that I could buy instead?</div>
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="bottom">
+    <h2>Bottom line</h2>
+    <p><span class="tag">High risk</span><span class="tag">High potential</span><span class="tag">Speculative</span></p>
+    <p>Factorial is one of the more credible names in solid-state batteries — genuine carmaker partners, real test results, and a clever "use existing factories" strategy. But it's a money-losing, pre-revenue company with little cash cushion, near-certain future dilution, a stock that swings violently, and almost no voting rights for regular shareholders.</p>
+    <p style="margin-bottom:0;">In short: it's a <b>bet on a future technology paying off</b>, not an investment in a profitable business today. That can be appropriate as a small, high-risk slice of a portfolio for someone who understands they could lose it all — and the wrong fit for money you'll need or can't afford to risk.</p>
+  </div>
+
+  <p class="as-of">Figures as of ~June 15, 2026, from the source brief. Prices on a low-float stock change fast — verify before acting.</p>
+
+  <p class="disclaimer">
+    <b>Disclaimer:</b> This one-pager is for general education only and is <b>not</b> financial, investment, or tax advice and not a recommendation to buy or sell any security. The author is not a licensed financial advisor. Figures are drawn from a single research brief and SPAC-related filings cited therein and have not been independently audited; some are estimates or claims made by the company and may be inaccurate or out of date. Investing in pre-revenue, post-SPAC companies carries a high risk of substantial or total loss. Do your own research and consider speaking with a qualified financial professional before investing.
+  </p>
+
+</div>
+</body>
+</html>

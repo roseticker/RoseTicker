@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nebius Group (NBIS) — Interactive Investor Primer</title>
+<style>
+  :root{
+    --ink:#0f1b24; --muted:#5d6e7a; --line:#e4eaef;
+    --bg:#eef2f5; --card:#ffffff;
+    --brand:#2f6df0; --brandbg:#e9f1fe;
+    --green:#1f8a52; --greenbg:#e8f5ee;
+    --red:#c0392b; --redbg:#fbeae8;
+    --amber:#b7791f; --amberbg:#fcf3e3;
+    --slate:#33506a;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased;}
+  .page{max-width:1000px; margin:0 auto; padding:26px 20px 56px;}
+
+  .head{background:linear-gradient(135deg,#0f1b24 0%,#1d3a5f 60%,#2f6df0 140%);
+    color:#fff; border-radius:16px; padding:26px 28px; position:relative; overflow:hidden;}
+  .head:after{content:"☁"; position:absolute; right:22px; top:46%; transform:translateY(-50%); font-size:96px; opacity:.10;}
+  .ticker{display:inline-block; background:#fff; color:#0f1b24; font-weight:800; border-radius:8px; padding:4px 12px; letter-spacing:.5px; font-size:15px;}
+  .head h1{margin:12px 0 4px; font-size:27px; letter-spacing:-.3px;}
+  .head p{margin:0; color:#cdd9e6; max-width:680px; font-size:14.5px;}
+  .head .ex{margin-top:13px; font-size:12.5px; color:#9fb6cf;}
+
+  .strip{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:16px 0;}
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 15px;}
+  .stat .k{font-size:10.5px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); font-weight:700;}
+  .stat .v{font-size:20px; font-weight:800; margin-top:3px;}
+  .stat .s{font-size:11.5px; color:var(--muted); margin-top:1px;}
+
+  /* tabs */
+  .tabs{display:flex; gap:6px; flex-wrap:wrap; margin:4px 0 0;}
+  .tab{flex:1; min-width:120px; background:var(--card); border:1px solid var(--line); border-bottom:none;
+    border-radius:10px 10px 0 0; padding:11px 12px; font-size:13.5px; font-weight:700; color:var(--muted);
+    cursor:pointer; text-align:center; transition:.15s;}
+  .tab:hover{color:var(--ink);}
+  .tab.active{background:var(--brand); color:#fff; border-color:var(--brand);}
+  .panel{display:none; background:var(--card); border:1px solid var(--line); border-radius:0 0 14px 14px; padding:22px 24px;}
+  .panel.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+
+  h2{margin:0 0 4px; font-size:17px;} h3{font-size:14.5px; margin:18px 0 6px;}
+  .lead{color:var(--muted); font-size:13.5px; margin:0 0 14px;}
+  p.body{font-size:13.6px;}
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:760px){ .two,.strip{grid-template-columns:1fr 1fr;} }
+  @media(max-width:520px){ .two,.strip{grid-template-columns:1fr;} .tab{min-width:46%;} }
+
+  .pe{border-left:3px solid var(--brand); background:var(--brandbg); border-radius:0 8px 8px 0; padding:10px 14px; margin:10px 0; font-size:13.4px;}
+  .pe b{color:var(--slate);}
+
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 2px;}
+  .chip{background:#eef2f5; border:1px solid var(--line); border-radius:20px; padding:5px 12px; font-size:12.5px; font-weight:600;}
+  .chip b{color:var(--brand);}
+
+  table{width:100%; border-collapse:collapse; font-size:13px; margin-top:6px;}
+  th,td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--line);}
+  th{font-size:10.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted);}
+  td.g{font-weight:700; color:var(--green);}
+
+  .pc{border-radius:12px; padding:16px 18px;}
+  .pc.pro{background:var(--greenbg); border:1px solid #c7e6d4;}
+  .pc.con{background:var(--redbg); border:1px solid #f1cdc8;}
+  .pc h3{margin:0 0 10px; font-size:15px;}
+  .pc.pro h3{color:var(--green);} .pc.con h3{color:var(--red);}
+  .pc ul{margin:0; padding:0; list-style:none;}
+  .pc li{position:relative; padding:7px 0 7px 24px; font-size:13.1px; border-top:1px solid rgba(0,0,0,.05);}
+  .pc li:first-child{border-top:none;}
+  .pc li b{display:block;} .pc li span{color:var(--muted); font-size:12.2px;}
+  .pc.pro li:before{content:"✓"; position:absolute; left:0; top:7px; color:var(--green); font-weight:800;}
+  .pc.con li:before{content:"!"; position:absolute; left:2px; top:7px; color:var(--red); font-weight:800;}
+
+  .risk{display:flex; gap:12px; align-items:flex-start; padding:11px 0; border-top:1px solid var(--line); font-size:13.3px;}
+  .risk:first-of-type{border-top:none;}
+  .sev{flex:0 0 auto; font-size:10.5px; font-weight:800; padding:3px 8px; border-radius:6px; letter-spacing:.4px; white-space:nowrap; margin-top:1px;}
+  .sev.hi{background:var(--redbg); color:var(--red);}
+  .sev.md{background:var(--amberbg); color:var(--amber);}
+
+  /* calculator */
+  .calc{background:#0f1b24; color:#e8eef4; border-radius:14px; padding:22px 24px; margin-top:16px;}
+  .calc h2{color:#fff;}
+  .calc .lead{color:#aebfd0;}
+  .crow{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:14px 0;}
+  @media(max-width:520px){ .crow{grid-template-columns:1fr;} }
+  .field label{display:block; font-size:11.5px; text-transform:uppercase; letter-spacing:.5px; color:#9fb6cf; font-weight:700; margin-bottom:5px;}
+  .field input{width:100%; padding:10px 12px; border-radius:9px; border:1px solid #2c4a66; background:#16283a; color:#fff; font-size:16px; font-weight:700;}
+  .presets{display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 8px;}
+  .preset{background:#16283a; border:1px solid #2c4a66; color:#cdd9e6; border-radius:8px; padding:7px 12px; font-size:12.5px; cursor:pointer; font-weight:600;}
+  .preset:hover{border-color:var(--brand);}
+  .preset b{color:#fff; display:block; font-size:13px;}
+  .out{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:8px;}
+  @media(max-width:520px){ .out{grid-template-columns:1fr;} }
+  .obox{background:#16283a; border:1px solid #2c4a66; border-radius:10px; padding:13px 15px;}
+  .obox .k{font-size:10.5px; text-transform:uppercase; letter-spacing:.5px; color:#9fb6cf; font-weight:700;}
+  .obox .v{font-size:21px; font-weight:800; margin-top:3px; color:#fff;}
+  .calc .note{font-size:11.5px; color:#8ba2bb; margin-top:12px;}
+
+  .disclaimer{font-size:11.5px; color:var(--muted); margin-top:18px; line-height:1.55; border-top:1px solid var(--line); padding-top:14px;}
+  .as-of{font-size:11.5px; color:var(--muted); text-align:right; margin:6px 2px 0;}
+  a{color:var(--brand);}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="head">
+    <span class="ticker">NASDAQ: NBIS</span>
+    <h1>Nebius Group N.V.</h1>
+    <p>An "AI cloud" (or "neocloud") company: it builds data centers packed with Nvidia chips and rents that computing power to companies training and running AI. Spun out of the former Yandex, backed by Nvidia, and recently added to the Nasdaq-100.</p>
+    <div class="ex">Interactive primer for someone deciding whether to buy. Click the tabs. Educational only — not financial advice.</div>
+  </div>
+
+  <div class="strip">
+    <div class="stat"><div class="k">Share price</div><div class="v">~$255</div><div class="s">very volatile (~$230–280)</div></div>
+    <div class="stat"><div class="k">Market value</div><div class="v">~$60B</div><div class="s">priced for big growth</div></div>
+    <div class="stat"><div class="k">Q1'26 revenue</div><div class="v">$399M</div><div class="s">+684% vs year ago</div></div>
+    <div class="stat"><div class="k">Signed contracts</div><div class="v">$20B+</div><div class="s">incl. $17.4B Microsoft</div></div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-t="biz">🏢 Business</div>
+    <div class="tab" data-t="fin">📊 Financials</div>
+    <div class="tab" data-t="case">⚖️ Bull vs Bear</div>
+    <div class="tab" data-t="risk">⚠️ Risks</div>
+  </div>
+
+  <!-- BUSINESS -->
+  <div class="panel active" id="biz">
+    <h2>What the company actually does</h2>
+    <p class="lead">Think of Nebius as a landlord for AI computing power. Training modern AI needs thousands of expensive Nvidia GPUs; Nebius owns the data centers and rents that capacity out, so customers don't have to build it themselves.</p>
+    <div class="two">
+      <div>
+        <h3>The core business</h3>
+        <p class="body">Its AI cloud is ~98% of revenue. It's racing to build capacity — data centers in New Jersey, the UK, Israel and Finland — targeting roughly <b>1 gigawatt</b> of total capacity (a huge amount of power). It has signed <b>$20B+</b> in customer contracts, headlined by a <b>$17.4B deal with Microsoft</b> plus work with Meta.</p>
+        <div class="pe"><b>Why people are excited:</b> demand for AI computing is booming and supply is scarce. Nebius is one of the few independent providers scaling fast, with Nvidia as a backer and shareholder.</div>
+      </div>
+      <div>
+        <h3>The "hidden" extra assets</h3>
+        <p class="body">Beyond the cloud, Nebius owns stakes in several businesses it could sell to help fund growth:</p>
+        <div class="chips">
+          <span class="chip"><b>Avride</b> · self-driving / delivery robots · 83% · ~$3.4B</span>
+          <span class="chip"><b>ClickHouse</b> · database company · 28% · ~$6B</span>
+          <span class="chip"><b>Toloka</b> · AI data labeling · majority · Bezos-backed</span>
+          <span class="chip"><b>TripleTen</b> · tech-reskilling edtech</span>
+        </div>
+        <div class="pe" style="margin-top:12px;"><b>In plain terms:</b> these stakes are a potential piggy bank. Selling pieces could raise cash without borrowing — but their values aren't guaranteed.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINANCIALS -->
+  <div class="panel" id="fin">
+    <h2>The financial picture (Q1 2026)</h2>
+    <p class="lead">Growth is explosive and, unlike many AI startups, the core business is becoming profitable on an operating basis — but it's spending enormous sums to build data centers.</p>
+    <table>
+      <tr><th>Measure</th><th>Latest</th><th>What it means (plain English)</th></tr>
+      <tr><td>Group revenue</td><td class="g">$399M</td><td>Up 684% from a year ago, and +75% from the prior quarter.</td></tr>
+      <tr><td>Core AI cloud ARR</td><td class="g">$1.92B</td><td>"Annual run-rate" — recent sales stretched to a yearly pace. Up 54% in one quarter.</td></tr>
+      <tr><td>Operating cash flow</td><td class="g">$2.3B</td><td>Cash in the door, boosted heavily by customers paying upfront.</td></tr>
+      <tr><td>Adj. EBITDA margin (cloud)</td><td class="g">~40% (guided)</td><td>A profitability measure that nearly doubled — the core unit makes money before big one-time costs.</td></tr>
+      <tr><td>2026 CapEx plan</td><td>$20–25B</td><td>What it intends to <b>spend</b> on chips/buildings — far more than its revenue. This is the catch.</td></tr>
+    </table>
+    <h3>Full-year 2026 guidance (management's own targets)</h3>
+    <div class="chips">
+      <span class="chip">Revenue <b>$3.0–3.4B</b></span>
+      <span class="chip">ARR <b>$7–9B</b></span>
+      <span class="chip">Adj. EBITDA margin <b>~40%</b></span>
+    </div>
+    <div class="pe" style="margin-top:14px;"><b>The key tension:</b> Nebius plans to spend $20–25B this year while bringing in ~$3B of revenue. That gap must be funded by customer prepayments, selling assets, borrowing, or issuing new shares. Whether it can keep funding this without hurting shareholders is the whole debate.</div>
+  </div>
+
+  <!-- BULL VS BEAR -->
+  <div class="panel" id="case">
+    <h2>Bull case vs. bear case</h2>
+    <p class="lead">Both sides agree growth is real. They disagree on whether today's price already assumes near-perfect execution.</p>
+    <div class="two">
+      <div class="pc pro">
+        <h3>👍 Bull case</h3>
+        <ul>
+          <li><b>Explosive, real demand</b><span>Revenue up ~684% YoY with $20B+ in signed contracts, including Microsoft.</span></li>
+          <li><b>Nvidia-backed &amp; well-positioned</b><span>One of few independent AI-cloud players scaling fast, with Nvidia as an investor.</span></li>
+          <li><b>Core unit is profitable-ish</b><span>~40% adjusted-EBITDA margin in the cloud business — rare for a hyper-growth name.</span></li>
+          <li><b>Hidden asset value</b><span>Stakes in ClickHouse (~$6B), Avride (~$3.4B) and Toloka could fund growth.</span></li>
+          <li><b>Index inclusion</b><span>Joining the Nasdaq-100 brings forced buying from index funds.</span></li>
+        </ul>
+      </div>
+      <div class="pc con">
+        <h3>👎 Bear case</h3>
+        <ul>
+          <li><b>Very expensive stock</b><span>Trades around 60x+ trailing sales — priced for years of flawless growth.</span></li>
+          <li><b>Enormous spending</b><span>$20–25B capex vs ~$3B revenue; needs constant new funding.</span></li>
+          <li><b>Dilution / debt risk</b><span>Funding that gap may mean issuing shares or taking on debt.</span></li>
+          <li><b>Customer concentration</b><span>A few giant deals (Microsoft, Meta) drive much of the backlog.</span></li>
+          <li><b>Whipsaw volatility</b><span>Can swing ~$20+ a day and falls hard in AI-sector selloffs.</span></li>
+          <li><b>Overcapacity risk</b><span>If AI compute demand cools, all that capacity could sit underused.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISKS -->
+  <div class="panel" id="risk">
+    <h2>Risks, ranked</h2>
+    <p class="lead">This is a high-volatility, richly-valued stock. The biggest risks aren't about whether the business is growing — it is — but about price and funding.</p>
+    <div class="risk"><span class="sev hi">HIGH</span><div><b>Valuation leaves little margin for error.</b> At ~60x+ sales, even strong results can disappoint if they're not spectacular. A growth wobble can mean a big price drop.</div></div>
+    <div class="risk"><span class="sev hi">HIGH</span><div><b>Funding the build-out.</b> Spending $20–25B on roughly $3B of revenue depends on prepayments, asset sales, debt, or new shares — any of which can pressure the stock or dilute owners.</div></div>
+    <div class="risk"><span class="sev hi">HIGH</span><div><b>AI-sector sentiment.</b> NBIS trades with the whole AI/chip complex. The June 5, 2026 semiconductor selloff dragged it down sharply regardless of its own news.</div></div>
+    <div class="risk"><span class="sev md">MEDIUM</span><div><b>Customer concentration.</b> A handful of mega-deals drive the backlog; losing or delaying one would hurt disproportionately.</div></div>
+    <div class="risk"><span class="sev md">MEDIUM</span><div><b>Execution &amp; overcapacity.</b> Building gigawatts of data centers on schedule is hard; if demand softens, expensive capacity could sit idle.</div></div>
+    <div class="risk"><span class="sev md">MEDIUM</span><div><b>Daily volatility.</b> Moves of ~$20 a day are normal — uncomfortable if you need stable value or might sell in a panic.</div></div>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div class="calc">
+    <h2>💸 "What if" return calculator</h2>
+    <p class="lead">Enter an amount and a target price to see a hypothetical outcome. The scenario buttons are <b>illustrative only — not predictions</b>.</p>
+    <div class="crow">
+      <div class="field">
+        <label>Amount you'd invest ($)</label>
+        <input id="amt" type="number" value="1000" min="0" step="100">
+      </div>
+      <div class="field">
+        <label>Buy price ($/share)</label>
+        <input id="buy" type="number" value="255" min="0.01" step="1">
+      </div>
+    </div>
+    <div class="field">
+      <label>Target / future price ($/share)</label>
+      <input id="tgt" type="number" value="350" min="0" step="1">
+    </div>
+    <div class="presets">
+      <div class="preset" data-p="150"><span>Bear</span><b>$150</b></div>
+      <div class="preset" data-p="255"><span>Flat</span><b>$255</b></div>
+      <div class="preset" data-p="350"><span>Base</span><b>$350</b></div>
+      <div class="preset" data-p="450"><span>Bull</span><b>$450</b></div>
+    </div>
+    <div class="out">
+      <div class="obox"><div class="k">Shares bought</div><div class="v" id="oShares">3.92</div></div>
+      <div class="obox"><div class="k">Value at target</div><div class="v" id="oVal">$1,373</div></div>
+      <div class="obox"><div class="k">Gain / loss</div><div class="v" id="oGl">+$373 (+37%)</div></div>
+    </div>
+    <p class="note">Simplified: ignores fees, taxes, and currency effects. Stock prices can go to zero. Past or hypothetical performance does not predict future results.</p>
+  </div>
+
+  <p class="as-of">Figures gathered ~June 16, 2026 from public sources (see links below). Prices are highly volatile — verify before acting.</p>
+
+  <p class="disclaimer">
+    <b>Disclaimer:</b> This interactive primer is for general education only and is <b>not</b> financial, investment, or tax advice, nor a recommendation to buy or sell any security. The author is not a licensed financial advisor. Figures come from public news and company disclosures and have not been independently audited; some are management targets, estimates, or rounded approximations and may be inaccurate or out of date. NBIS is a high-valuation, high-volatility AI stock that can lose value rapidly. Do your own research and consider consulting a qualified financial professional before investing.
+  </p>
+
+</div>
+
+<script>
+  // Tabs
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+      t.classList.add('active');
+      document.getElementById(t.dataset.t).classList.add('active');
+    });
+  });
+
+  // Calculator
+  var amt=document.getElementById('amt'), buy=document.getElementById('buy'), tgt=document.getElementById('tgt');
+  function fmt(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+  function calc(){
+    var a=parseFloat(amt.value)||0, b=parseFloat(buy.value)||0, t=parseFloat(tgt.value)||0;
+    var shares = b>0 ? a/b : 0;
+    var val = shares*t;
+    var gl = val-a;
+    var pct = a>0 ? (gl/a*100) : 0;
+    document.getElementById('oShares').textContent = shares.toFixed(2);
+    document.getElementById('oVal').textContent = fmt(val);
+    var sign = gl>=0 ? '+' : '−';
+    var box = document.getElementById('oGl');
+    box.textContent = sign+fmt(Math.abs(gl))+' ('+sign+Math.abs(pct).toFixed(0)+'%)';
+    box.style.color = gl>=0 ? '#5fd699' : '#ff8a7a';
+  }
+  [amt,buy,tgt].forEach(function(el){ el.addEventListener('input', calc); });
+  document.querySelectorAll('.preset').forEach(function(p){
+    p.addEventListener('click', function(){ tgt.value=p.dataset.p; calc(); });
+  });
+  calc();
+</script>
+</body>
+</html>
