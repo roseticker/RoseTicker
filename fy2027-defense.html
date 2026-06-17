@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FY2027 Defense Budget — Who Benefits</title>
+<style>
+  :root{ color-scheme:light;
+    --ink:#1a1f2b; --muted:#5d6675; --line:#e4e7ee; --bg:#eef1f5; --card:#fff;
+    --navy:#1b2a4a;
+    --ship:#2f6f8c; --shipbg:#e6f1f6;
+    --msl:#7a3a4a; --mslbg:#f7eaee;
+    --dome:#9a5a1f; --domebg:#f8efe4;
+    --drone:#1f7a5a; --dronebg:#e7f5ef;
+    --soft:#5a3a8c; --softbg:#f0eaf8;
+    --nuke:#7a6a1f; --nukebg:#f5f2e0;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.5;}
+  .page{max-width:1040px; margin:0 auto; padding:24px 18px 52px;}
+  .back{display:inline-block; font-size:12.5px; color:var(--muted); text-decoration:none; margin-bottom:12px;}
+  .back:hover{color:var(--ink);}
+  .head{background:linear-gradient(135deg,#16233f 0%,#3a4a6a 100%); color:#fff; border-radius:16px; padding:24px 28px; position:relative; overflow:hidden;}
+  .head:after{content:"⚓"; position:absolute; right:22px; top:50%; transform:translateY(-50%); font-size:92px; opacity:.10;}
+  .head .kicker{font-size:12px; letter-spacing:1px; text-transform:uppercase; color:#aebcd6; font-weight:700;}
+  .head h1{margin:6px 0 6px; font-size:25px; letter-spacing:-.3px;}
+  .head p{margin:0; color:#cbd6e8; max-width:780px; font-size:13.6px;}
+  .statusbar{background:#fff4e0; border:1px solid #ecc98a; border-radius:12px; padding:13px 16px; margin:16px 0; font-size:13px; color:#6b4e16;}
+  .statusbar b{color:#473311;}
+  .strip{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:16px 0;}
+  @media(max-width:720px){ .strip{grid-template-columns:1fr 1fr;} }
+  @media(max-width:460px){ .strip{grid-template-columns:1fr;} }
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 15px;}
+  .stat .k{font-size:10.5px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); font-weight:700;}
+  .stat .v{font-size:20px; font-weight:800; margin-top:3px;}
+  .stat .s{font-size:11.5px; color:var(--muted); margin-top:1px;}
+  .note{background:#fff8e6; border:1px solid #ecdba6; border-radius:12px; padding:13px 16px; margin:6px 0 16px; font-size:13px; color:#5c4d1f;}
+  .note b{color:#3f3413;}
+  .cat{background:var(--card); border:1px solid var(--line); border-radius:14px; margin-bottom:16px; overflow:hidden; border-top:5px solid var(--ship);}
+  .cat .top{padding:16px 20px 14px;}
+  .label{display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; padding:4px 10px; border-radius:20px;}
+  .cat h2{margin:9px 0 3px; font-size:18px;}
+  .prov{font-size:12.8px; color:var(--muted); margin:0;}
+  .prov b{color:var(--ink);}
+  .why{font-size:13.2px; margin:10px 0 0;} .why b{color:var(--ink);}
+  .names{border-top:1px solid var(--line); padding:12px 20px 16px;}
+  .grp{font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); margin:8px 0 6px;}
+  .grp.second{color:#7a5a1f;} .grp.priv{color:#7a3a4a;}
+  .co{display:flex; gap:12px; align-items:baseline; padding:6px 0; border-bottom:1px dashed var(--line); font-size:13px;}
+  .co:last-child{border-bottom:none;}
+  .tk{flex:0 0 auto; font-weight:800; background:#eef1f5; border:1px solid var(--line); border-radius:6px; padding:2px 8px; font-size:12px; min-width:56px; text-align:center;}
+  .tk.pv{background:#f7eaee; border-color:#e6cdd4; color:#7a3a4a;}
+  .co .nm{font-weight:700;} .co .rs{color:var(--muted);}
+  .c-ship{border-top-color:var(--ship);} .c-ship .label{background:var(--shipbg); color:var(--ship);}
+  .c-msl{border-top-color:var(--msl);} .c-msl .label{background:var(--mslbg); color:var(--msl);}
+  .c-dome{border-top-color:var(--dome);} .c-dome .label{background:var(--domebg); color:var(--dome);}
+  .c-drone{border-top-color:var(--drone);} .c-drone .label{background:var(--dronebg); color:var(--drone);}
+  .c-soft{border-top-color:var(--soft);} .c-soft .label{background:var(--softbg); color:var(--soft);}
+  .c-nuke{border-top-color:var(--nuke);} .c-nuke .label{background:var(--nukebg); color:var(--nuke);}
+  .disclaimer{font-size:11.5px; color:var(--muted); margin-top:18px; line-height:1.55; border-top:1px solid var(--line); padding-top:14px;}
+</style>
+</head>
+<body>
+<div class="page">
+  <a class="back" href="bills-to-watch.html">← Back to Bills to Watch</a>
+  <div class="head">
+    <div class="kicker">FY2027 Defense Appropriations · Deep Dive</div>
+    <h1>The $1.5 Trillion Defense Request — Who Benefits</h1>
+    <p>The Pentagon's FY2027 request is the largest ever — roughly $1.5 trillion, about 40%+ above FY2026. Here's where the money concentrates, and the public companies most exposed to each piece, with headline primes plus the suppliers that are often less priced-in.</p>
+  </div>
+
+  <div class="statusbar">
+    <b>Status — proposed, not law.</b> This is the President's request plus the House Defense subcommittee markup (~June 10–11, 2026). It still has to clear full committee, both floors, conference, and a signature — figures will change. Notably, ~$350B (including most of Golden Dome) rides on a <b>separate reconciliation bill</b>, not the regular appropriations bill.
+  </div>
+
+  <div class="strip">
+    <div class="stat"><div class="k">Total request</div><div class="v">~$1.5T</div><div class="s">+40%+ vs FY2026</div></div>
+    <div class="stat"><div class="k">Shipbuilding</div><div class="v">$65.8B</div><div class="s">18 battle-force ships</div></div>
+    <div class="stat"><div class="k">Golden Dome</div><div class="v">~$17.5B</div><div class="s">mostly reconciliation</div></div>
+    <div class="stat"><div class="k">Stage</div><div class="v">Subcommittee</div><div class="s">as of June 2026</div></div>
+  </div>
+
+  <div class="note">
+    <b>How to read this:</b> "What it funds" cites the request/markup. "Headline names" are the obvious primes; "Suppliers / picks-and-shovels" are the often-overlooked enablers; "Private (not investable)" are key players you can't buy directly. No company is named in the bill — these are illustrative, and this is education, not advice.
+  </div>
+
+  <!-- SHIPBUILDING -->
+  <div class="cat c-ship">
+    <div class="top">
+      <span class="label">🚢 Shipbuilding</span>
+      <h2>$65.8B to build the fleet — and widen the supplier base</h2>
+      <p class="prov"><b>What it funds:</b> ~18 battle-force ships + 16 other vessels, toward a 123-ship push, plus an explicit effort to spread work <b>beyond the traditional two yards</b> to add competition and capacity.</p>
+      <p class="why"><b>Why it matters:</b> shipbuilding is multi-year, sticky revenue. The "widen the base" angle is the interesting part — it could pull dollars to newer or smaller yards and shipyard-tech suppliers, not just the incumbents.</p>
+    </div>
+    <div class="names">
+      <div class="grp">Headline names</div>
+      <div class="co"><span class="tk">HII</span><span><span class="nm">Huntington Ingalls</span> <span class="rs">— largest U.S. military shipbuilder (carriers, subs)</span></span></div>
+      <div class="co"><span class="tk">GD</span><span><span class="nm">General Dynamics</span> <span class="rs">— Electric Boat (submarines), Bath Iron Works</span></span></div>
+      <div class="grp second">Suppliers / picks-and-shovels</div>
+      <div class="co"><span class="tk">BWXT</span><span><span class="nm">BWX Technologies</span> <span class="rs">— naval nuclear reactors for subs &amp; carriers</span></span></div>
+      <div class="co"><span class="tk">LDOS</span><span><span class="nm">Leidos</span> <span class="rs">— uncrewed surface vessels &amp; autonomy</span></span></div>
+      <div class="co"><span class="tk">DRS</span><span><span class="nm">Leonardo DRS</span> <span class="rs">— shipboard power &amp; electronics</span></span></div>
+      <div class="grp priv">Private (not investable)</div>
+      <div class="co"><span class="tk pv">priv</span><span><span class="nm">Austal USA, Fincantieri Marinette Marine</span> <span class="rs">— potential beneficiaries of broader competition</span></span></div>
+    </div>
+  </div>
+
+  <!-- MISSILES & MUNITIONS -->
+  <div class="cat c-msl">
+    <div class="top">
+      <span class="label">🚀 Missiles &amp; Munitions</span>
+      <h2>Multiyear buys + low-cost "mass" and hypersonics</h2>
+      <p class="prov"><b>What it funds:</b> multiyear munitions procurement, ~$355M Family of Affordable Mass Missiles (Air Force), and low-cost hypersonic strike (~$325M Army / ~$156M Navy).</p>
+      <p class="why"><b>Why it matters:</b> the shift toward cheap, mass-produced missiles favors not just the big interceptor makers but the upstart "attritable" players and the rocket-motor supply chain everyone depends on.</p>
+    </div>
+    <div class="names">
+      <div class="grp">Headline names</div>
+      <div class="co"><span class="tk">RTX</span><span><span class="nm">RTX (Raytheon)</span> <span class="rs">— interceptors, effectors, munitions</span></span></div>
+      <div class="co"><span class="tk">LMT</span><span><span class="nm">Lockheed Martin</span> <span class="rs">— missiles &amp; hypersonics</span></span></div>
+      <div class="grp second">Suppliers / picks-and-shovels</div>
+      <div class="co"><span class="tk">KTOS</span><span><span class="nm">Kratos</span> <span class="rs">— low-cost missiles, targets &amp; hypersonic vehicles</span></span></div>
+      <div class="co"><span class="tk">LHX</span><span><span class="nm">L3Harris</span> <span class="rs">— Aerojet Rocketdyne: solid rocket motors (the bottleneck)</span></span></div>
+      <div class="co"><span class="tk">NOC</span><span><span class="nm">Northrop Grumman</span> <span class="rs">— the other major solid rocket motor source</span></span></div>
+    </div>
+  </div>
+
+  <!-- GOLDEN DOME -->
+  <div class="cat c-dome">
+    <div class="top">
+      <span class="label">🛰️ Golden Dome Missile Defense</span>
+      <h2>~$17.5B for a homeland missile shield</h2>
+      <p class="prov"><b>What it funds:</b> a layered missile-defense architecture — space-based sensors and interceptors, command-and-control. Note: nearly all of it sits in the <b>reconciliation request</b>, with only ~$400M in the base appropriations bill.</p>
+      <p class="why"><b>Why it matters:</b> the splashiest, most stock-moving line item — a brand-new multi-year program spanning interceptors, space sensors, and the software to tie it together. But the reconciliation dependency makes the timing and totals less certain.</p>
+    </div>
+    <div class="names">
+      <div class="grp">Headline names</div>
+      <div class="co"><span class="tk">LMT</span><span><span class="nm">Lockheed Martin</span> <span class="rs">— interceptors, systems integration</span></span></div>
+      <div class="co"><span class="tk">RTX</span><span><span class="nm">RTX</span> <span class="rs">— radars &amp; interceptors</span></span></div>
+      <div class="co"><span class="tk">NOC</span><span><span class="nm">Northrop Grumman</span> <span class="rs">— sensors, space, battle management</span></span></div>
+      <div class="grp second">Suppliers / picks-and-shovels</div>
+      <div class="co"><span class="tk">LHX</span><span><span class="nm">L3Harris</span> <span class="rs">— missile-tracking satellites (HBTSS-type sensors)</span></span></div>
+      <div class="co"><span class="tk">PLTR</span><span><span class="nm">Palantir</span> <span class="rs">— command-and-control / data fabric</span></span></div>
+      <div class="co"><span class="tk">BAH</span><span><span class="nm">Booz Allen / Leidos (LDOS)</span> <span class="rs">— systems engineering &amp; integration</span></span></div>
+      <div class="grp priv">Private (not investable)</div>
+      <div class="co"><span class="tk pv">priv</span><span><span class="nm">SpaceX (Starshield), Anduril</span> <span class="rs">— widely expected space-layer &amp; software contributors</span></span></div>
+    </div>
+  </div>
+
+  <!-- DRONES & AUTONOMY -->
+  <div class="cat c-drone">
+    <div class="top">
+      <span class="label">🛩️ Drones &amp; Autonomy</span>
+      <h2>Scaling low-cost, attritable systems into production</h2>
+      <p class="prov"><b>What it funds:</b> moving cheap drones and autonomous "attritable" weapons from prototypes into volume production — a core theme of the request.</p>
+      <p class="why"><b>Why it matters:</b> this is where newer names can win share against the primes. The catch: several leaders are private, so listed exposure is narrower.</p>
+    </div>
+    <div class="names">
+      <div class="grp">Headline names</div>
+      <div class="co"><span class="tk">KTOS</span><span><span class="nm">Kratos</span> <span class="rs">— tactical drones &amp; jet targets</span></span></div>
+      <div class="co"><span class="tk">AVAV</span><span><span class="nm">AeroVironment</span> <span class="rs">— small drones &amp; loitering munitions</span></span></div>
+      <div class="grp priv">Private (not investable)</div>
+      <div class="co"><span class="tk pv">priv</span><span><span class="nm">Anduril, Shield AI</span> <span class="rs">— autonomy leaders; only indirect exposure today</span></span></div>
+    </div>
+  </div>
+
+  <!-- SOFTWARE & CYBER -->
+  <div class="cat c-soft">
+    <div class="top">
+      <span class="label">💻 Defense Software &amp; Cyber</span>
+      <h2>The connective layer across every program</h2>
+      <p class="prov"><b>What it funds:</b> DoD cyber, battle-management software, and the data systems that tie sensors to shooters across all the above.</p>
+      <p class="why"><b>Why it matters:</b> software scales better than hardware and rides every program at once — a pick-and-shovels play on the whole budget rather than one weapon.</p>
+    </div>
+    <div class="names">
+      <div class="grp">Headline names</div>
+      <div class="co"><span class="tk">PLTR</span><span><span class="nm">Palantir</span> <span class="rs">— targeting, C2, data integration</span></span></div>
+      <div class="grp second">Suppliers / picks-and-shovels</div>
+      <div class="co"><span class="tk">LDOS</span><span><span class="nm">Leidos, CACI, SAIC</span> <span class="rs">— defense IT &amp; integration services</span></span></div>
+    </div>
+  </div>
+
+  <!-- NUCLEAR -->
+  <div class="cat c-nuke">
+    <div class="top">
+      <span class="label">☢️ Nuclear Forces</span>
+      <h2>Modernizing the triad</h2>
+      <p class="prov"><b>What it funds:</b> the land-based ICBM replacement (Sentinel), plus warhead and naval-reactor work supporting the deterrent.</p>
+      <p class="why"><b>Why it matters:</b> decades-long programs with very few qualified suppliers — durable, defensive revenue regardless of near-term budget fights.</p>
+    </div>
+    <div class="names">
+      <div class="grp">Headline names</div>
+      <div class="co"><span class="tk">NOC</span><span><span class="nm">Northrop Grumman</span> <span class="rs">— Sentinel ICBM prime</span></span></div>
+      <div class="grp second">Suppliers / picks-and-shovels</div>
+      <div class="co"><span class="tk">BWXT</span><span><span class="nm">BWX Technologies</span> <span class="rs">— naval reactors &amp; nuclear components</span></span></div>
+      <div class="co"><span class="tk">LHX</span><span><span class="nm">L3Harris</span> <span class="rs">— solid rocket motors for the missile</span></span></div>
+    </div>
+  </div>
+
+  <p class="disclaimer">
+    <b>Important:</b> No company is named in the FY2027 defense request or appropriations bill. The companies above are illustrative, well-known players in each affected area, identified through analysis of the budget — others not shown may benefit more. Dollar figures, programs and status are a <b>June 2026 snapshot</b> of a <b>proposed</b> budget still in subcommittee and partly dependent on a separate reconciliation bill; final amounts will change and some programs may be cut or restructured. This is educational information, <b>not</b> financial, investment, or political advice, and not a recommendation to buy or sell any security. Do your own research and consider consulting a qualified professional.
+  </p>
+</div>
+</body>
+</html>
