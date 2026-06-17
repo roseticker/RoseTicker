@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RSI Stock — A Plain-English Deep Dive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="#top" class="brand" aria-label="RSI Sheet home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="2" y="2" width="28" height="28" rx="6" stroke="currentColor" stroke-width="2"/>
+        <path d="M9 22V10h7a4 4 0 010 8h-3l5 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>RSI · Plain-English Sheet</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#snapshot">Snapshot</a>
+      <a href="#business">Business</a>
+      <a href="#financials">Financials</a>
+      <a href="#macro">Macro</a>
+      <a href="#moat">Moat</a>
+      <a href="#growth">Growth Map</a>
+      <a href="#tech">Tech</a>
+      <a href="#capital">Capital</a>
+      <a href="#risks">Risks</a>
+      <a href="#decide">Should I Buy?</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#glossary">Jargon</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</nav>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="eyebrow">Interactive stock primer · for curious investors</div>
+      <h1 class="display">Rush Street Interactive <span class="ticker">(NYSE: RSI)</span></h1>
+      <p class="lede">A casino-first online gambling company that's quietly outperforming its noisier rivals. Here's everything you need to decide if it belongs in a high-risk, high-growth portfolio — explained like a smart friend would explain it over coffee.</p>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-label">Price</div>
+          <div class="stat-val" data-count="28.00" data-prefix="$">$28.00</div>
+          <div class="stat-sub up">▲ +123.82% (1Y)</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Market cap</div>
+          <div class="stat-val">$6.52B</div>
+          <div class="stat-sub neutral">Mid-cap</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">P/E ratio</div>
+          <div class="stat-val">76–86×</div>
+          <div class="stat-sub warn">Priced for growth</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Q1 '26 revenue</div>
+          <div class="stat-val">$370M</div>
+          <div class="stat-sub up">▲ +41% YoY</div>
+        </div>
+      </div>
+
+      <div class="verdict-card">
+        <div class="verdict-tag">One-line verdict</div>
+        <div class="verdict-body">RSI is a <strong>profitable, fast-growing online casino operator</strong> with a clean balance sheet — but it trades at a rich valuation in a rising-rate environment. It fits investors who want <strong>high-risk / high-growth</strong> exposure and can stomach a 30–40% drawdown without panic-selling.</div>
+      </div>
+    </div>
+
+    <aside class="hero-right">
+      <div class="card chart-card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">RSI vs. market (1Y)</div>
+            <div class="card-sub">Through May 19, 2026</div>
+          </div>
+        </div>
+        <div class="legend">
+          <span class="legend-dot rsi"></span> RSI <span class="muted">+123.8%</span>
+          <span class="legend-dot ndx"></span> Nasdaq <span class="muted">+34.6%</span>
+          <span class="legend-dot spx"></span> S&P 500 <span class="muted">+23.3%</span>
+        </div>
+        <canvas id="perfChart" width="600" height="280"></canvas>
+        <div class="chart-foot">RSI has roughly <strong>3.5× the S&P's return</strong> over the past year. That's the kind of move that comes with whiplash.</div>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<!-- ============ SNAPSHOT ============ -->
+<section id="snapshot" class="section">
+  <div class="section-head">
+    <div class="kicker">01 · Snapshot</div>
+    <h2>The 30-second version</h2>
+    <p class="section-lede">If you only read one section, read this one.</p>
+  </div>
+
+  <div class="snap-grid">
+    <div class="snap-card good">
+      <div class="snap-icon">✓</div>
+      <h3>What's working</h3>
+      <ul>
+        <li><strong>41% revenue growth</strong>, but <strong>134% profit growth</strong> — that gap is the magic.</li>
+        <li><strong>Zero debt</strong>, $330M cash on hand.</li>
+        <li>Leader in <strong>Colombia + Mexico</strong> while U.S. rivals fight in their own backyard.</li>
+        <li>Alberta launches July 13, 2026 — a fresh new market.</li>
+      </ul>
+    </div>
+
+    <div class="snap-card warn">
+      <div class="snap-icon">!</div>
+      <h3>What to worry about</h3>
+      <ul>
+        <li>P/E of 76–86× is <em>expensive</em> — any miss gets punished hard.</li>
+        <li>Rising bond yields (10Y near 4.7%) pressure all growth stocks.</li>
+        <li>Insiders just sold $260M of stock (though they kept most).</li>
+        <li>Cloud migration is straining their tech team.</li>
+      </ul>
+    </div>
+
+    <div class="snap-card neutral">
+      <div class="snap-icon">?</div>
+      <h3>Who it's for</h3>
+      <ul>
+        <li>Long horizon (<strong>3+ years</strong>).</li>
+        <li>Believes U.S. iGaming will keep legalizing state-by-state.</li>
+        <li>Comfortable with <strong>volatility</strong> — this stock can move 10% in a day.</li>
+        <li>Already owns boring index funds; this is the spicy slice.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUSINESS ============ -->
+<section id="business" class="section alt">
+  <div class="section-head">
+    <div class="kicker">02 · Business</div>
+    <h2>What does RSI actually do?</h2>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <p class="big-p">Rush Street Interactive runs <strong>online casinos and sportsbooks</strong> under two brands:</p>
+      <div class="brand-row">
+        <div class="brand-pill">
+          <div class="brand-name">BetRivers</div>
+          <div class="brand-where">North America</div>
+        </div>
+        <div class="brand-pill">
+          <div class="brand-name">RushBet</div>
+          <div class="brand-where">Latin America</div>
+        </div>
+      </div>
+      <p>Roughly <strong>80% of their revenue comes from online casino games</strong> (slots, blackjack, roulette) — not sports betting. That single fact is the whole reason they're more profitable than competitors like DraftKings.</p>
+
+      <div class="callout">
+        <div class="callout-title">Simple version</div>
+        <div>Think of DraftKings as a sports bar that also has slot machines. RSI is a casino that also has a sportsbook in the corner. The casino floor makes way more money, more consistently.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card revenue-mix">
+        <div class="card-title">Revenue mix</div>
+        <div class="bar-stack">
+          <div class="bar-seg casino" style="width:80%"><span>iCasino · 80%</span></div>
+          <div class="bar-seg sports" style="width:15%"><span>Sports · 15%</span></div>
+          <div class="bar-seg poker" style="width:5%"><span>Poker · 5%</span></div>
+        </div>
+        <p class="muted small">Casino-first is the strategy. Everything else supports it.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Why "casino-first" matters</div>
+        <table class="compare">
+          <tr><th></th><th>Sports betting</th><th>Online casino</th></tr>
+          <tr><td>Margin</td><td>Volatile</td><td class="hl">Stable & fixed</td></tr>
+          <tr><td>Seasonality</td><td>Football-driven</td><td class="hl">Year-round</td></tr>
+          <tr><td>Lifetime value</td><td>Lower</td><td class="hl">Higher</td></tr>
+          <tr><td>Bad-week risk</td><td>Huge upsets hurt</td><td class="hl">Math is the math</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINANCIALS ============ -->
+<section id="financials" class="section">
+  <div class="section-head">
+    <div class="kicker">03 · Financials</div>
+    <h2>The numbers that matter</h2>
+    <p class="section-lede">Toggle between last year and this year. Notice how profit grows faster than revenue — that's called <span class="term" data-term="operating-leverage">operating leverage</span>.</p>
+  </div>
+
+  <div class="toggle-row">
+    <button class="toggle-btn active" data-q="q1-2025">Q1 2025</button>
+    <button class="toggle-btn" data-q="q1-2026">Q1 2026</button>
+    <button class="toggle-btn" data-q="compare">Compare side-by-side</button>
+  </div>
+
+  <div class="fin-grid" id="finGrid">
+    <!-- populated by JS -->
+  </div>
+
+  <div class="insight">
+    <div class="insight-num">×3.3</div>
+    <div>
+      <div class="insight-title">The operating leverage story</div>
+      <div>Revenue grew 41%. Profit grew 134%. That means profit grew <strong>3.3× faster than sales</strong>. Translation: RSI's costs are mostly fixed, so as more players sign up, almost every new dollar drops straight to the bottom line. This is the #1 reason analysts are excited.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MACRO ============ -->
+<section id="macro" class="section alt">
+  <div class="section-head">
+    <div class="kicker">04 · Macro backdrop</div>
+    <h2>The bigger picture (and why a college student should care)</h2>
+  </div>
+
+  <div class="macro-grid">
+    <div class="macro-card">
+      <div class="macro-stat">~60%</div>
+      <div class="macro-label">Energy prices above pre-war levels</div>
+      <p>The U.S.–Iran conflict has paralyzed shipping through the Strait of Hormuz. Higher oil = higher prices for everything.</p>
+    </div>
+    <div class="macro-card">
+      <div class="macro-stat">3.8%</div>
+      <div class="macro-label">U.S. inflation (April 2026)</div>
+      <p>Highest reading in three years. Pressures the "fun money" portion of household budgets.</p>
+    </div>
+    <div class="macro-card">
+      <div class="macro-stat">4.7%</div>
+      <div class="macro-label">10-year Treasury yield</div>
+      <p>When safe bonds pay this much, risky growth stocks have to compete. Higher yields = lower valuations.</p>
+    </div>
+    <div class="macro-card">
+      <div class="macro-stat">5.2%</div>
+      <div class="macro-label">30-year Treasury yield</div>
+      <p>Markets now expect the Fed to <em>raise</em> rates by year-end, not cut. That's a headwind for everything pricey.</p>
+    </div>
+  </div>
+
+  <div class="why-care">
+    <h3>Why this matters for RSI</h3>
+    <div class="two-col">
+      <div>
+        <div class="mini-tag bad">The bad</div>
+        <p>RSI trades at <strong>76–86× earnings</strong>. When interest rates rise, future profits become "less valuable today" (a finance concept called <span class="term" data-term="discount-rate">discounting</span>). That's why the stock can fall even when business is great.</p>
+      </div>
+      <div>
+        <div class="mini-tag good">The good</div>
+        <p>Online gambling is surprisingly <strong>recession-resilient</strong>. When people can't afford vacations or concerts, $20 of slots from the couch is the cheaper thrill. Historical data backs this up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MOAT ============ -->
+<section id="moat" class="section">
+  <div class="section-head">
+    <div class="kicker">05 · The moat</div>
+    <h2>Why RSI is different from DraftKings</h2>
+  </div>
+
+  <div class="moat-grid">
+    <div class="moat-card">
+      <h3>Net margin comparison</h3>
+      <div class="margin-row">
+        <div class="margin-bar">
+          <div class="margin-label">RSI</div>
+          <div class="margin-track"><div class="margin-fill rsi" style="width:60%"></div></div>
+          <div class="margin-val">2.98%</div>
+        </div>
+        <div class="margin-bar">
+          <div class="margin-label">DraftKings</div>
+          <div class="margin-track"><div class="margin-fill dkng" style="width:18.7%"></div></div>
+          <div class="margin-val">0.93%</div>
+        </div>
+      </div>
+      <p class="muted small">RSI keeps roughly <strong>3× as much</strong> of every revenue dollar as DraftKings.</p>
+    </div>
+
+    <div class="moat-card">
+      <h3>Prediction markets? Not our problem.</h3>
+      <p>New platforms like <strong>Polymarket</strong> and <strong>Kalshi</strong> let people bet on real-world events — and they're eating sportsbook market share. DraftKings and FanDuel are scrambling.</p>
+      <p>RSI's CEO calls it the <em>"prediction market squeeze"</em> — and says it's actually <strong>helpful</strong> to RSI. Why? Competitors are distracted defending sports betting. Meanwhile, RSI keeps quietly growing its casino business with low customer-acquisition costs.</p>
+    </div>
+
+    <div class="moat-card">
+      <h3>Marketing efficiency</h3>
+      <div class="efficiency">
+        <div class="eff-row"><span>Q1 2025</span><div class="eff-bar"><div class="eff-fill" style="width:74%"></div></div><span>14.8%</span></div>
+        <div class="eff-row"><span>Q1 2026</span><div class="eff-bar"><div class="eff-fill better" style="width:62.5%"></div></div><span>12.5%</span></div>
+      </div>
+      <p class="muted small">Marketing spend as % of revenue. Lower = more efficient. RSI is acquiring customers more cheaply while rivals' costs rise.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GROWTH MAP ============ -->
+<section id="growth" class="section alt">
+  <div class="section-head">
+    <div class="kicker">06 · Growth map</div>
+    <h2>Where the next dollar comes from</h2>
+    <p class="section-lede">Click any market to expand.</p>
+  </div>
+
+  <div class="region-tabs">
+    <button class="region-tab active" data-region="na">🇺🇸 🇨🇦 North America</button>
+    <button class="region-tab" data-region="la">🌎 Latin America</button>
+  </div>
+
+  <div class="markets" id="naMarkets">
+    <details class="market" open>
+      <summary><strong>Delaware</strong> <span class="badge live">Live since 2023</span></summary>
+      <div class="market-body">
+        <p>RSI took over Delaware's state lottery online monopoly in late 2023 and <strong>turned a dead market into a goldmine</strong>.</p>
+        <div class="kv"><span>Q1 '26 iCasino growth</span><strong>+53% YoY</strong></div>
+        <div class="kv"><span>Prior operator's last full year</span><strong>$15.1M</strong></div>
+        <div class="kv"><span>RSI's trailing 12 months</span><strong>$149M</strong></div>
+        <div class="kv"><span>Annual run rate</span><strong class="hl">$213M</strong></div>
+      </div>
+    </details>
+
+    <details class="market">
+      <summary><strong>Alberta, Canada</strong> <span class="badge upcoming">Launches July 13, 2026</span></summary>
+      <div class="market-body">
+        <p>The biggest near-term catalyst. Alberta is opening from government monopoly to private competition — like Ontario did. RSI is pre-registered users since February and has an <strong>exclusive sportsbook partnership with CBC/Radio-Canada for the 2026 Olympic Winter Games</strong>.</p>
+        <div class="kv"><span>Added to 2026 guidance</span><strong>+$115M revenue</strong></div>
+        <div class="kv"><span>Q3 '26 marketing headwind</span><strong>~$10M</strong></div>
+      </div>
+    </details>
+
+    <details class="market">
+      <summary><strong>New York</strong> <span class="badge pending">Pending legislation</span></summary>
+      <div class="market-body">
+        <p>The biggest potential prize. Bill S2164 was reintroduced but stalled in committee. NY is already the #1 mobile sports betting market — iGaming could add <strong>$1B+ annual revenue</strong>.</p>
+        <div class="kv"><span>Proposed tax rate</span><strong>30.5%</strong></div>
+        <div class="kv"><span>Edge for RSI</span><strong>Parent company bid for downstate casino (The Avenir)</strong></div>
+      </div>
+    </details>
+
+    <details class="market">
+      <summary><strong>Maryland · Virginia · Illinois · Maine</strong> <span class="badge pending">In play</span></summary>
+      <div class="market-body">
+        <p><strong>Maryland:</strong> Bills failed in 2026; pushing for 2027 referendum. 71% voter opposition — tough.</p>
+        <p><strong>Virginia:</strong> Passed both chambers but couldn't reconcile. Estimated $300M GGR potential.</p>
+        <p><strong>Illinois:</strong> Proposals active, no floor vote yet. Big population + existing sports market = key target.</p>
+        <p><strong>Maine:</strong> Legalized in 2026 but launch delayed by lawsuits. RSI pursuing Tribal partnership.</p>
+      </div>
+    </details>
+  </div>
+
+  <div class="markets hidden" id="laMarkets">
+    <details class="market" open>
+      <summary><strong>Colombia</strong> <span class="badge live">Anchor market</span></summary>
+      <div class="market-body">
+        <p>Q1 2026: fastest <span class="term" data-term="mau">MAU</span> growth in four quarters. Survived a temporary 19% VAT in 2025 by <strong>absorbing the tax with bonuses</strong> instead of passing it to players. When the VAT was struck down in January 2026, deposits surged.</p>
+      </div>
+    </details>
+
+    <details class="market">
+      <summary><strong>Mexico</strong> <span class="badge live">Fastest-growing</span></summary>
+      <div class="market-body">
+        <p>RushBet has posted <strong>100%+ YoY revenue growth for 4 straight quarters</strong>. Backbone: a 25-year partnership with Grupo Multimedios that shares marketing assets and customer service across the region.</p>
+      </div>
+    </details>
+
+    <details class="market">
+      <summary><strong>Peru</strong> <span class="badge live">Launched July 2024</span></summary>
+      <div class="market-body">
+        <p>First operator fully licensed under Peru's new regulatory framework. Management calls it a "key component" of the LatAm portfolio. Heavy use of social/community features.</p>
+      </div>
+    </details>
+
+    <details class="market">
+      <summary><strong>Brazil</strong> <span class="badge upcoming">Entry H2 2026 / 2027</span></summary>
+      <div class="market-body">
+        <p>The big one. Brazil regulated online betting + iGaming in 2025. <strong>210M+ population, deep sports culture.</strong> Entry requires a $5.7M license fee, a local entity, and at least 20% Brazilian shareholding. RSI is one of few U.S. operators with the LatAm experience to compete.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ TECH ============ -->
+<section id="tech" class="section">
+  <div class="section-head">
+    <div class="kicker">07 · Tech & product</div>
+    <h2>The platform under the hood</h2>
+  </div>
+
+  <div class="tech-grid">
+    <div class="tech-card good">
+      <div class="tech-icon">⚙</div>
+      <h3>Owns its tech stack</h3>
+      <p>While MGM and others <em>license</em> their platform from third parties (and pay fees forever), RSI built and owns the whole thing. CEO Bill Hornbuckle of MGM literally called licensing "not a winning long-term strategy."</p>
+    </div>
+    <div class="tech-card warn">
+      <div class="tech-icon">☁</div>
+      <h3>Cloud migration risk</h3>
+      <p>Currently moving from data centers to AWS + Google Cloud. The company has flagged "strained internal resources" and a "skills gap" in cloud tech. Watch for any platform outages or security incidents.</p>
+    </div>
+    <div class="tech-card good">
+      <div class="tech-icon">♠</div>
+      <h3>BetRivers Poker Network</h3>
+      <p>Launched June 2025 — unifies players across MI, PA, DE, WV. Shared liquidity = bigger tournaments = stickier players. "Rakeback Revolution" (up to 75% rakeback) extended into 2026.</p>
+    </div>
+    <div class="tech-card good">
+      <div class="tech-icon">🎮</div>
+      <h3>Gamification features</h3>
+      <ul class="tight">
+        <li><strong>Splash the Pot</strong> — random bonuses added to poker hands</li>
+        <li><strong>Multi-player slot tournaments</strong> — proprietary social slots</li>
+        <li><strong>Community chat + avatars</strong> — huge in Peru</li>
+        <li><strong>RushPay</strong> — near-instant withdrawals (a real pain point in this industry)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAPITAL ============ -->
+<section id="capital" class="section alt">
+  <div class="section-head">
+    <div class="kicker">08 · Capital moves</div>
+    <h2>What May 2026's big trade actually means</h2>
+  </div>
+
+  <div class="capital-flow">
+    <div class="cap-step">
+      <div class="cap-num">1</div>
+      <h4>Insiders sold $260M</h4>
+      <p>Chairman Bluhm, CEO Schwartz, COO Stetz sold 10M shares at $26 — for "estate planning."</p>
+    </div>
+    <div class="cap-arrow">→</div>
+    <div class="cap-step">
+      <div class="cap-num">2</div>
+      <h4>But kept most of their stock</h4>
+      <p>Each sold &lt;10% of their holdings. Bluhm's trust still owns 40%+ of the company.</p>
+    </div>
+    <div class="cap-arrow">→</div>
+    <div class="cap-step">
+      <div class="cap-num">3</div>
+      <h4>Company announced $100M buyback</h4>
+      <p>Spent $30M immediately buying shares back from the same offering. Signal: "we think this stock is undervalued."</p>
+    </div>
+    <div class="cap-arrow">→</div>
+    <div class="cap-step">
+      <div class="cap-num">4</div>
+      <h4>Vanguard + UBS increased stakes</h4>
+      <p>Big institutions bought in. Analyst targets at Needham, Jefferies, Wells Fargo raised to $33.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">How to read this</div>
+    <div>Insider selling is sometimes a red flag — but selling &lt;10% while the company buys back stock is a "we're cashing some chips off the table, not exiting" signal. Watch what they <em>keep</em>, not just what they sell.</div>
+  </div>
+</section>
+
+<!-- ============ RISKS ============ -->
+<section id="risks" class="section">
+  <div class="section-head">
+    <div class="kicker">09 · Risks</div>
+    <h2>What could go wrong</h2>
+    <p class="section-lede">Severity bars below. Tap any risk to expand.</p>
+  </div>
+
+  <div class="risks">
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Regulatory volatility</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:80%"></span></span>
+        <span class="risk-tag high">High</span>
+      </summary>
+      <p>Online gambling lives or dies at the state legislature. Maryland and Virginia have bills stall for years over union opposition, retail-casino lobbying, and moral concerns. If iGaming legalization slows nationally, RSI's total addressable market gets capped.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Tax-rate increases</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:70%"></span></span>
+        <span class="risk-tag high">High</span>
+      </summary>
+      <p>States hungry for revenue keep raising gambling tax rates. Pennsylvania already taxes slot revenue at 54%. New York's proposal is 30.5%. Higher taxes directly compress those juicy net margins.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Macro / consumer pullback</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:55%"></span></span>
+        <span class="risk-tag med">Medium</span>
+      </summary>
+      <p>Gaming is resilient but not bulletproof. A deep recession or escalation of the Iran conflict could finally crack consumer spending, especially on entertainment.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Cannibalization debate</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:45%"></span></span>
+        <span class="risk-tag med">Medium</span>
+      </summary>
+      <p>Brick-and-mortar casinos argue online gaming will eat their lunch. This argument continues to stall legislation in populous states even though research suggests the products are complementary.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Technical debt / cloud migration</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:50%"></span></span>
+        <span class="risk-tag med">Medium</span>
+      </summary>
+      <p>The company itself flagged "strained resources" and a "skills gap" during cloud migration. A major outage, ransomware attack, or DDoS hit could damage the "trust edge" BetRivers has built.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Valuation re-rating</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:75%"></span></span>
+        <span class="risk-tag high">High</span>
+      </summary>
+      <p>At 76–86× earnings, the stock prices in years of perfect execution. Any quarter that disappoints could trigger a 20–40% drop, even if the business is fundamentally fine. This is the #1 short-term risk.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ============ DECIDE ============ -->
+<section id="decide" class="section alt">
+  <div class="section-head">
+    <div class="kicker">10 · Should I buy?</div>
+    <h2>Personal fit check</h2>
+    <p class="section-lede">Honestly answer five questions. We'll give you a read — not financial advice, just clarity.</p>
+  </div>
+
+  <div class="quiz">
+    <div class="q" data-q="0">
+      <div class="q-num">Q1</div>
+      <div class="q-text">How long can you leave this money invested without needing it back?</div>
+      <div class="q-opts">
+        <button data-val="0">&lt; 1 year</button>
+        <button data-val="1">1–3 years</button>
+        <button data-val="2">3+ years</button>
+      </div>
+    </div>
+    <div class="q" data-q="1">
+      <div class="q-num">Q2</div>
+      <div class="q-text">If RSI dropped 35% in a month, you would…</div>
+      <div class="q-opts">
+        <button data-val="0">Sell immediately</button>
+        <button data-val="1">Be stressed but hold</button>
+        <button data-val="2">Buy more — it's on sale</button>
+      </div>
+    </div>
+    <div class="q" data-q="2">
+      <div class="q-num">Q3</div>
+      <div class="q-text">Do you believe more U.S. states will legalize online casinos over the next 3 years?</div>
+      <div class="q-opts">
+        <button data-val="0">No, opposition will win</button>
+        <button data-val="1">Maybe — slowly</button>
+        <button data-val="2">Yes — fiscal pressure forces it</button>
+      </div>
+    </div>
+    <div class="q" data-q="3">
+      <div class="q-num">Q4</div>
+      <div class="q-text">Is this position going into a diversified portfolio or is it most of what you own?</div>
+      <div class="q-opts">
+        <button data-val="0">It would be a big chunk</button>
+        <button data-val="1">Medium slice</button>
+        <button data-val="2">Small spicy bet alongside index funds</button>
+      </div>
+    </div>
+    <div class="q" data-q="4">
+      <div class="q-num">Q5</div>
+      <div class="q-text">How do you feel about the gambling industry as an investment?</div>
+      <div class="q-opts">
+        <button data-val="0">Uncomfortable / against my values</button>
+        <button data-val="1">Neutral — it's a legal business</button>
+        <button data-val="2">Good with it; growing industry</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="result" id="quizResult" aria-live="polite"></div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section id="timeline" class="section">
+  <div class="section-head">
+    <div class="kicker">11 · Key dates</div>
+    <h2>Catalysts to watch</h2>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item past">
+      <div class="tl-date">May 2026</div>
+      <div class="tl-card">
+        <h4>$260M secondary + $100M buyback</h4>
+        <p>Insider liquidity event paired with company buyback. Already happened.</p>
+      </div>
+    </div>
+    <div class="tl-item now">
+      <div class="tl-date">Jul 13, 2026</div>
+      <div class="tl-card">
+        <h4>🇨🇦 Alberta launch</h4>
+        <p>First competitive private iGaming market in Western Canada. +$115M to 2026 guidance.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-date">H2 2026</div>
+      <div class="tl-card">
+        <h4>🇧🇷 Brazil entry</h4>
+        <p>Largest LatAm market. 210M+ population, deep sports culture.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-date">Feb 2027</div>
+      <div class="tl-card">
+        <h4>🏒 2026 Olympic Winter Games</h4>
+        <p>CBC/Radio-Canada exclusive sportsbook partnership during Alberta ramp-up.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-date">2027</div>
+      <div class="tl-card">
+        <h4>🗽 New York iGaming?</h4>
+        <p>Biggest potential prize. Watch the legislature + The Avenir casino bid.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-date">2027</div>
+      <div class="tl-card">
+        <h4>🦀 Maryland referendum</h4>
+        <p>Voter approval needed. 71% currently opposed — long shot.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-date">2029</div>
+      <div class="tl-card">
+        <h4>Revenue target: $1.9–2.1B</h4>
+        <p>If new markets land and current ones keep growing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GLOSSARY ============ -->
+<section id="glossary" class="section alt">
+  <div class="section-head">
+    <div class="kicker">12 · Jargon decoder</div>
+    <h2>Translate finance-speak</h2>
+    <p class="section-lede">All those acronyms, in plain English.</p>
+  </div>
+
+  <div class="glossary">
+    <div class="gloss"><dt>EBITDA</dt><dd>"Earnings before the boring stuff." Earnings before interest, taxes, depreciation, and amortization. A rough proxy for cash the business is generating from its core operations.</dd></div>
+    <div class="gloss"><dt>P/E ratio</dt><dd>Price-to-earnings. How many years of current profit you're paying for one share. RSI's 76× means the market thinks profits will grow a lot.</dd></div>
+    <div class="gloss"><dt>Operating leverage</dt><dd>When revenue grows faster than costs, so profit grows much faster than revenue. RSI grew profit 3.3× faster than revenue last quarter — that's strong operating leverage.</dd></div>
+    <div class="gloss"><dt>MAU / ARPMAU</dt><dd>Monthly Active Users / Average Revenue Per Monthly Active User. How many people use the app each month + how much money each one is worth.</dd></div>
+    <div class="gloss"><dt>GGR</dt><dd>Gross Gaming Revenue. Money wagered minus money paid out to winners. The casino's actual top line before expenses.</dd></div>
+    <div class="gloss"><dt>CPA</dt><dd>Cost Per Acquisition — how much marketing money it takes to sign up one new paying customer. Lower is better.</dd></div>
+    <div class="gloss"><dt>LTV</dt><dd>Lifetime Value — total revenue a customer will generate before they churn. A great business has LTV ≫ CPA.</dd></div>
+    <div class="gloss"><dt>iGaming / iCasino</dt><dd>"Internet gaming." Online slots, blackjack, roulette, etc. Distinct from online sports betting.</dd></div>
+    <div class="gloss"><dt>Sports book "hold"</dt><dd>The percentage of total bets the sportsbook keeps. Volatile — a bad NFL Sunday can wreck a month.</dd></div>
+    <div class="gloss"><dt>Discount rate</dt><dd>How much less a future dollar is worth today. When interest rates rise, future profits get discounted more, so high-growth stocks fall.</dd></div>
+    <div class="gloss"><dt>Recession-resilient</dt><dd>An industry that holds up when the economy weakens. Gaming has historically qualified — cheap entertainment beats no entertainment.</dd></div>
+    <div class="gloss"><dt>Buyback</dt><dd>Company uses its cash to repurchase its own shares. Reduces share count → each remaining share owns more of the company.</dd></div>
+    <div class="gloss"><dt>Prediction market</dt><dd>A marketplace where people trade "yes/no" contracts on future events. Polymarket and Kalshi are pressuring traditional sportsbooks.</dd></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div>
+      <div class="foot-brand">RSI · Plain-English Sheet</div>
+      <div class="muted small">Built as an educational primer. Not financial advice. Data reflects Q1 2026 reporting through May 19, 2026.</div>
+    </div>
+    <a href="#top" class="back-top">↑ Back to top</a>
+  </div>
+</footer>
+
+</main>
+
+<!-- ============ TOOLTIP ============ -->
+<div id="tooltip" class="tooltip" role="tooltip"></div>
+
+<script src="script.js"></script>
+<script data-pplx-inline-edit>
+(function () {
+  if (window === window.top) return;
+
+  const allowedParentOrigins = ["https://www.perplexity.ai","https://perplexity.ai","https://testing.perplexity.ai","https://staging.perplexity.ai","https://*.preview.i.perplexity.ai","http://localhost:3000","http://127.0.0.1:3000","http://localhost:5173","http://127.0.0.1:5173"];
+  const MAX_FONT_BYTES = 500 * 1024;
+  const MAX_TOTAL_FONT_BYTES = 2 * 1024 * 1024;
+  let scrollForwarding = false;
+  let scrollRaf = 0;
+  let trustedTopOrigin = null;
+
+  // Allow entries like "https://*.preview.i.perplexity.ai" — the wildcard
+  // matches a single DNS label (no dots), so "https://*.foo" cannot stretch
+  // across multiple labels.
+  function matchesAllowedOrigin(origin) {
+    if (!origin) return false;
+    for (const entry of allowedParentOrigins) {
+      if (!entry.includes("*")) {
+        if (entry === origin) return true;
+        continue;
+      }
+      const pattern = new RegExp(
+        "^" +
+          entry.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^.]+") +
+          "$",
+      );
+      if (pattern.test(origin)) return true;
+    }
+    return false;
+  }
+
+  // Trust decision: when the sender is same-origin-visible (event.origin is a
+  // real origin like https://www.perplexity.ai) we trust event.origin directly.
+  // When event.origin is "null" (opaque broker srcdoc), we fall back to the
+  // broker's stamped `parentOrigin` to identify the top window. The fallback
+  // is claim-only — we rely on the browser's native `targetOrigin` enforcement
+  // on the response path (see postToTrustedTop) to ensure replies can't be
+  // delivered to anyone but the actual top window of that claimed origin.
+  function getTrustedParentOrigin(event) {
+    const forwardedParentOrigin =
+      typeof event.data.parentOrigin === "string" ? event.data.parentOrigin : null;
+    const parentOrigin = event.origin === "null" ? forwardedParentOrigin : event.origin;
+    return matchesAllowedOrigin(parentOrigin) ? parentOrigin : null;
+  }
+
+  // All responses go to window.top with targetOrigin = the allowlisted origin.
+  // An attacker that iframes us inside their own null-origin broker can claim
+  // any parentOrigin they like, but the browser will drop the reply whenever
+  // the real top's origin doesn't match — so the screenshot never leaves.
+  function postToTrustedTop(message) {
+    if (!trustedTopOrigin) return;
+    try {
+      window.top.postMessage(message, trustedTopOrigin);
+    } catch (_error) {}
+  }
+
+  function inlineAll(original, clone) {
+    if (original.nodeType !== 1 || clone.nodeType !== 1) return;
+
+    try {
+      const computedStyle = getComputedStyle(original);
+      // cssText on a computed style is the serialized declaration in modern
+      // Chromium/Safari — a single read beats enumerating ~400 longhand
+      // properties. Firefox returns "" here, so we fall back on empty.
+      const serialized = computedStyle.cssText;
+      if (serialized) {
+        clone.style.cssText = serialized;
+      } else {
+        const parts = new Array(computedStyle.length);
+        for (let index = 0; index < computedStyle.length; index += 1) {
+          const property = computedStyle[index];
+          parts[index] = `${property}:${computedStyle.getPropertyValue(property)};`;
+        }
+        clone.style.cssText = parts.join("");
+      }
+    } catch (_error) {}
+
+    const originalChildren = original.children;
+    const clonedChildren = clone.children;
+    for (
+      let index = 0;
+      index < originalChildren.length && index < clonedChildren.length;
+      index += 1
+    ) {
+      inlineAll(originalChildren[index], clonedChildren[index]);
+    }
+  }
+
+  function extractFontUrl(srcValue) {
+    const matches = [
+      ...srcValue.matchAll(
+        /url\(["']?([^"')]+)["']?\)(?:\s*format\(["']?([^"')]+)["']?\))?/gi,
+      ),
+    ];
+    if (matches.length === 0) return null;
+    const woff2 = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff2"));
+    if (woff2) return woff2[1];
+    const woff = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff"));
+    if (woff) return woff[1];
+    return matches[0][1];
+  }
+
+  // Cache resolved font URL -> data URI across captures. Fonts on a page
+  // essentially never change, and a batch run emits multiple captures back to
+  // back — without this we'd refetch + re-base64 every time.
+  const fontDataUriCache = new Map();
+  const SRC_DECLARATION_RE = /src\s*:\s*[^;}]+/i;
+
+  async function fetchAsDataUri(url) {
+    if (fontDataUriCache.has(url)) return fontDataUriCache.get(url);
+    let dataUri = null;
+    try {
+      const response = await fetch(url, { mode: "cors", credentials: "omit" });
+      if (response.ok) {
+        const blob = await response.blob();
+        if (blob.size <= MAX_FONT_BYTES) {
+          dataUri = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () =>
+              resolve(typeof reader.result === "string" ? reader.result : null);
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(blob);
+          });
+        }
+      }
+    } catch (_error) {
+      dataUri = null;
+    }
+    fontDataUriCache.set(url, dataUri);
+    return dataUri;
+  }
+
+  function collectFontFaceRuleTexts() {
+    const rules = [];
+    for (const sheet of document.styleSheets) {
+      let cssRules;
+      try {
+        cssRules = sheet.cssRules;
+      } catch (_error) {
+        continue;
+      }
+      if (!cssRules) continue;
+      for (const rule of cssRules) {
+        const cssText = rule.cssText || "";
+        if (cssText.startsWith("@font-face")) rules.push(cssText);
+      }
+    }
+    return rules;
+  }
+
+  async function buildInlinedFontCss() {
+    const ruleTexts = collectFontFaceRuleTexts();
+    if (ruleTexts.length === 0) return null;
+
+    const resolved = ruleTexts.map((cssText) => {
+      if (!SRC_DECLARATION_RE.test(cssText)) return null;
+      const srcMatch = cssText.match(/src\s*:\s*([^;}]+)[;}]/i);
+      if (!srcMatch) return null;
+      const url = extractFontUrl(srcMatch[1]);
+      if (!url) return null;
+      try {
+        return { cssText, url: new URL(url, document.baseURI).href };
+      } catch (_error) {
+        return null;
+      }
+    });
+
+    const dataUris = await Promise.all(
+      resolved.map((entry) => (entry ? fetchAsDataUri(entry.url) : Promise.resolve(null))),
+    );
+
+    const inlined = [];
+    let totalBytes = 0;
+    for (let index = 0; index < resolved.length; index += 1) {
+      const entry = resolved[index];
+      const dataUri = dataUris[index];
+      if (!entry || !dataUri) continue;
+      const approxBytes = dataUri.length * 0.75;
+      if (totalBytes + approxBytes > MAX_TOTAL_FONT_BYTES) break;
+      totalBytes += approxBytes;
+      inlined.push(entry.cssText.replace(SRC_DECLARATION_RE, `src: url("${dataUri}")`));
+    }
+    return inlined.length > 0 ? inlined.join("\n") : null;
+  }
+
+  function stripExternal(clone) {
+    const images = clone.querySelectorAll("img");
+    for (let index = 0; index < images.length; index += 1) {
+      const src = images[index].getAttribute("src");
+      if (src && !src.startsWith("data:")) images[index].removeAttribute("src");
+    }
+
+    const elements = clone.querySelectorAll("*");
+    for (let index = 0; index < elements.length; index += 1) {
+      const style = elements[index].style.cssText;
+      if (style && style.includes("url(")) {
+        elements[index].style.cssText = style.replace(
+          /url\(["']?(?!data:)[^)"']*["']?\)/gi,
+          "none",
+        );
+      }
+    }
+  }
+
+  function emitScroll() {
+    scrollRaf = 0;
+    if (!scrollForwarding) return;
+    postToTrustedTop({
+      type: "INLINE_EDIT_SCROLL",
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+    });
+  }
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!scrollForwarding || scrollRaf) return;
+      scrollRaf = requestAnimationFrame(emitScroll);
+    },
+    { passive: true, capture: true },
+  );
+
+  async function handleCaptureRequest(event) {
+    const requestId = event.data.requestId;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    function postResult(dataUrl) {
+      postToTrustedTop({
+        type: "INLINE_EDIT_SCREENSHOT_RESULT",
+        requestId,
+        dataUrl,
+        scrollX,
+        scrollY,
+      });
+    }
+
+    try {
+      // Wait for any pending web fonts to resolve so both inline metrics and
+      // the @font-face inlining below see the same loaded faces.
+      if (document.fonts && document.fonts.ready) {
+        try {
+          await document.fonts.ready;
+        } catch (_error) {}
+      }
+
+      const clone = document.documentElement.cloneNode(true);
+      inlineAll(document.documentElement, clone);
+
+      const removedNodes = clone.querySelectorAll("script,link[rel=\"stylesheet\"],style");
+      for (let index = 0; index < removedNodes.length; index += 1) {
+        removedNodes[index].remove();
+      }
+
+      stripExternal(clone);
+
+      // Re-embed web fonts as data-URI @font-face rules so the SVG rasterizer
+      // can resolve them — external font URLs aren't fetched during
+      // foreignObject rendering, which would otherwise force a fallback face
+      // and change text metrics.
+      const inlinedFontCss = await buildInlinedFontCss();
+      if (inlinedFontCss) {
+        const styleEl = document.createElement("style");
+        styleEl.textContent = inlinedFontCss;
+        const head = clone.querySelector("head");
+        if (head) head.appendChild(styleEl);
+        else clone.insertBefore(styleEl, clone.firstChild);
+      }
+
+      const html = new XMLSerializer().serializeToString(clone);
+      const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">` +
+        '<foreignObject width="100%" height="100%">' +
+        `<div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;overflow:hidden">` +
+        `<div style="position:relative;left:-${scrollX}px;top:-${scrollY}px">` +
+        html +
+        "</div></div></foreignObject></svg>";
+      const svgUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      const image = new Image();
+      image.onload = function () {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(image, 0, 0);
+        postResult(canvas.toDataURL("image/png"));
+      };
+      image.onerror = function () {
+        postResult(null);
+      };
+      image.src = svgUrl;
+    } catch (_error) {
+      postResult(null);
+    }
+  }
+
+  window.addEventListener("message", function (event) {
+    if (!event.data) return;
+    // Only accept messages from the direct parent frame. Blocks sibling /
+    // unrelated-window postMessage senders that could otherwise reach us.
+    if (event.source !== window.parent) return;
+
+    const trustedParentOrigin = getTrustedParentOrigin(event);
+    if (!trustedParentOrigin) return;
+    trustedTopOrigin = trustedParentOrigin;
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_START") {
+      scrollForwarding = true;
+      emitScroll();
+      return;
+    }
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_STOP") {
+      scrollForwarding = false;
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      scrollRaf = 0;
+      return;
+    }
+
+    if (event.data.type !== "INLINE_EDIT_CAPTURE_REQUEST") return;
+
+    handleCaptureRequest(event);
+  });
+})();
+
+
+</script></body>
+</html>
