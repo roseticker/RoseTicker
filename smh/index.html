@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SMH ETF — A Plain-English Deep Dive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="#top" class="brand" aria-label="SMH Sheet home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="6" y="6" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+        <rect x="11" y="11" width="10" height="10" rx="1" fill="currentColor" fill-opacity="0.25" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M2 12h4M2 16h4M2 20h4M26 12h4M26 16h4M26 20h4M12 2v4M16 2v4M20 2v4M12 26v4M16 26v4M20 26v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span>SMH · Plain-English Sheet</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#snapshot">Snapshot</a>
+      <a href="#what">What's SMH</a>
+      <a href="#holdings">Holdings</a>
+      <a href="#metrics">Metrics</a>
+      <a href="#macro">Macro</a>
+      <a href="#moat">Why semis</a>
+      <a href="#concentration">Concentration</a>
+      <a href="#flows">Flows</a>
+      <a href="#risks">Risks</a>
+      <a href="#decide">Should I Buy?</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#glossary">Jargon</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</nav>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="circuit-bg" aria-hidden="true"></div>
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="eyebrow">Interactive ETF primer · for curious investors</div>
+      <h1 class="display">VanEck Semiconductor ETF <span class="ticker">(NASDAQ: SMH)</span></h1>
+      <p class="lede">A single ticker that gets you a slice of every major chip company on Earth — from NVIDIA's AI GPUs to TSMC's fabs to ASML's lithography machines. The fund that turned $360 into $638 in five months of 2026. Here's everything you need to decide if it belongs in your portfolio.</p>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-label">Price</div>
+          <div class="stat-val">$609.45</div>
+          <div class="stat-sub up">▲ +125% (1Y)</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">AUM</div>
+          <div class="stat-val">$73.4B</div>
+          <div class="stat-sub neutral">World's largest semi ETF</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Expense ratio</div>
+          <div class="stat-val">0.35%</div>
+          <div class="stat-sub up">Cheap</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">YTD return</div>
+          <div class="stat-val">+64%</div>
+          <div class="stat-sub up">Through Jun 11</div>
+        </div>
+      </div>
+
+      <div class="verdict-card">
+        <div class="verdict-tag">One-line verdict</div>
+        <div class="verdict-body">SMH is the <strong>cleanest way to bet on the AI compute buildout</strong> without picking one chip stock — but it's <strong>heavily concentrated</strong> (top 10 = 72% of fund) and trades at 51× earnings. Best for investors with <strong>high conviction in the AI cycle</strong> and a 3+ year horizon who can tolerate 30–40% drawdowns.</div>
+      </div>
+    </div>
+
+    <aside class="hero-right">
+      <div class="card chart-card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">SMH vs. market (1Y)</div>
+            <div class="card-sub">Through June 11, 2026</div>
+          </div>
+        </div>
+        <div class="legend">
+          <span class="legend-dot smh"></span> SMH <span class="muted">+125%</span>
+          <span class="legend-dot ndx"></span> Nasdaq <span class="muted">+38%</span>
+          <span class="legend-dot spx"></span> S&P 500 <span class="muted">+25%</span>
+        </div>
+        <canvas id="perfChart" width="600" height="280"></canvas>
+        <div class="chart-foot">SMH delivered <strong>5× the S&P's return</strong> over the past year — and 3× the Nasdaq. That kind of move means big drawdowns are coming at some point.</div>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<!-- ============ SNAPSHOT ============ -->
+<section id="snapshot" class="section">
+  <div class="section-head">
+    <div class="kicker">01 · Snapshot</div>
+    <h2>The 30-second version</h2>
+    <p class="section-lede">If you only read one section, read this one.</p>
+  </div>
+
+  <div class="snap-grid">
+    <div class="snap-card good">
+      <div class="snap-icon">✓</div>
+      <h3>What's working</h3>
+      <ul>
+        <li>AI capex is <strong>$600B+ in 2026</strong>, up 70% YoY. SMH owns the picks-and-shovels.</li>
+        <li>IDC forecasts <strong>$1.29 trillion</strong> in semi revenue this year — biggest year ever.</li>
+        <li>Expense ratio of <strong>0.35%</strong> is cheap for a thematic ETF.</li>
+        <li>Diversified vs. one stock — owning NVDA alone is riskier than this basket.</li>
+      </ul>
+    </div>
+
+    <div class="snap-card warn">
+      <div class="snap-icon">!</div>
+      <h3>What to worry about</h3>
+      <ul>
+        <li><strong>Top 10 holdings = 72% of fund.</strong> Not as diversified as it looks.</li>
+        <li><strong>NVDA alone is ~16%</strong> — if NVDA cracks, SMH cracks.</li>
+        <li><strong>TSMC is ~10%</strong>. One Taiwan headline can move the whole fund.</li>
+        <li>P/E of 51× means a lot is priced in already.</li>
+      </ul>
+    </div>
+
+    <div class="snap-card neutral">
+      <div class="snap-icon">?</div>
+      <h3>Who it's for</h3>
+      <ul>
+        <li><strong>3+ year horizon</strong> minimum — chip cycles are real.</li>
+        <li>Believes AI compute demand keeps compounding.</li>
+        <li>Wants <strong>thematic exposure without stock-picking</strong>.</li>
+        <li>Already owns broad index funds — this is the concentrated bet on one theme.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT IS SMH ============ -->
+<section id="what" class="section alt">
+  <div class="section-head">
+    <div class="kicker">02 · What is SMH?</div>
+    <h2>An ETF, explained simply</h2>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <p class="big-p">An <strong>ETF (Exchange-Traded Fund)</strong> is a basket of stocks you can buy with one ticker. Buy one share of SMH and you instantly own <strong>26 semiconductor companies</strong> in one trade.</p>
+
+      <div class="callout">
+        <div class="callout-title">Simple version</div>
+        <div>Think of it like a smoothie. Instead of buying 26 separate fruits (chip stocks), you buy one cup that has all of them blended in the right ratios. The "recipe" is set by an index — VanEck just follows it.</div>
+      </div>
+
+      <h3 style="margin-top:24px">What kind of ETF is this?</h3>
+      <ul class="feat-list">
+        <li><strong>Thematic</strong> — focused on one industry (chips), not the whole market</li>
+        <li><strong>Market-cap weighted</strong> — bigger companies get more weight</li>
+        <li><strong>Passive</strong> — tracks the MVIS US Listed Semiconductor 25 Index</li>
+        <li><strong>Liquid</strong> — trades ~10M+ shares daily, easy to buy/sell</li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="card buy-sim">
+        <div class="card-title">If you bought 1 share at $609.45</div>
+        <div class="card-sub muted">Here's the dollar value of what you'd own inside it:</div>
+        <div class="sim-rows" id="simRows"></div>
+        <div class="sim-foot">…plus 11 smaller positions making up the remaining ~$167.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOLDINGS ============ -->
+<section id="holdings" class="section">
+  <div class="section-head">
+    <div class="kicker">03 · Holdings explorer</div>
+    <h2>What's actually inside</h2>
+    <p class="section-lede">Click any company to learn why it's in there.</p>
+  </div>
+
+  <div class="holdings-grid" id="holdingsGrid"></div>
+
+  <div class="holding-detail" id="holdingDetail" aria-live="polite">
+    <div class="hd-empty">Click any chip above to see what they do →</div>
+  </div>
+</section>
+
+<!-- ============ METRICS ============ -->
+<section id="metrics" class="section alt">
+  <div class="section-head">
+    <div class="kicker">04 · The numbers</div>
+    <h2>Key metrics in plain English</h2>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Assets under management</div>
+      <div class="metric-val">$73.4B</div>
+      <div class="metric-explainer">Total money invested in this ETF. Largest semi ETF on the market — meaning it's liquid and won't be shut down anytime soon.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Expense ratio</div>
+      <div class="metric-val">0.35%</div>
+      <div class="metric-explainer">VanEck's fee. On a $10K investment, that's $35/year. Cheap for a thematic ETF (some charge 0.70%+).</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">P/E ratio (of basket)</div>
+      <div class="metric-val">51×</div>
+      <div class="metric-explainer">Weighted-average P/E of the stocks inside. Expensive vs. S&P 500's ~26×. Reflects high growth expectations.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Number of holdings</div>
+      <div class="metric-val">26</div>
+      <div class="metric-explainer">Compact basket. Pure-play — no random tech mixed in. The downside: less diversification than broader ETFs.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Top 10 concentration</div>
+      <div class="metric-val">72.4%</div>
+      <div class="metric-explainer">Three-quarters of the fund sits in 10 names. This is closer to a "concentrated bet" than a broad fund.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Avg daily volume</div>
+      <div class="metric-val">10.5M</div>
+      <div class="metric-explainer">Shares traded per day. Very liquid — you can buy/sell large amounts without moving the price.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Dividend yield</div>
+      <div class="metric-val">0.44%</div>
+      <div class="metric-explainer">Tiny. SMH is a growth play, not an income play. Don't buy this for the dividend.</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">52-week range</div>
+      <div class="metric-val">$256–$643</div>
+      <div class="metric-explainer">The high is 2.5× the low. Translation: this ETF can swing hard. Position size accordingly.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MACRO ============ -->
+<section id="macro" class="section">
+  <div class="section-head">
+    <div class="kicker">05 · Macro backdrop</div>
+    <h2>The trillion-dollar tailwind</h2>
+    <p class="section-lede">Why every analyst is talking about chips right now.</p>
+  </div>
+
+  <div class="macro-grid">
+    <div class="macro-card">
+      <div class="macro-stat">$1.29T</div>
+      <div class="macro-label">2026 semi revenue forecast</div>
+      <p>IDC's projection. Up 53% from 2025 — pulling the trillion-dollar milestone forward by years.</p>
+    </div>
+    <div class="macro-card">
+      <div class="macro-stat">$600B</div>
+      <div class="macro-label">Hyperscaler AI capex (2026)</div>
+      <p>Combined spending from Microsoft, Google, Meta, and Amazon. Up <strong>70% YoY</strong>. That money flows to SMH's holdings.</p>
+    </div>
+    <div class="macro-card">
+      <div class="macro-stat">+177%</div>
+      <div class="macro-label">DRAM memory revenue growth</div>
+      <p>High Bandwidth Memory (HBM) for AI servers is sold out through 2027. Micron (8% of SMH) is a direct beneficiary.</p>
+    </div>
+    <div class="macro-card">
+      <div class="macro-stat">30%+</div>
+      <div class="macro-label">TSMC's 2026 growth outlook</div>
+      <p>TSMC raised its forecast. 61% of its Q1 revenue came from AI/HPC chips. TSMC is 10% of SMH.</p>
+    </div>
+  </div>
+
+  <div class="why-care">
+    <h3>Why this matters for SMH</h3>
+    <div class="two-col">
+      <div>
+        <div class="mini-tag good">The bull case</div>
+        <p>AI is causing a <strong>structural shift in compute spending</strong>. Every major company is building data centers. Every data center needs chips. SMH owns 26 of the companies that supply them. Even mature analog chip makers like Texas Instruments (4.4% of SMH) have raised prices <strong>4 times in 2 years</strong> — the entire industry has pricing power.</p>
+      </div>
+      <div>
+        <div class="mini-tag bad">The bear case</div>
+        <p>Chip cycles always end. When the AI capex wave peaks — whether 2027, 2028, or later — semis fall hard. Historically, the industry has had 40–60% drawdowns every 3–5 years. Plus, valuations at 51× P/E already price in years of perfect growth.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MOAT ============ -->
+<section id="moat" class="section alt">
+  <div class="section-head">
+    <div class="kicker">06 · Why semiconductors?</div>
+    <h2>The structural case for chips</h2>
+  </div>
+
+  <div class="moat-grid">
+    <div class="moat-card">
+      <div class="moat-icon">⚡</div>
+      <h3>The "picks and shovels" play</h3>
+      <p>Gold rush analogy: in the 1849 Gold Rush, most prospectors lost money — but the people selling picks and shovels got rich. SMH lets you own the picks-and-shovels of the AI boom without betting which AI company wins.</p>
+    </div>
+
+    <div class="moat-card">
+      <div class="moat-icon">🏭</div>
+      <h3>Insanely high barriers to entry</h3>
+      <p>A modern chip fab costs <strong>$20–30 billion</strong> to build. ASML (3.9% of SMH) makes the only machines on Earth that can print 2nm chips — and they cost $300M each. New competitors can't just show up.</p>
+    </div>
+
+    <div class="moat-card">
+      <div class="moat-icon">🌍</div>
+      <h3>Government tailwind</h3>
+      <p>The US CHIPS Act, EU Chips Act, and similar programs in Japan/Korea/India are funneling <strong>hundreds of billions</strong> in subsidies to onshore chip production. SMH's US-listed holdings benefit directly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONCENTRATION ============ -->
+<section id="concentration" class="section">
+  <div class="section-head">
+    <div class="kicker">07 · Concentration check</div>
+    <h2>How diversified is "diversified" really?</h2>
+  </div>
+
+  <div class="conc-wrap">
+    <div class="conc-vis">
+      <h3>Where each $100 invested goes</h3>
+      <div class="conc-bar" id="concBar"></div>
+      <div class="conc-legend">
+        <div><span class="lg-sq nvda"></span> NVDA $15.94</div>
+        <div><span class="lg-sq tsm"></span> TSM $9.62</div>
+        <div><span class="lg-sq mu"></span> MU $8.17</div>
+        <div><span class="lg-sq amd"></span> AMD $7.41</div>
+        <div><span class="lg-sq avgo"></span> AVGO $7.30</div>
+        <div><span class="lg-sq rest"></span> Others $51.56</div>
+      </div>
+    </div>
+    <div class="conc-takeaways">
+      <div class="callout">
+        <div class="callout-title">Read this carefully</div>
+        <div>If you put $1,000 into SMH today, <strong>$159 goes straight into NVIDIA</strong>. That's a feature if you're bullish on NVDA — and a bug if you wanted real diversification.</div>
+      </div>
+
+      <h4 style="margin-top:20px">Concentration tiers</h4>
+      <div class="tier"><span class="tier-label">Top 1 (NVDA)</span><span class="tier-bar"><span class="tier-fill" style="width:15.94%"></span></span><span class="tier-val">15.9%</span></div>
+      <div class="tier"><span class="tier-label">Top 5</span><span class="tier-bar"><span class="tier-fill" style="width:48.44%"></span></span><span class="tier-val">48.4%</span></div>
+      <div class="tier"><span class="tier-label">Top 10</span><span class="tier-bar"><span class="tier-fill" style="width:72.44%"></span></span><span class="tier-val">72.4%</span></div>
+      <div class="tier"><span class="tier-label">All 26</span><span class="tier-bar"><span class="tier-fill full" style="width:100%"></span></span><span class="tier-val">100%</span></div>
+
+      <p class="muted small" style="margin-top:14px">For context: the S&P 500's top 10 are roughly 35% of the index. SMH is <strong>twice as concentrated</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FLOWS ============ -->
+<section id="flows" class="section alt">
+  <div class="section-head">
+    <div class="kicker">08 · Fund flows & ownership</div>
+    <h2>Who's buying SMH</h2>
+  </div>
+
+  <div class="flow-grid">
+    <div class="flow-card">
+      <div class="flow-num">10.5M</div>
+      <div class="flow-label">Avg daily volume (shares)</div>
+      <p>Trades like a popular stock. Easy in, easy out — no liquidity premium.</p>
+    </div>
+    <div class="flow-card">
+      <div class="flow-num">$73B</div>
+      <div class="flow-label">AUM (up from $13B in 2023)</div>
+      <p>Roughly 5× growth in 3 years. Money flowing in despite high valuation.</p>
+    </div>
+    <div class="flow-card">
+      <div class="flow-num">1.34</div>
+      <div class="flow-label">Beta vs. S&P 500</div>
+      <p>SMH moves ~1.34× as much as the market in both directions. Higher highs, lower lows.</p>
+    </div>
+    <div class="flow-card">
+      <div class="flow-num">26</div>
+      <div class="flow-label">Holdings rebalanced quarterly</div>
+      <p>The index reconstitutes 4 times a year. If a company gets acquired or falls out of the size cutoff, it's swapped automatically.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RISKS ============ -->
+<section id="risks" class="section">
+  <div class="section-head">
+    <div class="kicker">09 · Risks</div>
+    <h2>What could go wrong</h2>
+    <p class="section-lede">Severity bars below. Tap any risk to expand.</p>
+  </div>
+
+  <div class="risks">
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Single-stock concentration (NVDA)</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:85%"></span></span>
+        <span class="risk-tag high">High</span>
+      </summary>
+      <p>NVIDIA is ~16% of the fund. If NVDA reports a bad quarter or competition (like d-Matrix or custom hyperscaler chips) erodes its 90%+ AI GPU market share, SMH gets hit much harder than a broad market ETF would.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Taiwan / TSMC geopolitical risk</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:80%"></span></span>
+        <span class="risk-tag high">High</span>
+      </summary>
+      <p>TSMC is ~10% of SMH and manufactures the chips for ~90% of the other holdings. Any escalation around the Taiwan Strait — even just news flow — moves the entire fund. China's military activity near Taiwan is the single biggest tail risk for the global chip industry.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Cyclical industry / capex bust</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:75%"></span></span>
+        <span class="risk-tag high">High</span>
+      </summary>
+      <p>Semis are <strong>boom-bust</strong>. Every 3–5 years there's a 40–60% drawdown when hyperscaler capex pauses or inventory corrects. The current AI cycle has lasted unusually long — when it pauses, SMH falls hard.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Valuation / multiple compression</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:70%"></span></span>
+        <span class="risk-tag high">High</span>
+      </summary>
+      <p>P/E of 51× on a basket of cyclical names is rich. Even if earnings keep growing, if the market re-rates semis to a "normal" 25–30× P/E, SMH falls 40%+ without a single company missing estimates.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">New AI accelerator competition</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:55%"></span></span>
+        <span class="risk-tag med">Medium</span>
+      </summary>
+      <p>Hyperscalers (Google TPU, Amazon Trainium, Meta MTIA) and startups (d-Matrix, Cerebras, Groq) are building custom chips that bypass NVIDIA. If they win even 20% market share, SMH's top holding takes a serious hit.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Export controls / China decoupling</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:60%"></span></span>
+        <span class="risk-tag med">Medium</span>
+      </summary>
+      <p>US export restrictions to China keep tightening. China was a major customer for NVDA, AMD, and equipment makers (LRCX, KLAC, AMAT, ASML). Each new restriction trims revenue from the basket.</p>
+    </details>
+
+    <details class="risk">
+      <summary>
+        <span class="risk-title">Currency & ADR risk</span>
+        <span class="risk-meter"><span class="risk-fill" style="width:35%"></span></span>
+        <span class="risk-tag low">Low</span>
+      </summary>
+      <p>TSMC and ASML are foreign companies trading as ADRs. Big moves in the USD/TWD or USD/EUR show up in SMH performance. Smaller risk but worth knowing.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ============ DECIDE ============ -->
+<section id="decide" class="section alt">
+  <div class="section-head">
+    <div class="kicker">10 · Should I buy?</div>
+    <h2>Personal fit check</h2>
+    <p class="section-lede">Honestly answer five questions. We'll give you a read — not financial advice, just clarity.</p>
+  </div>
+
+  <div class="quiz">
+    <div class="q" data-q="0">
+      <div class="q-num">Q1</div>
+      <div class="q-text">How long can you leave this money invested without needing it back?</div>
+      <div class="q-opts">
+        <button data-val="0">&lt; 1 year</button>
+        <button data-val="1">1–3 years</button>
+        <button data-val="2">3+ years</button>
+      </div>
+    </div>
+    <div class="q" data-q="1">
+      <div class="q-num">Q2</div>
+      <div class="q-text">If SMH dropped 40% in a quarter, you would…</div>
+      <div class="q-opts">
+        <button data-val="0">Sell immediately</button>
+        <button data-val="1">Be stressed but hold</button>
+        <button data-val="2">Buy more — chip cycles always recover</button>
+      </div>
+    </div>
+    <div class="q" data-q="2">
+      <div class="q-num">Q3</div>
+      <div class="q-text">How confident are you that AI compute demand keeps growing for the next 3+ years?</div>
+      <div class="q-opts">
+        <button data-val="0">Skeptical — bubble territory</button>
+        <button data-val="1">Probably, but slowing</button>
+        <button data-val="2">Very confident — it's structural</button>
+      </div>
+    </div>
+    <div class="q" data-q="3">
+      <div class="q-num">Q4</div>
+      <div class="q-text">Are you OK with the fact that 16% of every dollar goes into NVIDIA?</div>
+      <div class="q-opts">
+        <button data-val="0">No — that's too concentrated</button>
+        <button data-val="1">Fine, but it concerns me</button>
+        <button data-val="2">Yes — I'd buy NVDA anyway</button>
+      </div>
+    </div>
+    <div class="q" data-q="4">
+      <div class="q-num">Q5</div>
+      <div class="q-text">Is this position going into a diversified portfolio or is it most of what you own?</div>
+      <div class="q-opts">
+        <button data-val="0">It would be a big chunk</button>
+        <button data-val="1">Medium slice</button>
+        <button data-val="2">Small thematic tilt on top of index funds</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="result" id="quizResult" aria-live="polite"></div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<section id="timeline" class="section">
+  <div class="section-head">
+    <div class="kicker">11 · Catalysts & risks calendar</div>
+    <h2>What to watch</h2>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item past">
+      <div class="tl-date">Jan 2026</div>
+      <div class="tl-card">
+        <h4>Year opens at $360</h4>
+        <p>Starting point. NVIDIA Blackwell production ramping. Hyperscaler capex guidance about to come.</p>
+      </div>
+    </div>
+    <div class="tl-item past">
+      <div class="tl-date">Apr–May 2026</div>
+      <div class="tl-card">
+        <h4>TSMC raises 2026 outlook to 30%+</h4>
+        <p>The single biggest catalyst — confirmed that AI demand was real and accelerating.</p>
+      </div>
+    </div>
+    <div class="tl-item now">
+      <div class="tl-date">Jun 2026</div>
+      <div class="tl-card">
+        <h4>SMH at $609 — you are here</h4>
+        <p>+64% YTD. Top of recent range. Investors deciding whether to add or take profits.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-date">Jul 2026</div>
+      <div class="tl-card">
+        <h4>NVDA + TSMC Q2 earnings</h4>
+        <p>These two reports drive ~26% of the fund. Watch hyperscaler capex commentary.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-date">Oct 2026</div>
+      <div class="tl-card">
+        <h4>Index reconstitution</h4>
+        <p>Quarterly rebalance. Weights shift. Sometimes new names enter / older ones exit.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-date">2027</div>
+      <div class="tl-card">
+        <h4>HBM memory supply expands</h4>
+        <p>The bottleneck eases. Could mean better margins for Micron — or pricing pressure if supply outpaces demand.</p>
+      </div>
+    </div>
+    <div class="tl-item future">
+      <div class="tl-date">Always</div>
+      <div class="tl-card">
+        <h4>🇹🇼 Taiwan headlines</h4>
+        <p>Any escalation around the Taiwan Strait. The #1 unpredictable risk for the entire fund.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GLOSSARY ============ -->
+<section id="glossary" class="section alt">
+  <div class="section-head">
+    <div class="kicker">12 · Jargon decoder</div>
+    <h2>Translate ETF-speak</h2>
+  </div>
+
+  <div class="glossary">
+    <div class="gloss"><dt>ETF</dt><dd>Exchange-Traded Fund. A basket of stocks (or bonds) you can buy as a single ticker. Trades like a stock all day, but you own a slice of everything inside.</dd></div>
+    <div class="gloss"><dt>AUM</dt><dd>Assets Under Management. Total money the fund holds. Bigger AUM = more liquid, less risk of fund closure.</dd></div>
+    <div class="gloss"><dt>Expense ratio</dt><dd>Annual fee charged by the fund manager, expressed as % of AUM. 0.35% means $35/year on a $10K investment. Lower is better.</dd></div>
+    <div class="gloss"><dt>Market-cap weighted</dt><dd>Bigger companies get more weight in the fund. NVDA is 16% of SMH because NVDA is the biggest company in the index, not because it's the "best."</dd></div>
+    <div class="gloss"><dt>P/E ratio</dt><dd>Price-to-earnings. How many years of profit you're paying for one share. SMH's 51× means the basket is priced for years of strong growth.</dd></div>
+    <div class="gloss"><dt>Beta</dt><dd>How much a stock/ETF moves vs. the broader market. SMH's beta of 1.34 means it moves about 34% more than the S&P in both directions.</dd></div>
+    <div class="gloss"><dt>HBM</dt><dd>High Bandwidth Memory. The specialty memory that AI accelerators (like NVIDIA GPUs) need. Currently the biggest supply bottleneck in AI hardware.</dd></div>
+    <div class="gloss"><dt>Hyperscaler</dt><dd>The biggest cloud companies: Microsoft (Azure), Google (Cloud), Amazon (AWS), Meta. Their capex spending is the single biggest demand driver for SMH's holdings.</dd></div>
+    <div class="gloss"><dt>Capex</dt><dd>Capital expenditure — money companies spend on big physical investments (data centers, fabs, equipment). Surging capex = more chip orders.</dd></div>
+    <div class="gloss"><dt>Foundry</dt><dd>A chip manufacturing plant. TSMC is the largest foundry in the world. Most semi companies design chips but don't make them — they pay TSMC to.</dd></div>
+    <div class="gloss"><dt>Fab</dt><dd>Short for "fabrication plant." Same as foundry. Costs $20–30 billion to build a modern one.</dd></div>
+    <div class="gloss"><dt>Node</dt><dd>The size of transistors on a chip. Smaller is more advanced (2nm beats 3nm beats 5nm). Cutting-edge nodes are how chips keep getting faster.</dd></div>
+    <div class="gloss"><dt>ADR</dt><dd>American Depositary Receipt. How foreign companies (like TSMC, ASML) trade on US exchanges. Subject to currency effects.</dd></div>
+    <div class="gloss"><dt>Rebalance / reconstitution</dt><dd>When the index updates its holdings or weights. SMH rebalances quarterly. Forces the fund to sell winners and buy laggards — automatically.</dd></div>
+    <div class="gloss"><dt>Tracking error</dt><dd>How closely the ETF follows its underlying index. Lower is better. SMH's is very small.</dd></div>
+    <div class="gloss"><dt>CHIPS Act</dt><dd>US legislation providing ~$52B in subsidies for domestic chip manufacturing. Several SMH holdings have received grants.</dd></div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="foot-inner">
+    <div>
+      <div class="foot-brand">SMH · Plain-English Sheet</div>
+      <div class="muted small">Built as an educational primer. Not financial advice. Data reflects June 11, 2026.</div>
+    </div>
+    <a href="#top" class="back-top">↑ Back to top</a>
+  </div>
+</footer>
+
+</main>
+
+<script src="script.js"></script>
+<script data-pplx-inline-edit>
+(function () {
+  if (window === window.top) return;
+
+  const allowedParentOrigins = ["https://www.perplexity.ai","https://perplexity.ai","https://testing.perplexity.ai","https://staging.perplexity.ai","https://*.preview.i.perplexity.ai","http://localhost:3000","http://127.0.0.1:3000","http://localhost:5173","http://127.0.0.1:5173"];
+  const MAX_FONT_BYTES = 500 * 1024;
+  const MAX_TOTAL_FONT_BYTES = 2 * 1024 * 1024;
+  let scrollForwarding = false;
+  let scrollRaf = 0;
+  let trustedTopOrigin = null;
+
+  // Allow entries like "https://*.preview.i.perplexity.ai" — the wildcard
+  // matches a single DNS label (no dots), so "https://*.foo" cannot stretch
+  // across multiple labels.
+  function matchesAllowedOrigin(origin) {
+    if (!origin) return false;
+    for (const entry of allowedParentOrigins) {
+      if (!entry.includes("*")) {
+        if (entry === origin) return true;
+        continue;
+      }
+      const pattern = new RegExp(
+        "^" +
+          entry.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, "[^.]+") +
+          "$",
+      );
+      if (pattern.test(origin)) return true;
+    }
+    return false;
+  }
+
+  // Trust decision: when the sender is same-origin-visible (event.origin is a
+  // real origin like https://www.perplexity.ai) we trust event.origin directly.
+  // When event.origin is "null" (opaque broker srcdoc), we fall back to the
+  // broker's stamped `parentOrigin` to identify the top window. The fallback
+  // is claim-only — we rely on the browser's native `targetOrigin` enforcement
+  // on the response path (see postToTrustedTop) to ensure replies can't be
+  // delivered to anyone but the actual top window of that claimed origin.
+  function getTrustedParentOrigin(event) {
+    const forwardedParentOrigin =
+      typeof event.data.parentOrigin === "string" ? event.data.parentOrigin : null;
+    const parentOrigin = event.origin === "null" ? forwardedParentOrigin : event.origin;
+    return matchesAllowedOrigin(parentOrigin) ? parentOrigin : null;
+  }
+
+  // All responses go to window.top with targetOrigin = the allowlisted origin.
+  // An attacker that iframes us inside their own null-origin broker can claim
+  // any parentOrigin they like, but the browser will drop the reply whenever
+  // the real top's origin doesn't match — so the screenshot never leaves.
+  function postToTrustedTop(message) {
+    if (!trustedTopOrigin) return;
+    try {
+      window.top.postMessage(message, trustedTopOrigin);
+    } catch (_error) {}
+  }
+
+  function inlineAll(original, clone) {
+    if (original.nodeType !== 1 || clone.nodeType !== 1) return;
+
+    try {
+      const computedStyle = getComputedStyle(original);
+      // cssText on a computed style is the serialized declaration in modern
+      // Chromium/Safari — a single read beats enumerating ~400 longhand
+      // properties. Firefox returns "" here, so we fall back on empty.
+      const serialized = computedStyle.cssText;
+      if (serialized) {
+        clone.style.cssText = serialized;
+      } else {
+        const parts = new Array(computedStyle.length);
+        for (let index = 0; index < computedStyle.length; index += 1) {
+          const property = computedStyle[index];
+          parts[index] = `${property}:${computedStyle.getPropertyValue(property)};`;
+        }
+        clone.style.cssText = parts.join("");
+      }
+    } catch (_error) {}
+
+    const originalChildren = original.children;
+    const clonedChildren = clone.children;
+    for (
+      let index = 0;
+      index < originalChildren.length && index < clonedChildren.length;
+      index += 1
+    ) {
+      inlineAll(originalChildren[index], clonedChildren[index]);
+    }
+  }
+
+  function extractFontUrl(srcValue) {
+    const matches = [
+      ...srcValue.matchAll(
+        /url\(["']?([^"')]+)["']?\)(?:\s*format\(["']?([^"')]+)["']?\))?/gi,
+      ),
+    ];
+    if (matches.length === 0) return null;
+    const woff2 = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff2"));
+    if (woff2) return woff2[1];
+    const woff = matches.find((m) => m[2] && m[2].toLowerCase().includes("woff"));
+    if (woff) return woff[1];
+    return matches[0][1];
+  }
+
+  // Cache resolved font URL -> data URI across captures. Fonts on a page
+  // essentially never change, and a batch run emits multiple captures back to
+  // back — without this we'd refetch + re-base64 every time.
+  const fontDataUriCache = new Map();
+  const SRC_DECLARATION_RE = /src\s*:\s*[^;}]+/i;
+
+  async function fetchAsDataUri(url) {
+    if (fontDataUriCache.has(url)) return fontDataUriCache.get(url);
+    let dataUri = null;
+    try {
+      const response = await fetch(url, { mode: "cors", credentials: "omit" });
+      if (response.ok) {
+        const blob = await response.blob();
+        if (blob.size <= MAX_FONT_BYTES) {
+          dataUri = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () =>
+              resolve(typeof reader.result === "string" ? reader.result : null);
+            reader.onerror = () => resolve(null);
+            reader.readAsDataURL(blob);
+          });
+        }
+      }
+    } catch (_error) {
+      dataUri = null;
+    }
+    fontDataUriCache.set(url, dataUri);
+    return dataUri;
+  }
+
+  function collectFontFaceRuleTexts() {
+    const rules = [];
+    for (const sheet of document.styleSheets) {
+      let cssRules;
+      try {
+        cssRules = sheet.cssRules;
+      } catch (_error) {
+        continue;
+      }
+      if (!cssRules) continue;
+      for (const rule of cssRules) {
+        const cssText = rule.cssText || "";
+        if (cssText.startsWith("@font-face")) rules.push(cssText);
+      }
+    }
+    return rules;
+  }
+
+  async function buildInlinedFontCss() {
+    const ruleTexts = collectFontFaceRuleTexts();
+    if (ruleTexts.length === 0) return null;
+
+    const resolved = ruleTexts.map((cssText) => {
+      if (!SRC_DECLARATION_RE.test(cssText)) return null;
+      const srcMatch = cssText.match(/src\s*:\s*([^;}]+)[;}]/i);
+      if (!srcMatch) return null;
+      const url = extractFontUrl(srcMatch[1]);
+      if (!url) return null;
+      try {
+        return { cssText, url: new URL(url, document.baseURI).href };
+      } catch (_error) {
+        return null;
+      }
+    });
+
+    const dataUris = await Promise.all(
+      resolved.map((entry) => (entry ? fetchAsDataUri(entry.url) : Promise.resolve(null))),
+    );
+
+    const inlined = [];
+    let totalBytes = 0;
+    for (let index = 0; index < resolved.length; index += 1) {
+      const entry = resolved[index];
+      const dataUri = dataUris[index];
+      if (!entry || !dataUri) continue;
+      const approxBytes = dataUri.length * 0.75;
+      if (totalBytes + approxBytes > MAX_TOTAL_FONT_BYTES) break;
+      totalBytes += approxBytes;
+      inlined.push(entry.cssText.replace(SRC_DECLARATION_RE, `src: url("${dataUri}")`));
+    }
+    return inlined.length > 0 ? inlined.join("\n") : null;
+  }
+
+  function stripExternal(clone) {
+    const images = clone.querySelectorAll("img");
+    for (let index = 0; index < images.length; index += 1) {
+      const src = images[index].getAttribute("src");
+      if (src && !src.startsWith("data:")) images[index].removeAttribute("src");
+    }
+
+    const elements = clone.querySelectorAll("*");
+    for (let index = 0; index < elements.length; index += 1) {
+      const style = elements[index].style.cssText;
+      if (style && style.includes("url(")) {
+        elements[index].style.cssText = style.replace(
+          /url\(["']?(?!data:)[^)"']*["']?\)/gi,
+          "none",
+        );
+      }
+    }
+  }
+
+  function emitScroll() {
+    scrollRaf = 0;
+    if (!scrollForwarding) return;
+    postToTrustedTop({
+      type: "INLINE_EDIT_SCROLL",
+      scrollX: window.scrollX,
+      scrollY: window.scrollY,
+    });
+  }
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!scrollForwarding || scrollRaf) return;
+      scrollRaf = requestAnimationFrame(emitScroll);
+    },
+    { passive: true, capture: true },
+  );
+
+  async function handleCaptureRequest(event) {
+    const requestId = event.data.requestId;
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    function postResult(dataUrl) {
+      postToTrustedTop({
+        type: "INLINE_EDIT_SCREENSHOT_RESULT",
+        requestId,
+        dataUrl,
+        scrollX,
+        scrollY,
+      });
+    }
+
+    try {
+      // Wait for any pending web fonts to resolve so both inline metrics and
+      // the @font-face inlining below see the same loaded faces.
+      if (document.fonts && document.fonts.ready) {
+        try {
+          await document.fonts.ready;
+        } catch (_error) {}
+      }
+
+      const clone = document.documentElement.cloneNode(true);
+      inlineAll(document.documentElement, clone);
+
+      const removedNodes = clone.querySelectorAll("script,link[rel=\"stylesheet\"],style");
+      for (let index = 0; index < removedNodes.length; index += 1) {
+        removedNodes[index].remove();
+      }
+
+      stripExternal(clone);
+
+      // Re-embed web fonts as data-URI @font-face rules so the SVG rasterizer
+      // can resolve them — external font URLs aren't fetched during
+      // foreignObject rendering, which would otherwise force a fallback face
+      // and change text metrics.
+      const inlinedFontCss = await buildInlinedFontCss();
+      if (inlinedFontCss) {
+        const styleEl = document.createElement("style");
+        styleEl.textContent = inlinedFontCss;
+        const head = clone.querySelector("head");
+        if (head) head.appendChild(styleEl);
+        else clone.insertBefore(styleEl, clone.firstChild);
+      }
+
+      const html = new XMLSerializer().serializeToString(clone);
+      const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">` +
+        '<foreignObject width="100%" height="100%">' +
+        `<div xmlns="http://www.w3.org/1999/xhtml" style="width:${width}px;height:${height}px;overflow:hidden">` +
+        `<div style="position:relative;left:-${scrollX}px;top:-${scrollY}px">` +
+        html +
+        "</div></div></foreignObject></svg>";
+      const svgUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+      const image = new Image();
+      image.onload = function () {
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(image, 0, 0);
+        postResult(canvas.toDataURL("image/png"));
+      };
+      image.onerror = function () {
+        postResult(null);
+      };
+      image.src = svgUrl;
+    } catch (_error) {
+      postResult(null);
+    }
+  }
+
+  window.addEventListener("message", function (event) {
+    if (!event.data) return;
+    // Only accept messages from the direct parent frame. Blocks sibling /
+    // unrelated-window postMessage senders that could otherwise reach us.
+    if (event.source !== window.parent) return;
+
+    const trustedParentOrigin = getTrustedParentOrigin(event);
+    if (!trustedParentOrigin) return;
+    trustedTopOrigin = trustedParentOrigin;
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_START") {
+      scrollForwarding = true;
+      emitScroll();
+      return;
+    }
+
+    if (event.data.type === "INLINE_EDIT_SCROLL_STOP") {
+      scrollForwarding = false;
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      scrollRaf = 0;
+      return;
+    }
+
+    if (event.data.type !== "INLINE_EDIT_CAPTURE_REQUEST") return;
+
+    handleCaptureRequest(event);
+  });
+})();
+
+</script></body>
+</html>
