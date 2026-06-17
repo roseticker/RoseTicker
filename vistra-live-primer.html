@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vistra Corp (VST) — Live Interactive Investor Primer</title>
+<style>
+  :root{ color-scheme:light;
+    --ink:#10231d; --muted:#566b63; --line:#e1e9e5;
+    --bg:#eef3f1; --card:#ffffff;
+    --brand:#1f8a52; --brandbg:#e8f5ee;
+    --green:#1f8a52; --greenbg:#e8f5ee;
+    --red:#c0392b; --redbg:#fbeae8;
+    --amber:#b7791f; --amberbg:#fcf3e3;
+    --blue:#1f6feb; --bluebg:#e9f1fe;
+    --slate:#2f4f43;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5; -webkit-font-smoothing:antialiased;}
+  .page{max-width:1000px; margin:0 auto; padding:22px 18px 50px;}
+  .head{background:linear-gradient(135deg,#10231d 0%,#1c4a39 55%,#1f8a52 150%);
+    color:#fff; border-radius:16px; padding:24px 26px; position:relative; overflow:hidden;}
+  .head:after{content:"⚡"; position:absolute; right:22px; top:48%; transform:translateY(-50%); font-size:90px; opacity:.10;}
+  .toprow{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .ticker{display:inline-block; background:#fff; color:#10231d; font-weight:800; border-radius:8px; padding:4px 12px; letter-spacing:.5px; font-size:15px;}
+  .livebadge{display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.14); color:#cfe9d8; border:1px solid rgba(255,255,255,.25); border-radius:20px; padding:3px 11px; font-size:11.5px; font-weight:700;}
+  .livedot{width:8px; height:8px; border-radius:50%; background:#46d27e; animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(70,210,126,.6);}70%{box-shadow:0 0 0 7px rgba(70,210,126,0);}100%{box-shadow:0 0 0 0 rgba(70,210,126,0);}}
+  .head h1{margin:11px 0 4px; font-size:26px; letter-spacing:-.3px;}
+  .head p{margin:0; color:#cfe0d8; max-width:690px; font-size:14px;}
+  .head .ex{margin-top:11px; font-size:12px; color:#a4c1b4;}
+  .strip{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:16px 0;}
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 15px;}
+  .stat.liveStat{border-color:#bfe0cd; box-shadow:0 0 0 1px #e3f3ea inset;}
+  .stat .k{font-size:10.5px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); font-weight:700; display:flex; align-items:center; gap:5px;}
+  .stat .k .ld{width:6px;height:6px;border-radius:50%;background:#46d27e;}
+  .stat .v{font-size:20px; font-weight:800; margin-top:3px;}
+  .stat .v.dim{color:#9aa7a1; font-weight:600; font-size:16px;}
+  .stat .s{font-size:11.5px; color:var(--muted); margin-top:1px;}
+  .tabs{display:flex; gap:6px; flex-wrap:wrap; margin:4px 0 0;}
+  .tab{flex:1; min-width:120px; background:var(--card); border:1px solid var(--line); border-bottom:none;
+    border-radius:10px 10px 0 0; padding:11px 12px; font-size:13.5px; font-weight:700; color:var(--muted);
+    cursor:pointer; text-align:center; transition:.15s;}
+  .tab:hover{color:var(--ink);}
+  .tab.active{background:var(--brand); color:#fff; border-color:var(--brand);}
+  .panel{display:none; background:var(--card); border:1px solid var(--line); border-radius:0 0 14px 14px; padding:22px 24px;}
+  .panel.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+  h2{margin:0 0 4px; font-size:17px;} h3{font-size:14.5px; margin:18px 0 6px;}
+  .lead{color:var(--muted); font-size:13.5px; margin:0 0 14px;}
+  p.body{font-size:13.6px;}
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media(max-width:760px){ .two,.strip{grid-template-columns:1fr 1fr;} }
+  @media(max-width:520px){ .two,.strip{grid-template-columns:1fr;} .tab{min-width:46%;} }
+  .pe{border-left:3px solid var(--brand); background:var(--brandbg); border-radius:0 8px 8px 0; padding:10px 14px; margin:10px 0; font-size:13.4px;}
+  .pe b{color:var(--slate);}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 2px;}
+  .chip{background:#eef3f1; border:1px solid var(--line); border-radius:20px; padding:5px 12px; font-size:12.5px; font-weight:600;}
+  .chip b{color:var(--brand);}
+  table{width:100%; border-collapse:collapse; font-size:13px; margin-top:6px;}
+  th,td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--line);}
+  th{font-size:10.5px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted);}
+  td.g{font-weight:700; color:var(--green);}
+  td.r{font-weight:700; color:var(--red);}
+  .pc{border-radius:12px; padding:16px 18px;}
+  .pc.pro{background:var(--greenbg); border:1px solid #c7e6d4;}
+  .pc.con{background:var(--redbg); border:1px solid #f1cdc8;}
+  .pc h3{margin:0 0 10px; font-size:15px;}
+  .pc.pro h3{color:var(--green);} .pc.con h3{color:var(--red);}
+  .pc ul{margin:0; padding:0; list-style:none;}
+  .pc li{position:relative; padding:7px 0 7px 24px; font-size:13.1px; border-top:1px solid rgba(0,0,0,.05);}
+  .pc li:first-child{border-top:none;}
+  .pc li b{display:block;} .pc li span{color:var(--muted); font-size:12.2px;}
+  .pc.pro li:before{content:"✓"; position:absolute; left:0; top:7px; color:var(--green); font-weight:800;}
+  .pc.con li:before{content:"!"; position:absolute; left:2px; top:7px; color:var(--red); font-weight:800;}
+  .tl{list-style:none; margin:6px 0 0; padding:0;}
+  .tl li{position:relative; padding:0 0 14px 22px; border-left:2px solid var(--line); margin-left:6px;}
+  .tl li:last-child{border-left:2px solid transparent;}
+  .tl li:before{content:""; position:absolute; left:-7px; top:2px; width:12px; height:12px; border-radius:50%; background:var(--brand); border:2px solid #fff;}
+  .tl b{font-size:13.3px;} .tl span{display:block; color:var(--muted); font-size:12.3px;}
+  .calc{background:#10231d; color:#e6efe9; border-radius:14px; padding:22px 24px; margin-top:16px;}
+  .calc h2{color:#fff;} .calc .lead{color:#a9c4b8;}
+  .crow{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:14px 0;}
+  @media(max-width:520px){ .crow{grid-template-columns:1fr;} }
+  .field label{display:block; font-size:11.5px; text-transform:uppercase; letter-spacing:.5px; color:#9ec1b2; font-weight:700; margin-bottom:5px;}
+  .field input{width:100%; padding:10px 12px; border-radius:9px; border:1px solid #2c5343; background:#163328; color:#fff; font-size:16px; font-weight:700;}
+  .presets{display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 8px;}
+  .preset{background:#163328; border:1px solid #2c5343; color:#cfe0d8; border-radius:8px; padding:7px 12px; font-size:12.5px; cursor:pointer; font-weight:600;}
+  .preset:hover{border-color:var(--brand);}
+  .preset b{color:#fff; display:block; font-size:13px;}
+  .out{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:8px;}
+  @media(max-width:520px){ .out{grid-template-columns:1fr;} }
+  .obox{background:#163328; border:1px solid #2c5343; border-radius:10px; padding:13px 15px;}
+  .obox .k{font-size:10.5px; text-transform:uppercase; letter-spacing:.5px; color:#9ec1b2; font-weight:700;}
+  .obox .v{font-size:21px; font-weight:800; margin-top:3px; color:#fff;}
+  .calc .note{font-size:11.5px; color:#8aa89b; margin-top:12px;}
+  .divctrl{display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin:4px 0 12px; padding:10px 14px; background:#163328; border:1px solid #2c5343; border-radius:10px;}
+  .switch{display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:#e6efe9; cursor:pointer;}
+  .switch input{width:16px; height:16px; accent-color:#46d27e; cursor:pointer;}
+  .divctrl .yrs{display:inline-flex; align-items:center; gap:8px;}
+  .divctrl .yrs label{font-size:11.5px; text-transform:uppercase; letter-spacing:.5px; color:#9ec1b2; font-weight:700; margin:0;}
+  .divctrl .yrs input{width:64px; padding:6px 8px; border-radius:8px; border:1px solid #2c5343; background:#0f2a20; color:#fff; font-size:14px; font-weight:700;}
+  .divrate{font-size:12px; color:#9ec1b2; margin-left:auto;}
+  .divline{font-size:12.5px; color:#bfe3cd; background:#163328; border:1px dashed #2c5343; border-radius:9px; padding:9px 13px; margin-top:10px;}
+  .disclaimer{font-size:11.5px; color:var(--muted); margin-top:18px; line-height:1.55; border-top:1px solid var(--line); padding-top:14px;}
+  .as-of{font-size:11.5px; color:var(--muted); text-align:right; margin:6px 2px 0;}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="head">
+    <div class="toprow">
+      <span class="ticker">NYSE: VST</span>
+      <span class="livebadge"><span class="livedot"></span><span id="liveLabel">Connecting to live data…</span></span>
+    </div>
+    <h1>Vistra Corp.</h1>
+    <p>One of the largest U.S. power producers and electricity retailers. It owns the country's #2 competitive nuclear fleet plus a big natural-gas, solar and battery portfolio — and has become a go-to power supplier for AI data centers (Meta, Amazon, an NVIDIA-backed venture).</p>
+    <div class="ex">Live price/market cap update each time you open or reload. Educational only — not financial advice.</div>
+  </div>
+  <div class="strip">
+    <div class="stat liveStat"><div class="k"><span class="ld"></span>Share price</div><div class="v" id="px">—</div><div class="s" id="pxs">live</div></div>
+    <div class="stat liveStat"><div class="k"><span class="ld"></span>Market value</div><div class="v" id="mc">—</div><div class="s">live market cap</div></div>
+    <div class="stat"><div class="k">2025 Adj. EBITDA</div><div class="v">$5.9B</div><div class="s">profitable &amp; growing</div></div>
+    <div class="stat"><div class="k">Credit rating</div><div class="v">BBB−</div><div class="s">investment grade</div></div>
+  </div>
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-t="biz">🏢 Business</div>
+    <div class="tab" data-t="ai">🤖 AI Growth</div>
+    <div class="tab" data-t="fin">📊 Financials</div>
+    <div class="tab" data-t="case">⚖️ Bull / Bear &amp; Risks</div>
+  </div>
+  <!-- BUSINESS -->
+  <div class="panel active" id="biz">
+    <h2>What the company does</h2>
+    <p class="lead">Vistra both <b>generates</b> electricity (~38,700 MW across nuclear, gas, coal, solar and batteries) and <b>sells</b> it directly to ~4–5 million homes and businesses (brands like TXU Energy). Owning both ends is a built-in hedge: when wholesale power is expensive its plants earn more; when it's cheap its retail arm buys cheaper.</p>
+    <div class="two">
+      <div>
+        <h3>Vistra Vision — the "growth engine"</h3>
+        <p class="body">The zero-carbon side: the <b>#2 competitive U.S. nuclear fleet</b> (6,400+ MW), plus solar and battery storage ("Vistra Zero"), plus the cash-generative retail business. Nuclear runs 24/7 and is carbon-free — exactly what AI data centers want.</p>
+        <div class="pe"><b>Why nuclear is the prize:</b> it's the scarce, always-on, carbon-free power that data centers are racing to lock up — giving Vistra a "scarcity premium."</div>
+      </div>
+      <div>
+        <h3>Vistra Tradition — the "reliability core"</h3>
+        <p class="body">The efficient natural-gas fleet (plus remaining coal) that can ramp up on demand. As renewables grow, this dispatchable power is the backstop that keeps the grid stable during peak demand or low wind/sun.</p>
+        <div class="pe"><b>Plain terms:</b> nuclear is the steady base; gas is the flexible muscle that fills the gaps. Together they sell into the fast-growing Texas (ERCOT) and Mid-Atlantic (PJM) markets.</div>
+      </div>
+    </div>
+    <h3>How it stacks up (peers, snapshot)</h3>
+    <table>
+      <tr><th>Company</th><th>Ticker</th><th>Price (snapshot)</th><th>Note</th></tr>
+      <tr><td>Constellation Energy</td><td>CEG</td><td>$270.66</td><td>Largest U.S. nuclear operator</td></tr>
+      <tr><td>NextEra Energy</td><td>NEE</td><td>$85.99</td><td>Renewables-heavy utility giant</td></tr>
+      <tr><td>NRG Energy</td><td>NRG</td><td>$134.25</td><td>Closest integrated competitor</td></tr>
+      <tr><td><b>Vistra</b></td><td><b>VST</b></td><td><b>$161.75</b></td><td>Nuclear + gas + retail mix</td></tr>
+    </table>
+    <p class="lead" style="margin-top:6px; font-size:12px;">Peer prices are a ~mid-2026 snapshot from the source brief, not live.</p>
+  </div>
+  <!-- AI GROWTH -->
+  <div class="panel" id="ai">
+    <h2>The AI / data-center growth story</h2>
+    <p class="lead">This is the core reason VST has re-rated. AI data centers need enormous amounts of 24/7 carbon-free power, and Vistra has signed long-term deals to supply it — turning power plants into contracted, predictable revenue.</p>
+    <div class="chips">
+      <span class="chip"><b>Meta</b> · 20-yr deal · 2,600+ MW nuclear (PJM)</span>
+      <span class="chip"><b>Amazon (AWS)</b> · 20-yr · up to 1,200 MW (Comanche Peak)</span>
+      <span class="chip"><b>NVIDIA / KKR venture</b> · "Helix" · preferred power provider</span>
+    </div>
+    <h3>Why these deals matter</h3>
+    <p class="body">20-year contracts lock in revenue for decades, which funds nuclear plant life-extensions and "uprates" (squeezing more megawatts from existing reactors — 433 MW added, the largest corporate-backed uprate program in the U.S.). The NVIDIA-backed <b>Helix Digital Infrastructure</b> venture (with KKR and Kuwait's wealth fund) names Vistra the preferred power supplier for a $10B data-center build-out.</p>
+    <h3>Buying more capacity</h3>
+    <p class="body">Vistra is also expanding its flexible gas fleet to meet surging demand:</p>
+    <ul class="tl">
+      <li><b>Lotus (closed Nov 2025)</b><span>~2,600 MW of modern gas plants across the Midwest, Northeast and California.</span></li>
+      <li><b>Cogentrix (announced Jan 2026, ~$4.0B)</b><span>10 gas facilities, 5,500 MW; expected to close mid-to-late 2026 and add to cash flow from 2027.</span></li>
+      <li><b>Nuclear license extensions</b><span>Perry approved to 2046; Comanche Peak filed to run to 2050/2053 — long runway.</span></li>
+      <li><b>PJM capacity "windfalls"</b><span>Tight grid supply has pushed capacity prices to caps, boosting wholesale earnings in 2026–27.</span></li>
+    </ul>
+  </div>
+  <!-- FINANCIALS -->
+  <div class="panel" id="fin">
+    <h2>The financial picture</h2>
+    <p class="lead">Unlike speculative names, Vistra is solidly profitable, generates strong free cash flow, pays a growing dividend, and buys back a lot of stock. It also just earned investment-grade credit ratings.</p>
+    <table>
+      <tr><th>Measure</th><th>Latest</th><th>What it means (plain English)</th></tr>
+      <tr><td>Q1'26 net income</td><td class="g">$1,029M</td><td>A real profit, vs a $268M loss a year earlier (helped by accounting/derivative gains).</td></tr>
+      <tr><td>Q1'26 revenue</td><td class="g">$5,640M</td><td>Up ~43% from a year ago.</td></tr>
+      <tr><td>Q1'26 adj. EBITDA</td><td class="g">$1,494M</td><td>Core operating earnings, up ~20%.</td></tr>
+      <tr><td>FY2025 adj. EBITDA</td><td class="g">$5.9B</td><td>Beat its own guidance; FY free cash flow ~$3.6B.</td></tr>
+      <tr><td>Credit rating</td><td class="g">BBB−</td><td>Investment grade (S&amp;P Dec 2025, Fitch Mar 2026) — cheaper, safer borrowing.</td></tr>
+      <tr><td>Leverage</td><td>~3.4x → 3.0x</td><td>Debt vs earnings; trending down toward management's target.</td></tr>
+    </table>
+    <h3>What it does with the cash</h3>
+    <div class="chips">
+      <span class="chip">Buybacks: <b>~$6.3B</b> since 2021 (≈ −30% shares)</span>
+      <span class="chip"><b>~$1.5B</b> buyback left (through 2027)</span>
+      <span class="chip">Dividend raised <b>6 years</b> running (~$300M/yr)</span>
+    </div>
+    <div class="pe" style="margin-top:14px;"><b>The trade-off:</b> earnings lean on high power prices and some one-off derivative gains, so quarterly profit can swing. But the long-term AI contracts and investment-grade balance sheet make the cash flows steadier than a typical power producer.</div>
+  </div>
+  <!-- BULL / BEAR & RISKS -->
+  <div class="panel" id="case">
+    <h2>Bull case, bear case &amp; key risks</h2>
+    <div class="two">
+      <div class="pc pro">
+        <h3>👍 Bull case</h3>
+        <ul>
+          <li><b>"AI power" scarcity premium</b><span>Owns scarce 24/7 carbon-free nuclear that data centers urgently need.</span></li>
+          <li><b>Locked-in long-term revenue</b><span>20-year deals with Meta &amp; Amazon, plus the NVIDIA-backed Helix venture.</span></li>
+          <li><b>Profitable &amp; investment-grade</b><span>$5.9B EBITDA, ~$3.6B free cash flow, BBB− ratings.</span></li>
+          <li><b>Shareholder-friendly</b><span>~30% of shares bought back since 2021; 6 years of dividend growth.</span></li>
+          <li><b>Rising capacity prices</b><span>Tight PJM grid is pushing prices up, lifting wholesale earnings.</span></li>
+        </ul>
+      </div>
+      <div class="pc con">
+        <h3>👎 Bear case</h3>
+        <ul>
+          <li><b>A lot of optimism in the price</b><span>The stock has re-rated on the AI theme; high expectations leave less margin for error.</span></li>
+          <li><b>Earns on volatile power prices</b><span>A drop in power/commodity prices would hit EBITDA and guidance.</span></li>
+          <li><b>Regulatory uncertainty</b><span>FERC rules on data-center "co-location," and PJM/ERCOT market redesigns, could change the economics.</span></li>
+          <li><b>Big-ticket M&amp;A &amp; rates</b><span>Deals like Cogentrix ($4B) and projects are sensitive to high interest rates.</span></li>
+          <li><b>Nuclear operating risk</b><span>An outage or safety issue at a major plant would directly dent earnings.</span></li>
+        </ul>
+      </div>
+    </div>
+    <h3>Risks, ranked</h3>
+    <div style="font-size:13.3px;">
+      <p class="body"><b>HIGH — Power-price &amp; commodity exposure.</b> Guidance relies on healthy realized power prices; a market downturn flows straight to earnings.</p>
+      <p class="body"><b>MEDIUM — Regulatory/policy.</b> Pending FERC decisions on data-center interconnection and possible cost-shifting could slow the AI-demand tailwind.</p>
+      <p class="body"><b>MEDIUM — Execution &amp; integration.</b> Closing and integrating Cogentrix, plus new builds, while keeping leverage near 3.0x.</p>
+      <p class="body"><b>MEDIUM — Interest rates.</b> A capital-intensive business; higher rates raise the cost of acquisitions and growth projects.</p>
+      <p class="body"><b>LOWER but severe — Nuclear safety/outage.</b> Unlikely, but a major event at a key plant would be material.</p>
+    </div>
+  </div>
+  <!-- CALCULATOR -->
+  <div class="calc">
+    <h2>💸 "What if" return calculator</h2>
+    <p class="lead">Buy price auto-fills with the live quote. Enter an amount and a target price for a hypothetical outcome. Scenario buttons are <b>illustrative only — not predictions</b>.</p>
+    <div class="crow">
+      <div class="field"><label>Amount you'd invest ($)</label><input id="amt" type="number" value="1000" min="0" step="100"></div>
+      <div class="field"><label>Buy price ($/share)</label><input id="buy" type="number" value="161.78" min="0.01" step="1"></div>
+    </div>
+    <div class="field"><label>Target / future price ($/share)</label><input id="tgt" type="number" value="200" min="0" step="1"></div>
+    <div class="presets">
+      <div class="preset" data-p="120"><span>Bear</span><b>$120</b></div>
+      <div class="preset" data-p="161.78"><span>Flat</span><b>live</b></div>
+      <div class="preset" data-p="200"><span>Base</span><b>$200</b></div>
+      <div class="preset" data-p="250"><span>Bull</span><b>$250</b></div>
+    </div>
+    <div class="divctrl">
+      <label class="switch"><input type="checkbox" id="divToggle"> <span>Include dividends</span></label>
+      <div class="yrs"><label>Years held</label><input id="yrs" type="number" value="5" min="0" max="40" step="1"></div>
+      <span class="divrate" id="divRate">annual dividend ≈ $0.91/share</span>
+    </div>
+    <div class="out">
+      <div class="obox"><div class="k">Shares bought</div><div class="v" id="oShares">6.18</div></div>
+      <div class="obox"><div class="k" id="oValK">Value at target</div><div class="v" id="oVal">$1,236</div></div>
+      <div class="obox"><div class="k" id="oGlK">Gain / loss</div><div class="v" id="oGl">+$236 (+24%)</div></div>
+    </div>
+    <div id="divLine" class="divline" style="display:none;"></div>
+    <p class="note">Simplified: dividends assumed flat and not reinvested; ignores fees and taxes. Hypothetical performance does not predict future results.</p>
+  </div>
+  <p class="as-of" id="asof">Awaiting live data…</p>
+  <p class="disclaimer">
+    <b>Disclaimer:</b> Educational only — <b>not</b> financial, investment, or tax advice, nor a recommendation to buy or sell. Live price and market cap come from a public market-data source and may be delayed; business and financial figures are from a research brief and company disclosures, are not independently audited, and some are estimates or management targets that may be out of date. Even profitable, dividend-paying stocks can lose value. Do your own research and consider consulting a qualified financial professional.
+  </p>
+</div>
+<script>
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+      t.classList.add('active');
+      document.getElementById(t.dataset.t).classList.add('active');
+    });
+  });
+  var amt=document.getElementById('amt'), buy=document.getElementById('buy'), tgt=document.getElementById('tgt');
+  var divToggle=document.getElementById('divToggle'), yrs=document.getElementById('yrs');
+  var annualDiv=0.906; // updated with live data
+  var SHARES_OUT=337.2e6; // ~shares outstanding, used to derive market cap on the web source
+  function fmt(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+  function calc(){
+    var a=parseFloat(amt.value)||0, b=parseFloat(buy.value)||0, t=parseFloat(tgt.value)||0;
+    var shares=b>0?a/b:0, val=shares*t;
+    var useDiv=divToggle.checked, years=Math.max(0,parseFloat(yrs.value)||0);
+    var divIncome = useDiv ? shares*annualDiv*years : 0;
+    var gl=(val-a)+divIncome, pct=a>0?(gl/a*100):0;
+    document.getElementById('oShares').textContent=shares.toFixed(2);
+    document.getElementById('oVal').textContent=fmt(val);
+    document.getElementById('oGlK').textContent = useDiv ? 'Total return (incl. dividends)' : 'Gain / loss';
+    var sign=gl>=0?'+':'−', box=document.getElementById('oGl');
+    box.textContent=sign+fmt(Math.abs(gl))+' ('+sign+Math.abs(pct).toFixed(0)+'%)';
+    box.style.color=gl>=0?'#5fd699':'#ff8a7a';
+    var dl=document.getElementById('divLine');
+    if(useDiv){
+      var yld=b>0?(annualDiv/b*100):0;
+      dl.style.display='block';
+      dl.innerHTML='Dividends over '+years+' yr'+(years===1?'':'s')+': <b>'+fmt(divIncome)+'</b> '+
+        '(at ~$'+annualDiv.toFixed(2)+'/share/yr, ≈ '+yld.toFixed(1)+'% yield). '+
+        'Price change alone: '+fmt(val-a)+'. Assumes a flat dividend, not reinvested.';
+    } else { dl.style.display='none'; }
+  }
+  [amt,buy,tgt,yrs].forEach(function(el){ el.addEventListener('input', calc); });
+  divToggle.addEventListener('change', calc);
+  var livePrice=null;
+  document.querySelectorAll('.preset').forEach(function(p){
+    p.addEventListener('click', function(){
+      var v=p.dataset.p;
+      if(p.querySelector('b').textContent==='live' && livePrice){ v=livePrice; }
+      tgt.value=v; calc();
+    });
+  });
+  calc();
+  function money(n){
+    if(n==null||isNaN(n)) return '—';
+    if(n>=1e12) return '$'+(n/1e12).toFixed(2)+'T';
+    if(n>=1e9) return '$'+(n/1e9).toFixed(1)+'B';
+    if(n>=1e6) return '$'+(n/1e6).toFixed(0)+'M';
+    return '$'+Math.round(n).toLocaleString('en-US');
+  }
+
+  // Source A: Cowork connector (only available inside the Cowork app)
+  async function fromCowork(){
+    var r = await window.cowork.callMcpTool('mcp__d73fc8f8-453d-410e-8685-ddede71bea8a__company', {endpoint:'profile-symbol', symbol:'VST'});
+    var data = r.structuredContent ?? JSON.parse(r.content[0].text);
+    var q = Array.isArray(data)? data[0] : (data.results? data.results[0] : data);
+    if(!q || q.price==null) throw new Error('no price');
+    return {price:q.price, change:q.change||0, pct:q.changePercentage||0, marketCap:q.marketCap, range:q.range||null, lastDividend:q.lastDividend};
+  }
+
+  // Source B: Yahoo Finance v8 chart endpoint via a public CORS proxy (no API key)
+  async function fromYahoo(){
+    var url='https://query1.finance.yahoo.com/v8/finance/chart/VST?interval=1d&range=1d';
+    var proxies=[
+      function(u){ return 'https://corsproxy.io/?url='+encodeURIComponent(u); },
+      function(u){ return 'https://api.allorigins.win/raw?url='+encodeURIComponent(u); }
+    ];
+    var meta=null;
+    for(var i=0;i<proxies.length;i++){
+      try{
+        var res=await fetch(proxies[i](url),{cache:'no-store'});
+        if(!res.ok) continue;
+        var j=await res.json();
+        meta=j.chart.result[0].meta;
+        if(meta && meta.regularMarketPrice!=null) break;
+        meta=null;
+      }catch(e){}
+    }
+    if(!meta) throw new Error('all proxies failed');
+    var price=meta.regularMarketPrice;
+    var prev=meta.previousClose!=null?meta.previousClose:meta.chartPreviousClose;
+    var change=prev!=null?price-prev:0;
+    var pct=prev?(change/prev*100):0;
+    var range=(meta.fiftyTwoWeekLow!=null&&meta.fiftyTwoWeekHigh!=null)
+      ? (meta.fiftyTwoWeekLow.toFixed(2)+'-'+meta.fiftyTwoWeekHigh.toFixed(2)) : null;
+    return {price:price, change:change, pct:pct, marketCap:price*SHARES_OUT, range:range, lastDividend:null};
+  }
+
+  function render(q){
+    var price=q.price, chg=q.change||0, pct=q.pct||0, up=chg>=0;
+    var pxEl=document.getElementById('px');
+    pxEl.textContent='$'+price.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    pxEl.className='v';
+    document.getElementById('pxs').innerHTML='<span style="color:'+(up?'#1f8a52':'#c0392b')+'">'+(up?'▲':'▼')+' '+Math.abs(chg).toFixed(2)+' ('+Math.abs(pct).toFixed(2)+'%) today</span>';
+    var mcEl=document.getElementById('mc');
+    mcEl.textContent=money(q.marketCap); mcEl.className='v';
+    var range=q.range? ' · 52-wk range '+q.range : '';
+    document.getElementById('liveLabel').textContent='Live'+range;
+    document.getElementById('asof').textContent='Live data as of '+new Date().toLocaleString()+'. Reload to refresh.';
+    if(q.lastDividend!=null && q.lastDividend>0){
+      annualDiv=q.lastDividend;
+      var yld=price>0?(annualDiv/price*100):0;
+      document.getElementById('divRate').textContent='annual dividend ≈ $'+annualDiv.toFixed(2)+'/share ('+yld.toFixed(1)+'% yield)';
+    }
+    livePrice=price; buy.value=price.toFixed(2); calc();
+  }
+
+  async function loadLive(){
+    try{
+      var hasCowork=(typeof window!=='undefined' && window.cowork && window.cowork.callMcpTool);
+      var d = hasCowork ? await fromCowork() : await fromYahoo();
+      render(d);
+    }catch(e){
+      document.getElementById('px').textContent='~$161.78';
+      document.getElementById('px').className='v dim';
+      document.getElementById('mc').textContent='~$54.5B';
+      document.getElementById('mc').className='v dim';
+      document.getElementById('pxs').textContent='snapshot (live unavailable)';
+      document.getElementById('liveLabel').textContent='Live data unavailable — showing snapshot';
+      document.querySelector('.livedot').style.background='#e0a32e';
+      document.getElementById('asof').textContent='Could not load live data; showing ~June 2026 snapshot. '+(e&&e.message?('('+e.message+')'):'');
+    }
+  }
+  loadLive();
+</script>
+</body>
+</html>
