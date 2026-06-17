@@ -31,10 +31,10 @@ const LAYERS = [
   {
     id: "apps", color: "#E8785A", light: "#FDF0EC", dark: "#3D1A10",
     emoji: "📱", name: "Applications", tagline: "What you actually use",
-    blurb: "This is the most visible part of AI — the actual apps and products you open every day. Think ChatGPT, Midjourney, Cursor (an AI code editor), or Harvey (AI for lawyers). These companies build on top of the AI brains below them and sell directly to users or businesses.",
-    analogy: "Like restaurants. They buy ingredients from suppliers and serve finished meals to customers. The food isn't made from scratch — the kitchen sits on top of a whole supply chain.",
+    blurb: "These are the apps you actually open: ChatGPT, Midjourney, Cursor (a code editor), Harvey (built for law firms). They don't create the underlying intelligence themselves. They rent it from the layers below and package it into something you'd pay for.",
+    analogy: "Think of a restaurant. It buys ingredients from suppliers and hands you a finished plate. The kitchen is really sitting on top of a long supply chain you never see.",
     risk: "Highest risk", access: "Mostly private",
-    why: "Cool products don't always mean lasting businesses. If the AI underneath gets cheaper, anyone can clone the app. The real question is: does this company have something competitors can't copy?",
+    why: "A great product isn't always a great business. The moment the AI underneath gets cheaper, someone can build a copy. So the question worth asking is whether the company has anything a competitor can't just rebuild.",
     players: [
       { n: "Cursor", w: "AI code editor — fastest growing dev tool in years" },
       { n: "GitHub Copilot", w: "Microsoft's AI coding assistant, huge install base" },
@@ -47,10 +47,10 @@ const LAYERS = [
   {
     id: "orch", color: "#7B7B72", light: "#F2F0EB", dark: "#2A2A28",
     emoji: "🔗", name: "Orchestration", tagline: "The connective tissue",
-    blurb: "Orchestration tools help developers wire AI models together with other software. If you're building an AI app that reads emails, searches a database, and drafts a reply — orchestration frameworks handle the coordination between those steps.",
-    analogy: "Like a general contractor on a construction site. They don't pour concrete or do electrical — they coordinate all the specialists and make sure everything connects in the right order.",
+    blurb: "Orchestration tools help developers connect AI models to the rest of their software. Say you're building an app that reads an email, looks something up in a database, and drafts a reply. These frameworks handle the hand-offs between each of those steps.",
+    analogy: "It's the general contractor on a building site. They don't pour the concrete or run the wiring themselves. They make sure every specialist shows up in the right order and the pieces actually fit together.",
     risk: "Very high risk", access: "All private",
-    why: "This is the weakest layer. OpenAI and Anthropic are building these connection tools directly into their own products, making standalone frameworks unnecessary. Like selling phone charger adapters right before everyone switches to USB-C.",
+    why: "This is probably the shakiest layer. OpenAI and Anthropic keep folding these connection features straight into their own products, which leaves less room for standalone tools. It's a bit like selling charger adapters the year everyone switches to USB-C.",
     players: [
       { n: "LangChain", w: "Most popular framework for chaining AI model calls together" },
       { n: "LlamaIndex", w: "Specializes in connecting AI to your own documents and data" },
@@ -61,10 +61,10 @@ const LAYERS = [
   {
     id: "inf", color: "#4A9E6F", light: "#E8F5EE", dark: "#0C2E1A",
     emoji: "⚡", name: "Inference & Serving", tagline: "Where AI runs in real time",
-    blurb: "When you send a message to an AI and it responds in 2 seconds — that's inference. Someone has to run the AI model fast and at massive scale. These companies build the infrastructure that makes real-time AI responses possible.",
-    analogy: "Like a restaurant kitchen during dinner rush. The recipe already exists (the model). These companies specialize in executing it fast, cheaply, and for thousands of customers at once.",
+    blurb: "When you send a message and get an answer a couple of seconds later, that's inference. Something has to run the model quickly, for huge numbers of people at once. That's what these companies do.",
+    analogy: "Picture a restaurant kitchen at the height of the dinner rush. The recipe already exists (the model). The skill is cooking it fast, cheaply, and for a few hundred tables at the same time.",
     risk: "High risk", access: "Mostly private",
-    why: "Brutal price war. Amazon, Google, and Microsoft offer the same service and can undercut on price indefinitely. The only way to survive is to be dramatically faster or cheaper — which is why Groq built a completely custom chip.",
+    why: "It's a rough business to be in. Amazon, Google, and Microsoft all sell the same thing and can keep cutting prices indefinitely. The only way to survive is to be much faster or much cheaper, which is exactly why Groq went and built its own chip.",
     players: [
       { n: "vLLM", w: "Open-source engine — the default way teams self-host models" },
       { n: "Groq", w: "Custom chip built only for speed — currently fastest LLM API" },
@@ -76,10 +76,10 @@ const LAYERS = [
   {
     id: "mod", color: "#D4882A", light: "#FDF3E3", dark: "#3D2005",
     emoji: "🧠", name: "Foundation Models", tagline: "The actual AI intelligence",
-    blurb: "These are the companies building the AI itself — the models that understand language, write code, analyze images, and reason through problems. Everything above this layer rents intelligence from here. This is the most-funded, most-competitive, most-consequential layer in the stack.",
-    analogy: "Like power plants. Every building, business, and device in a city depends on electricity — but most people don't think about where it comes from. AI apps plug into these models the same way buildings plug into the grid.",
+    blurb: "These are the labs building the intelligence itself: the models that handle language, write code, read images, and reason through a problem. Everything above this layer is renting that intelligence. It's the most heavily funded and most fiercely contested part of the whole stack.",
+    analogy: "They're the power plants. Every home and business in a city runs on electricity, but almost nobody stops to think about where it's generated. AI apps plug into these models the same way a building plugs into the grid.",
     risk: "High risk (hard to access)", access: "Mostly private",
-    why: "The biggest potential — and the most locked up. You can't buy OpenAI stock yet. The workaround is buying their investors: Microsoft, Amazon, and Google have put tens of billions into these labs.",
+    why: "This is where the upside is, and also where most of the doors are closed. You can't buy OpenAI shares yet. The usual way in is to buy its backers instead: Microsoft, Amazon, and Google have each poured tens of billions into these labs.",
     players: [
       { n: "OpenAI", w: "GPT-4o, o3 — market leader, ~300M weekly ChatGPT users" },
       { n: "Anthropic", w: "Claude — safety-focused, strong enterprise adoption" },
@@ -92,10 +92,10 @@ const LAYERS = [
   {
     id: "mlops", color: "#6B5ECD", light: "#EFEDFC", dark: "#1E1A40",
     emoji: "🔬", name: "Training & MLOps", tagline: "How AI gets built and improved",
-    blurb: "Before an AI model can answer questions, it has to be trained on massive amounts of data — a process that can take months and cost tens of millions of dollars. MLOps (Machine Learning Operations) tools help engineers track experiments, manage that process, and monitor models once they're deployed.",
-    analogy: "Like pharmaceutical R&D and clinical trials. The drugs (models) get enormous attention. But behind the scenes, there are labs running thousands of experiments, tracking what works, and managing the process rigorously.",
+    blurb: "Before a model can answer anything, it has to be trained on enormous amounts of data, which can take months and cost tens of millions of dollars. MLOps tools (short for machine learning operations) help engineers run those experiments, keep track of what's working, and watch the models once they go live.",
+    analogy: "Think of drug research and clinical trials. The finished medicine gets all the attention, but behind it sits a lab running thousands of careful experiments and recording every result.",
     risk: "Medium risk", access: "Mostly private",
-    why: "Scale AI is the hidden kingmaker — it does the unglamorous work of labeling training data for almost every major model lab. Weights & Biases is the default experiment tracker. Both have deep moats because teams build workflows around them.",
+    why: "Scale AI is the quiet power here. It handles the unglamorous job of labeling training data for nearly every major lab. Weights & Biases is where teams track their experiments by default. Both are hard to dislodge because everyone builds their daily workflow around them.",
     players: [
       { n: "Scale AI", w: "Labels training data and runs evaluations for frontier labs" },
       { n: "Weights & Biases", w: "Tracks AI experiments — the GitHub of ML workflows" },
@@ -106,10 +106,10 @@ const LAYERS = [
   {
     id: "pipe", color: "#C85A35", light: "#FCEEE8", dark: "#3A1208",
     emoji: "🔄", name: "Data Pipeline", tagline: "Moving and cleaning data",
-    blurb: "Before AI can learn from data, that data has to be collected from dozens of sources, cleaned up, and moved to the right place. Data pipeline tools automate this process — connecting apps, transforming messy data into clean data, and making sure everything flows reliably.",
-    analogy: "Like the water treatment and plumbing system of a city. Nobody thinks about it, but without it, nothing works. The data that trains AI models and feeds AI apps has to come from somewhere clean and organized.",
+    blurb: "Before AI can learn from data, that data has to be pulled in from all over, cleaned up, and moved to where it's needed. Pipeline tools do that work automatically: connecting apps, turning messy data into usable data, and keeping everything flowing.",
+    analogy: "It's the water and plumbing system of a city. Nobody gives it a second thought, but nothing works without it. The data that trains and feeds AI has to arrive from somewhere clean and organized.",
     risk: "Medium risk", access: "Mixed",
-    why: "Boring? Yes. Essential? Absolutely. These tools are deeply embedded in enterprise workflows — once a company builds their data process around Fivetran or dbt, switching is painful. Slow-moving but sticky businesses.",
+    why: "It isn't glamorous work, but it's essential, and that's exactly what makes it valuable. Once a company runs its data through Fivetran or dbt, pulling it back out is a real headache. These tend to be slow-moving but very sticky businesses.",
     players: [
       { n: "Apache Kafka", w: "Real-time event streaming — backbone of major tech companies" },
       { n: "Confluent", w: "Managed Kafka with enterprise tooling — publicly traded (CFLT)" },
@@ -121,10 +121,10 @@ const LAYERS = [
   {
     id: "stor", color: "#1A9E80", light: "#E3F7F2", dark: "#053D30",
     emoji: "🗄️", name: "Data Storage", tagline: "Where information lives",
-    blurb: "All the data AI reads, learns from, and retrieves has to be stored somewhere fast, reliable, and searchable. This layer includes traditional databases, cloud data warehouses (think massive spreadsheets for billions of rows), and a newer type called vector databases — built specifically for how AI searches for information.",
-    analogy: "Like a library system. Some libraries organize books by subject (relational databases). Others are warehouses with forklifts for huge volumes (data warehouses). Vector databases are like a library that can find books by vibe — 'find me something similar to what I just read.'",
+    blurb: "Everything AI reads, learns from, and looks up has to live somewhere fast and searchable. This layer covers ordinary databases, cloud data warehouses (essentially giant spreadsheets holding billions of rows), and a newer kind called vector databases, built around how AI actually searches for meaning.",
+    analogy: "It's a library system. Some libraries shelve books by subject (regular databases). Some are warehouses with forklifts built for sheer volume (data warehouses). A vector database is the one that can find a book by feel — 'give me something like the last thing I read.'",
     risk: "Medium risk", access: "Some public",
-    why: "Data gravity is the key concept: once your company stores years of data somewhere, the switching cost is enormous. That stickiness is what makes Snowflake and Databricks valuable despite fierce competition.",
+    why: "The idea to remember is data gravity: once a company has years of data sitting in one place, moving it costs a fortune. That stickiness is what keeps Snowflake and Databricks valuable even with rivals circling.",
     players: [
       { n: "Snowflake", w: "Cloud data warehouse — dominant in enterprise analytics (SNOW)" },
       { n: "Databricks", w: "Lakehouse platform — strongest ML/AI integration, rival to Snowflake" },
@@ -137,10 +137,10 @@ const LAYERS = [
   {
     id: "cloud", color: "#2E7DD4", light: "#E4F0FB", dark: "#08244A",
     emoji: "☁️", name: "Cloud Infrastructure", tagline: "The computing backbone",
-    blurb: "Every AI model, every app, every database in this stack runs on physical computers sitting in massive buildings called data centers. Cloud companies rent access to those computers — so companies don't have to buy and maintain their own hardware. In AI, this means renting GPUs by the hour to train or run models.",
-    analogy: "Like electricity. You don't generate your own power — you plug into the grid and pay for what you use. Cloud computing is that grid for software. AI companies rent computing power instead of building their own power plants.",
+    blurb: "Every model, app, and database in this stack runs on real computers humming away in giant buildings called data centers. Cloud companies rent out those computers so nobody has to buy and babysit their own hardware. For AI, that mostly means renting GPUs by the hour to train or run models.",
+    analogy: "Same idea as electricity. You don't run your own generator. You plug into the grid and pay for what you use. The cloud is that grid, but for software.",
     risk: "Low-medium risk", access: "All public",
-    why: "Every dollar spent on AI eventually flows through the cloud. AWS, Azure, and Google Cloud don't care who wins the AI model race — they collect the compute bill either way. That's a very good business to be in.",
+    why: "Just about every dollar spent on AI passes through the cloud eventually. AWS, Azure, and Google Cloud don't care which model wins the race. They send the compute bill either way, which is a comfortable place to sit.",
     players: [
       { n: "AWS", w: "Amazon's cloud — largest, custom Trainium chips, Bedrock AI API" },
       { n: "Microsoft Azure", w: "OpenAI's cloud home — Copilot powers Office 365" },
@@ -152,10 +152,10 @@ const LAYERS = [
   {
     id: "silicon", color: "#D63B3B", light: "#FCEAEA", dark: "#420E0E",
     emoji: "💎", name: "Silicon & Hardware", tagline: "The physical foundation",
-    blurb: "All of AI ultimately runs on physical chips — specialized processors that handle the math-heavy calculations AI requires. GPUs (graphics processing units) turned out to be perfect for AI, and NVIDIA had a 15-year head start building both the hardware and the software ecosystem around it.",
-    analogy: "Like land in a gold rush. Everyone needs it. NVIDIA owns most of it. Building alternatives takes years of investment and still leaves you years behind on the software side.",
+    blurb: "In the end, all of AI runs on physical chips built to crunch the heavy math it depends on. GPUs (the processors first designed for video game graphics) turned out to be ideal for the job, and NVIDIA had a 15-year head start on both the hardware and the software around it.",
+    analogy: "It's the land in a gold rush. Everyone needs it, and NVIDIA owns most of it. Building an alternative takes years, and you still come out behind on the software side.",
     risk: "Medium risk (volatile)", access: "Mostly public",
-    why: "NVIDIA's real moat isn't the chips — it's CUDA, the software developers use to program those chips. 15+ years of developer habit is nearly impossible to displace. AMD, Google, and Amazon are all trying. None have cracked it yet.",
+    why: "NVIDIA's real advantage isn't the chips. It's CUDA, the software developers use to program them. More than 15 years of developer habit is brutally hard to undo. AMD, Google, and Amazon are all trying, and none have managed it yet.",
     players: [
       { n: "NVIDIA", w: "Near-monopoly on AI GPUs — H100/B200 chips power everything" },
       { n: "AMD", w: "Only real GPU competitor — MI300X gaining traction, still behind" },
@@ -237,7 +237,7 @@ function App() {
           The AI Infrastructure Stack
         </h1>
         <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: 0, lineHeight: 1.6 }}>
-          Every AI product you use sits on top of many invisible layers of technology. This is who builds each one — explained without jargon.
+          Every AI product you touch is standing on a tall pile of technology you never see. Here's a look at each layer, and the companies that build it, in plain language.
         </p>
       </div>
 
@@ -374,30 +374,30 @@ function App() {
       {tab === "investing" && (
         <div>
           <div style={{ fontSize: 13, color: "var(--color-text-secondary)", lineHeight: 1.65, marginBottom: 20, padding: "12px 14px", background: "var(--color-background-secondary)", borderRadius: 10 }}>
-            You don't need to pick the next NVIDIA to benefit from AI growth. Here's how to think about building a portfolio as a college student — without needing to be an expert.
+            You don't have to guess the next NVIDIA to do well from AI. Here's a sensible way to think about building a portfolio when you're a student, without pretending to be an expert.
           </div>
 
           {/* Core principle */}
           {[
             {
-              title: "Start with the shovel seller, not the miner",
-              body: "In every gold rush, the people who got reliably rich were selling shovels — not digging. NVIDIA sells the hardware every AI company must buy, regardless of who wins the AI race. That's a durable position. The equivalent mistake is trying to pick which AI app becomes dominant (miners), when you could own the infrastructure all of them depend on."
+              title: "Sell shovels, don't dig for gold",
+              body: "In every gold rush, the people who got rich reliably were the ones selling shovels, not swinging them. NVIDIA sells the hardware every AI company has to buy no matter who wins the race, and that's a sturdy spot to be in. The mistake is trying to call which AI app comes out on top, when you could just own the infrastructure all of them rely on."
             },
             {
-              title: "Buy the investors when you can't buy the company",
-              body: "OpenAI, Anthropic, Cursor, and most exciting AI companies are private — you can't buy their stock yet. The workaround: buy their investors. Microsoft ($13B into OpenAI), Amazon ($4B into Anthropic), and Google (billions into Gemini + Anthropic) give you indirect exposure to frontier AI with the stability of giant, diversified businesses. You collect the upside without the startup risk."
+              title: "If you can't buy the company, buy its backers",
+              body: "OpenAI, Anthropic, Cursor, and most of the interesting AI companies are still private, so you can't buy their stock. The way around it is to buy the companies that funded them. Microsoft put about $13B into OpenAI, Amazon put $4B into Anthropic, and Google has put billions into Gemini and Anthropic. You get a slice of frontier AI with the steadiness of a giant, diversified business behind it."
             },
             {
-              title: "Index funds already give you AI exposure",
-              body: "The S&P 500 index fund (tickers: VOO or SPY) already owns NVIDIA, Microsoft, Google, Amazon, Meta, and Adobe. If you put money into a broad market index fund, you're already benefiting from AI growth. For most college students, this — plus a few individual stocks you have conviction in — beats trying to pick winners across the stack."
+              title: "An index fund already owns AI for you",
+              body: "An S&P 500 index fund (VOO or SPY) already holds NVIDIA, Microsoft, Google, Amazon, Meta, and Adobe. Put money into a broad index fund and you're already along for the AI ride. For most students, that plus a few stocks you genuinely believe in tends to beat trying to handpick winners up and down the stack."
             },
             {
-              title: "Understand volatility before you invest in it",
-              body: "NVIDIA's stock grew 10x between 2022 and 2025. It also regularly drops 25–40% during corrections. Only invest money you can leave untouched for 5+ years and watch drop significantly without panic-selling. The investors who lost money in NVIDIA mostly didn't lose because NVIDIA was a bad company — they sold during dips because the volatility surprised them."
+              title: "Know how bumpy it is before you buy in",
+              body: "NVIDIA went up roughly tenfold between 2022 and 2025. It also drops 25 to 40% on a regular basis during corrections. Only put in money you can leave alone for five years or more, and watch fall hard without bailing. Most people who lost money on NVIDIA didn't lose because it was a bad company. They sold during a dip because the swings caught them off guard."
             },
             {
-              title: "Own infrastructure, not applications",
-              body: "The application layer (ChatGPT, Midjourney, Cursor) is exciting but risky. Many of today's fastest-growing AI apps could be rebuilt cheaply in two years when models get cheaper. The infrastructure those apps depend on — chips, cloud, storage — wins no matter which apps survive. Rule of thumb: if a company is 'AI-powered,' think about owning the companies that power it."
+              title: "Own the infrastructure, not the apps",
+              body: "The app layer (ChatGPT, Midjourney, Cursor) is the fun part, and the riskiest. A lot of today's hottest AI apps could be rebuilt cheaply in a couple of years once models get cheaper. The infrastructure underneath them, the chips and cloud and storage, gets paid regardless of which apps last. Rough rule: when a company says it's 'AI-powered,' think about owning whatever powers it."
             }
           ].map(item => (
             <div key={item.title} style={{ marginBottom: 12, padding: "14px 16px", border: "0.5px solid var(--color-border-tertiary)", borderRadius: 10, background: "var(--color-background-primary)" }}>
