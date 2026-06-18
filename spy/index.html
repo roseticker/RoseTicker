@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPY — A Plain-English Deep Dive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <a class="brand" href="../">◆ Primers &amp; Explainers</a>
+    <div class="nav-links">
+      <a href="#minute">In a minute</a>
+      <a href="#own">What you own</a>
+      <a href="#fee">The fee</a>
+      <a href="#compare">SPY vs VOO vs IVV</a>
+      <a href="#traders">Why traders use it</a>
+      <a href="#risks">Risks</a>
+      <a href="#fit">Fit check</a>
+      <a href="#jargon">Jargon</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-grid">
+    <div>
+      <span class="kicker">S&amp;P 500 · The original ETF</span>
+      <h1 class="hero-title">SPDR S&amp;P 500 ETF</h1>
+      <div class="hero-ticker">NYSE Arca: SPY · since 1993</div>
+      <p class="hero-lede">SPY was the first U.S. exchange-traded fund ever made, and it still trades more than any other. It holds the same 500 companies as VOO and IVV — but it costs about three times as much to own. Here's when that trade-off is worth it, and when it isn't, in plain English.</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-label">Price · snapshot</div>
+          <div class="stat-val">$747</div>
+          <div class="stat-sub">June 2026</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Expense ratio</div>
+          <div class="stat-val stat-warn">0.0945%</div>
+          <div class="stat-sub">≈ 3× VOO &amp; IVV</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Assets</div>
+          <div class="stat-val">~$790B</div>
+          <div class="stat-sub">huge &amp; liquid</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Launched</div>
+          <div class="stat-val">1993</div>
+          <div class="stat-sub">first U.S. ETF</div>
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="verdict-label">The one-line verdict</div>
+        <div class="verdict-body">For <strong>buy-and-hold investing</strong>, VOO or IVV do the exact same job for a lower fee — there's no reason to pay more. SPY earns its keep for <strong>active traders and options users</strong>, where its unmatched liquidity is worth more than the extra cost. Same index, different tool for a different job.</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">The same index, three wrappers</div>
+      <div class="chart-sub">All three track the S&amp;P 500 — identical holdings. The differences are cost, structure, and how they trade.</div>
+      <div class="chart-legend">
+        <span><span class="dot spy"></span>SPY · 0.0945%</span>
+        <span><span class="dot voo"></span>VOO · 0.03%</span>
+        <span><span class="dot vti"></span>IVV · 0.03%</span>
+      </div>
+      <div class="smoothie">
+        <div class="smoothie-row"><span class="smoothie-label">SPY fee</span><div class="smoothie-bar"><div class="smoothie-fill" style="width:100%"></div></div><span class="smoothie-val">0.0945%</span></div>
+        <div class="smoothie-row"><span class="smoothie-label">VOO fee</span><div class="smoothie-bar"><div class="smoothie-fill" style="width:32%"></div></div><span class="smoothie-val">0.03%</span></div>
+        <div class="smoothie-row"><span class="smoothie-label">IVV fee</span><div class="smoothie-bar"><div class="smoothie-fill" style="width:32%"></div></div><span class="smoothie-val">0.03%</span></div>
+      </div>
+      <div class="chart-foot">Think of it like three bottles of the same water. SPY's bottle is the famous one everyone grabs at the airport — you pay a little extra for how easy it is to buy and sell in a hurry.</div>
+    </div>
+  </div>
+</header>
+
+<!-- IN A MINUTE -->
+<section class="section" id="minute">
+  <div class="section-head">
+    <span class="kicker">If you only have a minute</span>
+    <h2>The 30-second version</h2>
+    <p class="lead">SPY is the most famous, most heavily traded fund in the world — and for a long-term saver, that fame is exactly what you're overpaying for.</p>
+  </div>
+  <div class="snap-grid">
+    <div class="snap-card good">
+      <div class="snap-icon">✓</div>
+      <h3>What's great</h3>
+      <ul>
+        <li>The deepest liquidity of any ETF — you can trade huge size instantly</li>
+        <li>The biggest, most active options market tied to any fund</li>
+        <li>Tightest bid-ask spreads (the hidden cost of trading)</li>
+        <li>Tracks the S&amp;P 500 — 500 of the largest U.S. companies</li>
+      </ul>
+    </div>
+    <div class="snap-card warn">
+      <div class="snap-icon">!</div>
+      <h3>What to watch</h3>
+      <ul>
+        <li>Fee is ~3× VOO and IVV for the identical index</li>
+        <li>Older "unit investment trust" structure — dividends sit in cash briefly instead of being reinvested instantly (a tiny drag)</li>
+        <li>For long-term holding, that gap compounds against you</li>
+      </ul>
+    </div>
+    <div class="snap-card neutral">
+      <div class="snap-icon">?</div>
+      <h3>Who it's for</h3>
+      <ul>
+        <li><strong>Traders</strong> who move in and out often</li>
+        <li>Anyone trading <strong>options</strong> on the S&amp;P 500</li>
+        <li>Long-term buy-and-hold investors are usually better in <strong>VOO or IVV</strong></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT YOU OWN -->
+<section class="section alt" id="own">
+  <div class="section-head">
+    <span class="kicker">What you actually own</span>
+    <h2>500 companies, one ticker</h2>
+    <p class="lead">Buy one share of SPY and you own a slice of the 500 biggest companies in the U.S. — weighted by size, so the giants count more.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">SPY follows the <strong>S&amp;P 500</strong>, an index of about 500 of the largest American public companies. It's market-cap weighted: a $3-trillion company moves the fund far more than a $30-billion one. That's why the handful of mega-cap tech names — the "Magnificent Seven" — drive a big share of the returns.</p>
+      <div class="callout">
+        <div class="callout-title">The key point</div>
+        SPY, VOO, and IVV all track this <em>same</em> index. On any given day they hold the same companies in the same proportions. You are not getting different stocks by choosing SPY — you're choosing a different wrapper around identical contents.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Roughly what's inside</div>
+      <div class="card-sub">Top concentrations, illustrative — S&amp;P 500</div>
+      <ul class="feat-list">
+        <li><strong>Information technology</strong> — the largest sector by far</li>
+        <li><strong>The "Magnificent 7"</strong> (Apple, Microsoft, Nvidia, Amazon, Alphabet, Meta, Tesla) make up a large chunk of the whole fund</li>
+        <li><strong>Financials, health care, consumer</strong> — the next biggest slices</li>
+        <li><strong>~500 names total</strong>, but the top 10 carry outsized weight</li>
+      </ul>
+      <p class="muted" style="font-size:13px;margin-top:14px;">Exact weights shift with the market; this is the shape, not a snapshot.</p>
+    </div>
+  </div>
+</section>
+
+<!-- THE FEE -->
+<section class="section" id="fee">
+  <div class="section-head">
+    <span class="kicker">The fee, and what it costs</span>
+    <h2>0.0945% vs 0.03% — does it matter?</h2>
+    <p class="lead">SPY costs about three times more than VOO or IVV. In percentage terms it's tiny. Over decades, it's real money — but smaller than people fear.</p>
+  </div>
+  <div class="fees-grid">
+    <div>
+      <p class="big-p">An expense ratio is the slice the fund company quietly takes each year. SPY keeps <strong>0.0945%</strong> ($9.45 per $10,000); VOO and IVV keep <strong>0.03%</strong> ($3 per $10,000). The difference is about <strong>$6.45 a year per $10,000</strong> — which compounds because that money never gets to grow for you.</p>
+      <div class="fee-savings">
+        Over <strong>30 years</strong>, on a one-time <strong>$10,000</strong> investment growing ~7% a year, the fee gap costs SPY holders roughly <strong>$1,300</strong> versus VOO/IVV. On $100,000, that's about <strong>$13,000</strong>. Real, but not life-changing — the bigger sin is paying it for no reason if you're just holding long-term.
+      </div>
+    </div>
+    <div class="fees-chart">
+      <div class="card-title">$10,000 held 30 years at ~7%</div>
+      <div class="card-sub">Ending value after fees</div>
+      <div class="fee-result">
+        <div class="fee-box loss">
+          <div class="fee-box-label">SPY · 0.0945%</div>
+          <div class="fee-box-val">~$74,200</div>
+        </div>
+        <div class="fee-box win">
+          <div class="fee-box-label">VOO / IVV · 0.03%</div>
+          <div class="fee-box-val">~$75,500</div>
+        </div>
+      </div>
+      <div class="smoothie" style="margin-top:18px;">
+        <div class="smoothie-row"><span class="smoothie-label">Fee per $10k/yr</span><div class="smoothie-bar"><div class="smoothie-fill" style="width:100%"></div></div><span class="smoothie-val">$9.45</span></div>
+        <div class="smoothie-row"><span class="smoothie-label">VOO / IVV</span><div class="smoothie-bar"><div class="smoothie-fill" style="width:32%"></div></div><span class="smoothie-val">$3.00</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section class="section alt" id="compare">
+  <div class="section-head">
+    <span class="kicker">The real decision</span>
+    <h2>SPY vs VOO vs IVV — when each wins</h2>
+    <p class="lead">Same index, three wrappers. Here's the side-by-side, then the specific situations where each one is the right pick.</p>
+  </div>
+
+  <div class="cmp-wrap">
+    <table class="cmp-table">
+      <thead>
+        <tr><th>Fund</th><th>Provider</th><th>Fee</th><th>Structure</th><th>Best at</th></tr>
+      </thead>
+      <tbody>
+        <tr class="featured">
+          <td class="ticker">SPY</td><td>State Street</td><td>0.0945%</td><td>Unit investment trust (1993)</td><td>Liquidity &amp; options</td>
+        </tr>
+        <tr>
+          <td class="ticker">VOO</td><td>Vanguard</td><td>0.03%</td><td>Open-end fund</td><td>Long-term, low cost</td>
+        </tr>
+        <tr>
+          <td class="ticker">IVV</td><td>BlackRock (iShares)</td><td>0.03%</td><td>Open-end fund</td><td>Long-term, low cost</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="snap-grid" style="margin-top:28px;">
+    <div class="snap-card good">
+      <div class="snap-icon">▲</div>
+      <h3>Choose SPY if…</h3>
+      <ul>
+        <li>You <strong>trade actively</strong> — in and out over days or weeks, not years</li>
+        <li>You buy or sell <strong>options</strong> on the S&amp;P 500 (SPY's options market is the deepest)</li>
+        <li>You move <strong>large amounts</strong> and need to trade instantly with tiny spreads</li>
+        <li>You want the most liquid index product on earth and don't mind the fee</li>
+      </ul>
+    </div>
+    <div class="snap-card neutral">
+      <div class="snap-icon">●</div>
+      <h3>Choose VOO if…</h3>
+      <ul>
+        <li>You're a <strong>long-term, buy-and-hold</strong> investor (most people)</li>
+        <li>You already invest at <strong>Vanguard</strong> (commission-free, default choice)</li>
+        <li>You're dollar-cost-averaging into retirement and want the lowest cost</li>
+        <li>It just crossed <strong>$1 trillion</strong> — the retail default for a reason</li>
+      </ul>
+    </div>
+    <div class="snap-card neutral">
+      <div class="snap-icon">●</div>
+      <h3>Choose IVV if…</h3>
+      <ul>
+        <li>You want VOO's low cost but invest at a <strong>non-Vanguard brokerage</strong></li>
+        <li>You hold at <strong>Fidelity, Schwab, or similar</strong> where iShares is native</li>
+        <li>You like that it can <strong>reinvest dividends</strong> internally (like VOO)</li>
+        <li>Functionally a tie with VOO — pick by what's free at your broker</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:28px;">
+    <div class="callout-title">Bottom line</div>
+    If you're holding for years, <strong>VOO or IVV</strong> — whichever is free at your brokerage. If you're trading or using options, <strong>SPY</strong>. The mistake is buy-and-hold investors paying SPY's premium out of habit.
+  </div>
+</section>
+
+<!-- WHY TRADERS -->
+<section class="section" id="traders">
+  <div class="section-head">
+    <span class="kicker">SPY's real edge</span>
+    <h2>Why traders love SPY</h2>
+    <p class="lead">SPY's whole advantage comes down to one word: liquidity. Here's what that means, without the jargon.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p"><strong>Liquidity</strong> means how easily you can buy or sell something without moving its price. SPY trades tens of millions of shares a day, so there's always someone on the other side of your order — instantly, and at a fair price.</p>
+      <ul class="feat-list">
+        <li><strong>Tight bid-ask spread.</strong> The "spread" is the gap between the buy price and sell price — a hidden cost every time you trade. SPY's is razor-thin, so frequent trading costs you less.</li>
+        <li><strong>The deepest options market.</strong> Options are contracts to buy or sell at a set price later — used to hedge or speculate. SPY has the most active options of any fund, so they're cheap to trade and easy to exit.</li>
+        <li><strong>Always-on volume.</strong> Big institutions use SPY to move in and out of "the market" in seconds, which keeps it liquid for everyone.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Quick translations</div>
+      <div class="card-sub">The trader words, in plain English</div>
+      <ul class="feat-list">
+        <li><strong>Spread</strong> — the small gap between buy and sell prices. Narrower = cheaper to trade.</li>
+        <li><strong>Volume</strong> — how many shares change hands. Higher = easier to trade big size.</li>
+        <li><strong>Option</strong> — a contract betting on (or protecting against) a price move, without owning the shares.</li>
+        <li><strong>Hedge</strong> — an offsetting trade that limits your losses if the market drops.</li>
+      </ul>
+      <div class="callout" style="margin-top:16px;">
+        <div class="callout-title">For most beginners</div>
+        None of this matters if you're buying once a month and holding for years. That's the tell that you probably want VOO or IVV, not SPY.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RISKS -->
+<section class="section alt" id="risks">
+  <div class="section-head">
+    <span class="kicker">The honest risk list</span>
+    <h2>What can go wrong</h2>
+    <p class="lead">SPY is a sensible, diversified fund — but "diversified" is not "safe." Here's the real risk picture.</p>
+  </div>
+  <div class="risk-list">
+    <div class="risk-item">
+      <div class="risk-head">
+        <div class="risk-title">It's still 100% stocks</div>
+        <div class="risk-meter"><div class="risk-fill" style="width:70%"></div></div>
+        <div class="risk-tag high">Market risk</div>
+      </div>
+      <div class="risk-body">The S&amp;P 500 has fallen 30–50% in past crashes (2008, 2020, 2022). SPY falls right along with it. Only invest money you can leave alone for 5+ years and watch drop hard without panic-selling.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-head">
+        <div class="risk-title">Top-heavy concentration</div>
+        <div class="risk-meter"><div class="risk-fill" style="width:58%"></div></div>
+        <div class="risk-tag med">Concentration</div>
+      </div>
+      <div class="risk-body">A handful of mega-cap tech names drive a large share of returns. When they stumble, the whole "diversified" fund feels it. You're more concentrated in big tech than the name "S&amp;P 500" suggests.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-head">
+        <div class="risk-title">The fee drag (vs alternatives)</div>
+        <div class="risk-meter"><div class="risk-fill" style="width:30%"></div></div>
+        <div class="risk-tag low">Cost</div>
+      </div>
+      <div class="risk-body">Not dangerous, just unnecessary for long-term holders: you're handing over ~3× the fee of VOO/IVV for the identical index. Small each year, but it compounds.</div>
+    </div>
+    <div class="risk-item">
+      <div class="risk-head">
+        <div class="risk-title">U.S.-only</div>
+        <div class="risk-meter"><div class="risk-fill" style="width:40%"></div></div>
+        <div class="risk-tag med">No global mix</div>
+      </div>
+      <div class="risk-body">SPY holds only large U.S. companies — no international stocks, no small caps. A globally diversified portfolio would add those separately.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FIT CHECK -->
+<section class="section" id="fit">
+  <div class="section-head">
+    <span class="kicker">Personal fit check</span>
+    <h2>SPY, or VOO/IVV for you?</h2>
+    <p class="lead">Answer three quick questions. This is a guide, not advice.</p>
+  </div>
+  <div class="quiz" id="quiz">
+    <div class="q" data-q="0">
+      <div class="q-num">Q1</div>
+      <div class="q-text">How long will you hold this?</div>
+      <div class="q-options">
+        <button data-v="trade">Days to weeks</button>
+        <button data-v="hold">Years (buy &amp; hold)</button>
+      </div>
+    </div>
+    <div class="q" data-q="1">
+      <div class="q-num">Q2</div>
+      <div class="q-text">Will you trade options on the S&amp;P 500?</div>
+      <div class="q-options">
+        <button data-v="trade">Yes, or maybe</button>
+        <button data-v="hold">No, just buying shares</button>
+      </div>
+    </div>
+    <div class="q" data-q="2">
+      <div class="q-num">Q3</div>
+      <div class="q-text">What matters more to you?</div>
+      <div class="q-options">
+        <button data-v="trade">Instant liquidity</button>
+        <button data-v="hold">Lowest long-term cost</button>
+      </div>
+    </div>
+  </div>
+  <div class="result" id="result" style="display:none;">
+    <div class="result-score" id="result-score"></div>
+    <div class="result-title" id="result-title"></div>
+    <div class="result-body" id="result-body"></div>
+  </div>
+</section>
+
+<!-- JARGON -->
+<section class="section alt" id="jargon">
+  <div class="section-head">
+    <span class="kicker">Jargon, plain</span>
+    <h2>The terms, decoded</h2>
+  </div>
+  <div class="gloss-grid">
+    <div class="gloss-item"><div class="gloss-term">ETF</div><div class="gloss-def">Exchange-traded fund — a basket of many stocks you can buy and sell as a single share, all day, like a stock.</div></div>
+    <div class="gloss-item"><div class="gloss-term">S&amp;P 500</div><div class="gloss-def">An index of ~500 of the largest U.S. public companies, weighted by size. The common shorthand for "the U.S. stock market."</div></div>
+    <div class="gloss-item"><div class="gloss-term">Expense ratio</div><div class="gloss-def">The yearly fee the fund keeps, as a percent of your money. 0.0945% = $9.45 per $10,000 per year.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Unit investment trust (UIT)</div><div class="gloss-def">SPY's older legal structure from 1993. It can't instantly reinvest dividends, creating a tiny drag VOO and IVV avoid.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Liquidity</div><div class="gloss-def">How easily you can trade without moving the price. SPY is the most liquid ETF in the world.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Bid-ask spread</div><div class="gloss-def">The gap between the buy and sell price — a hidden trading cost. Narrower is cheaper; SPY's is very narrow.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Options</div><div class="gloss-def">Contracts to buy or sell at a set price by a set date — used to hedge or speculate. SPY has the deepest options market.</div></div>
+    <div class="gloss-item"><div class="gloss-term">AUM</div><div class="gloss-def">Assets under management — the total money in the fund. SPY holds hundreds of billions; VOO just passed $1 trillion.</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">SPY · Plain-English Primer</div>
+  <div class="foot-note">Educational only — not financial, investment, or tax advice, and not a recommendation to buy or sell any security. Price is a June 2026 snapshot; fees, assets, and figures are summarized from public sources and may change. Index funds can still lose value. Do your own research and consider a qualified professional.</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
