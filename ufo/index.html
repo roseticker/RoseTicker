@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UFO — Space Stocks, Explained Properly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --bg:#fbf7f1; --bg2:#f4eee4; --card:#ffffff;
+    --ink:#2c2a27; --soft:#615c54; --muted:#9a948a;
+    --line:#ece3d5; --line-soft:#f2ebe0;
+    --indigo:#5560d6; --indigo-soft:#ecedfb;
+    --coral:#e87f5e; --coral-soft:#fdede6;
+    --green:#3f9b6b; --green-soft:#e8f4ee;
+    --amber:#c2871f; --amber-soft:#f9f0db;
+    --down:#cf6a52;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:'Inter',-apple-system,system-ui,sans-serif; font-size:17px; line-height:1.7;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px; margin:0 auto; padding:0 20px;}
+  h1,h2,h3{font-family:'Nunito',sans-serif; line-height:1.2; margin:0; color:var(--ink);}
+  a{color:var(--indigo);}
+
+  .term{border-bottom:2px dotted var(--coral); cursor:help; position:relative; font-weight:600; color:var(--ink);}
+  .term .tip{
+    visibility:hidden; opacity:0; transition:.15s;
+    position:absolute; left:50%; transform:translateX(-50%); bottom:150%;
+    width:250px; background:var(--ink); color:#fff; font-family:'Inter'; font-weight:400;
+    font-size:13.5px; line-height:1.5; padding:10px 12px; border-radius:10px; z-index:10;
+    box-shadow:0 8px 24px rgba(0,0,0,.18); white-space:normal; text-align:left;}
+  .term .tip:after{content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+    border:6px solid transparent; border-top-color:var(--ink);}
+  .term:hover .tip, .term:focus .tip{visibility:visible; opacity:1;}
+
+  .hero{padding:64px 0 32px;}
+  .kicker{display:inline-block; font-family:'Nunito'; font-weight:700; font-size:13px; letter-spacing:.04em;
+    color:var(--indigo); background:var(--indigo-soft); padding:6px 14px; border-radius:100px; margin-bottom:18px;}
+  .hero h1{font-size:clamp(34px,6vw,52px); font-weight:800; letter-spacing:-.02em; margin-bottom:10px;}
+  .hero .tk{font-family:'Nunito'; font-weight:700; color:var(--coral); font-size:16px; margin-bottom:18px;}
+  .hero .lede{font-size:19px; color:var(--soft); margin-bottom:8px;}
+
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:30px 0 8px;}
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px;
+    box-shadow:0 2px 10px rgba(120,100,70,.04);}
+  .stat .lab{font-family:'Nunito'; font-weight:700; font-size:12.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em;}
+  .stat .big{font-family:'Nunito'; font-weight:800; font-size:30px; margin:2px 0 6px; letter-spacing:-.01em;}
+  .stat .plain{font-size:14px; color:var(--soft); line-height:1.55;}
+  .stat.warm .big{color:var(--coral);}
+  .snapshot-note{font-size:13px; color:var(--muted); margin-top:14px;}
+
+  section{padding:44px 0; border-top:1px solid var(--line-soft);}
+  section h2{font-size:clamp(24px,4vw,32px); font-weight:800; margin-bottom:6px;}
+  section .sub{color:var(--soft); font-size:16px; margin-bottom:22px;}
+  p{margin:0 0 16px;}
+  .big-q{font-family:'Nunito'; font-weight:700; font-size:20px; color:var(--indigo); margin:0 0 14px;}
+
+  .cards{display:grid; gap:14px; grid-template-columns:1fr;}
+  @media(min-width:640px){ .cards.three{grid-template-columns:repeat(3,1fr);} }
+  .fcard{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px;}
+  .fcard h3{font-size:18px; font-weight:800; margin-bottom:8px;}
+  .fcard ul{margin:0; padding-left:18px;}
+  .fcard li{font-size:14.5px; color:var(--soft); margin-bottom:6px;}
+  .fcard.good{border-top:4px solid var(--green);}
+  .fcard.watch{border-top:4px solid var(--amber);}
+  .fcard.who{border-top:4px solid var(--indigo);}
+
+  .analogy{background:var(--coral-soft); border:1px solid #f4d7c9; border-radius:var(--radius); padding:18px 22px; margin:18px 0;}
+  .analogy .t{font-family:'Nunito'; font-weight:800; font-size:13px; color:var(--coral); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;}
+  .analogy p{margin:0; font-size:16px;}
+
+  details.go{background:var(--card); border:1px solid var(--line); border-radius:14px; margin:12px 0; overflow:hidden;}
+  details.go summary{cursor:pointer; list-style:none; padding:14px 18px; font-family:'Nunito'; font-weight:700; font-size:15px; color:var(--indigo); display:flex; align-items:center; gap:8px;}
+  details.go summary::-webkit-details-marker{display:none;}
+  details.go summary:before{content:"＋"; font-weight:800; color:var(--coral);}
+  details.go[open] summary:before{content:"–";}
+  details.go .inner{padding:0 18px 18px; font-size:15px; color:var(--soft);}
+  details.go .inner p{margin:0 0 12px;} details.go .inner p:last-child{margin:0;}
+
+  .htable,.ctable{width:100%; border-collapse:collapse; font-size:14.5px; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  .htable th,.htable td,.ctable th,.ctable td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--line-soft); vertical-align:top;}
+  .htable th,.ctable th{font-family:'Nunito'; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); background:var(--bg2);}
+  .htable tr:last-child td,.ctable tr:last-child td{border-bottom:none;}
+  .htable .co{font-weight:700; color:var(--ink);} .htable .tk,.ctable .tk{color:var(--indigo); font-weight:700;}
+  .htable .w{font-family:'Nunito'; font-weight:700; text-align:right; white-space:nowrap;}
+  .htable .d{color:var(--soft);}
+  .ctable .feat{background:var(--indigo-soft);}
+  @media(max-width:560px){ .htable .hide{display:none;} }
+
+  .rangebar{height:12px; border-radius:8px; background:linear-gradient(90deg,#e8c9bd,#f4ddc7,#cfe3d5); position:relative; margin:26px 0 8px;}
+  .rangebar .mk{position:absolute; top:-7px; width:22px; height:22px; border-radius:50%; background:#fff; border:3px solid var(--indigo); transform:translateX(-50%); box-shadow:0 2px 6px rgba(0,0,0,.15);}
+  .rangeends{display:flex; justify-content:space-between; font-size:13px; color:var(--soft);}
+  .rangeends b{color:var(--ink);}
+
+  .risk{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 20px; margin-bottom:12px;}
+  .risk h3{font-size:16.5px; font-weight:800; margin-bottom:5px; display:flex; align-items:center; gap:9px; flex-wrap:wrap;}
+  .tag{font-family:'Nunito'; font-weight:700; font-size:11px; padding:3px 9px; border-radius:100px; letter-spacing:.03em;}
+  .tag.h{background:var(--coral-soft); color:var(--down);}
+  .tag.m{background:var(--amber-soft); color:var(--amber);}
+  .tag.l{background:var(--green-soft); color:var(--green);}
+  .risk p{margin:0; font-size:14.5px; color:var(--soft);}
+
+  .fit{display:grid; gap:14px; grid-template-columns:1fr;}
+  @media(min-width:640px){ .fit{grid-template-columns:repeat(3,1fr);} }
+  .fitcard{border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; background:var(--card);}
+  .fitcard .h{font-family:'Nunito'; font-weight:800; font-size:16px; margin-bottom:6px;}
+  .fitcard p{font-size:14px; color:var(--soft); margin:0;}
+  .fitcard.yes{border-top:4px solid var(--green);}
+  .fitcard.maybe{border-top:4px solid var(--amber);}
+  .fitcard.no{border-top:4px solid var(--down);}
+
+  .gloss{display:grid; gap:12px; grid-template-columns:1fr;}
+  @media(min-width:640px){ .gloss{grid-template-columns:1fr 1fr;} }
+  .gitem{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 18px;}
+  .gitem .t{font-family:'Nunito'; font-weight:800; color:var(--indigo); margin-bottom:3px;}
+  .gitem .d{font-size:14px; color:var(--soft);}
+
+  footer{border-top:1px solid var(--line); margin-top:30px; padding:30px 0 60px; font-size:13px; color:var(--muted); line-height:1.6;}
+  .home{display:inline-block; margin:24px 0 0; font-family:'Nunito'; font-weight:700; color:var(--indigo); text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <span class="kicker">Space stocks, explained properly</span>
+    <h1>UFO: a bet on space, in one ticker</h1>
+    <div class="tk">UFO · Procure Space ETF · Nasdaq</div>
+    <p class="lede">UFO is a <span class="term">thematic ETF<span class="tip">A fund built around one idea or industry (here, space) instead of the whole market. Focused exposure, far less diversification.</span></span> — a fund built around a single industry rather than the broad market. Owning it is a deliberate, concentrated bet that the space economy outgrows everything else. This walks through how it's constructed, what's actually inside, how it stacks up against rival space funds, and the role it can realistically play in a portfolio.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="lab">Share price</div>
+        <div class="big">$50</div>
+        <div class="plain">ETFs trade intraday like stocks, so you can buy a single share — no minimum beyond one share's price.</div>
+      </div>
+      <div class="stat warm">
+        <div class="lab">Expense ratio</div>
+        <div class="big">0.75%</div>
+        <div class="plain">$7.50/year per $1,000. Roughly <strong>25× a broad index fund</strong> (~0.03%), and it compounds: it's skimmed every year, in up markets and down.</div>
+      </div>
+      <div class="stat">
+        <div class="lab">Fund assets (AUM)</div>
+        <div class="big">~$1.3B</div>
+        <div class="plain">Modest. Smaller funds can carry wider <span class="term">spreads<span class="tip">The gap between the buy and sell price — a hidden trading cost. Smaller, less-traded funds tend to have wider ones.</span></span> and a real (if low) risk of closing if the theme falls out of favor.</div>
+      </div>
+      <div class="stat warm">
+        <div class="lab">Volatility (beta ≈ 1.7)</div>
+        <div class="big">High</div>
+        <div class="plain"><span class="term">Beta<span class="tip">A measure of how much something moves relative to the market. Beta of 1.0 = moves with the market; 1.7 = ~70% bigger swings in both directions.</span></span> ~1.7 means it has historically swung ~70% harder than the S&amp;P 500 — the math of a fund full of small, growth-stage names.</div>
+      </div>
+    </div>
+    <p class="snapshot-note">Figures are a June 2026 snapshot and will have moved. Educational only — not investment advice.</p>
+  </header>
+
+  <!-- WHAT IS IT -->
+  <section>
+    <h2>What it is, structurally</h2>
+    <p class="sub">Past the "basket of stocks" cliché — how it's actually built matters.</p>
+    <p>UFO is a <span class="term">passive<span class="tip">The fund mechanically tracks a fixed, rules-based list of companies rather than a manager hand-picking them. Cheaper and predictable.</span></span>, <span class="term">index-tracking<span class="tip">It mirrors a published index. Its job is to match that index, not beat the market.</span></span> ETF that follows the <strong>S-Network Space Index</strong>. To be eligible, a company generally must derive a substantial share of its revenue from space — so this is a relatively "pure" play, not a tech fund with a token rocket stock.</p>
+    <p>One structural detail worth knowing: rather than pure <span class="term">market-cap weighting<span class="tip">Weighting each holding by company size, so giants dominate. UFO instead caps weights, spreading exposure more evenly across mid-size names.</span></span> (where the biggest company swamps everything), the index caps individual weights. That's why the top 10 holdings are ~48% rather than ~70% — you get broader exposure across mid-size space names, but also more weight on smaller, riskier companies than a cap-weighted fund would give.</p>
+    <div class="analogy">
+      <div class="t">The mental model</div>
+      <p>A single stock is a bet on one company's execution. UFO is a bet on a <em>theme</em> — that the industry as a whole expands. Those are different bets: you can be right about space booming and still lose if the specific companies in the basket aren't the ones that capture the value.</p>
+    </div>
+  </section>
+
+  <!-- WHAT YOU OWN -->
+  <section>
+    <h2>What's actually inside</h2>
+    <p class="sub">The non-obvious takeaway: "space" today is mostly satellites and connectivity, not launch.</p>
+    <p>The popular image of space investing is rockets. The reality of this fund is <strong>satellite communications and data</strong> — established, revenue-generating businesses (GPS, satellite radio, broadband, Earth imaging). Pure-launch names exist here but are a minority of the weight. That makes UFO a little less speculative than its reputation, but it also dilutes the "rockets moonshot" thesis some buyers expect.</p>
+
+    <p class="big-q">Top 10 holdings (~48% of the fund)</p>
+    <table class="htable">
+      <thead><tr><th>Company</th><th class="hide">Business</th><th class="w">Weight</th></tr></thead>
+      <tbody>
+        <tr><td><span class="co">Planet Labs</span> <span class="tk">PL</span></td><td class="hide d">Daily Earth imaging from a satellite constellation</td><td class="w">6.2%</td></tr>
+        <tr><td><span class="co">MDA Space</span> <span class="tk">MDA</span></td><td class="hide d">Space robotics &amp; satellite systems (Canada)</td><td class="w">6.2%</td></tr>
+        <tr><td><span class="co">Viasat</span> <span class="tk">VSAT</span></td><td class="hide d">Satellite broadband</td><td class="w">5.5%</td></tr>
+        <tr><td><span class="co">Rocket Lab</span> <span class="tk">RKLB</span></td><td class="hide d">Small-launch &amp; spacecraft — the marquee "rockets" name</td><td class="w">4.6%</td></tr>
+        <tr><td><span class="co">Garmin</span> <span class="tk">GRMN</span></td><td class="hide d">GPS/navigation hardware — profitable, lower-beta anchor</td><td class="w">4.5%</td></tr>
+        <tr><td><span class="co">AST SpaceMobile</span> <span class="tk">ASTS</span></td><td class="hide d">Direct satellite-to-phone — high-risk, pre-scale</td><td class="w">4.5%</td></tr>
+        <tr><td><span class="co">EchoStar</span> <span class="tk">SATS</span></td><td class="hide d">Satellite TV &amp; comms</td><td class="w">4.2%</td></tr>
+        <tr><td><span class="co">SiriusXM</span> <span class="tk">SIRI</span></td><td class="hide d">Satellite radio — cash-generative, slow-growth</td><td class="w">4.1%</td></tr>
+        <tr><td><span class="co">SES</span> <span class="tk">SESGL</span></td><td class="hide d">Geostationary satellite operator (Europe)</td><td class="w">4.0%</td></tr>
+        <tr><td><span class="co">Iridium</span> <span class="tk">IRDM</span></td><td class="hide d">Global satellite voice &amp; data network</td><td class="w">3.6%</td></tr>
+      </tbody>
+    </table>
+    <p class="snapshot-note">Holdings as of early 2026; the index reconstitutes periodically. ~50 holdings total, with meaningful international exposure (Canada, Europe).</p>
+
+    <details class="go">
+      <summary>Go deeper: the barbell hiding in this list</summary>
+      <div class="inner">
+        <p>Notice the spread of profiles. On one end you have <strong>mature cash generators</strong> (Garmin, SiriusXM, Iridium) that are barely "space stocks" in spirit. On the other, <strong>pre-profit moonshots</strong> (AST SpaceMobile, Rocket Lab) whose valuations hinge on execution years out.</p>
+        <p>That barbell is why the fund both holds up better than a pure-startup basket <em>and</em> still whips around: the speculative names supply most of the volatility, while the boring ones provide ballast.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- COST -->
+  <section>
+    <h2>The cost, and why it compounds</h2>
+    <p class="sub">0.75% looks trivial. Over a holding period it isn't, and here's the mechanism.</p>
+    <p>The <span class="term">expense ratio<span class="tip">The fund's annual fee as a percent of assets, deducted continuously from the fund — you never see a bill.</span></span> is 0.75% a year. The trap isn't the single-year cost; it's that the fee is charged on your <em>whole balance every year</em>, so it quietly drags down the base that compounds. A broad index fund at 0.03% leaves ~99.97% of your money working each year; UFO leaves ~99.25%. Over a decade or two, that gap is real money — and you only come out ahead if the theme's outperformance more than covers it.</p>
+    <div class="analogy">
+      <div class="t">How to think about it</div>
+      <p>You're not "wasting" 0.75% — you're paying for curated, concentrated access to an industry you can't easily replicate yourself. The question is whether that access earns its keep versus just buying the broad market for ~free.</p>
+    </div>
+    <details class="go">
+      <summary>Go deeper: could you just build this yourself?</summary>
+      <div class="inner"><p>In theory, yes — you could buy the top names directly and skip the fee. In practice you'd lose the automatic rebalancing, the international names that are awkward to access, and the diversification across ~50 holdings. For a small position, the 0.75% usually buys more convenience than it costs. For a large, long-term position, the fee argues for a cheaper vehicle or DIY.</p></div>
+    </details>
+  </section>
+
+  <!-- COMPARE -->
+  <section>
+    <h2>UFO vs the other space funds</h2>
+    <p class="sub">Three funds, same theme, materially different engines — and very different results.</p>
+    <table class="ctable">
+      <thead><tr><th>Fund</th><th>Fee</th><th>Approach</th></tr></thead>
+      <tbody>
+        <tr class="feat"><td><span class="tk">UFO</span></td><td>0.75%</td><td>Passive, pure-play (~80% space), satellite-heavy, weight-capped index.</td></tr>
+        <tr><td><span class="tk">ARKX</span></td><td>0.75%</td><td><span class="term">Actively managed<span class="tip">A manager discretionarily picks and trades holdings, aiming to beat the market. Higher key-person and concentration risk.</span></span> (ARK). More concentrated, more launch/innovation and adjacent tech.</td></tr>
+        <tr><td><span class="tk">ROKT</span></td><td>0.45%</td><td>Cheaper. Broader "final frontiers" index (space + deep sea), more defense-weighted.</td></tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px;">The dispersion is the lesson. Over the trailing year these ran roughly <strong>+122% (UFO), +100% (ROKT), +67% (ARKX)</strong> — same theme, wildly different outcomes. That tells you the <em>wrapper matters as much as the theme</em>: weighting rules, purity, and whether a human is steering all drive the result. Past performance also doesn't carry forward; the order can flip in a different regime.</p>
+    <p><strong>All three are speculative.</strong> None is a portfolio core — they're satellite positions on top of a diversified base.</p>
+  </section>
+
+  <!-- THE RIDE -->
+  <section>
+    <h2>The volatility, made concrete</h2>
+    <p class="sub">Concentrated + growth-heavy + rate-sensitive = a wide ride. Here's the shape of it.</p>
+    <p>Over the past year UFO traded from about <strong>$26</strong> to <strong>$68</strong> — a peak-to-trough range where the same fund more than doubled. A buyer at the high who held to the low would have sat through a ~60% paper <span class="term">drawdown<span class="tip">A peak-to-trough decline — how far an investment falls from a high before recovering. Thematic funds routinely see 40–60%+ drawdowns.</span></span>.</p>
+    <div class="rangebar"><div class="mk" style="left:57%;"></div></div>
+    <div class="rangeends"><span><b>$26</b><br>52-week low</span><span style="text-align:right;"><b>$68</b><br>52-week high</span></div>
+    <p style="margin-top:20px;">Why so swingy? Three compounding reasons: it's <strong>concentrated</strong> in one industry, it's tilted toward <strong>small and pre-profit companies</strong> whose value sits far in the future, and those companies are <strong>interest-rate-sensitive</strong> — when rates rise, the market discounts far-off profits harder, and growthy names fall fastest.</p>
+    <div class="analogy">
+      <div class="t">The behavioral trap</div>
+      <p>The danger isn't the volatility itself — it's selling into it. Thematic funds tend to attract the most money <em>after</em> a big run (when the story is loudest) and get dumped at the bottom. Your real edge here is position sizing and the discipline to not flinch.</p>
+    </div>
+  </section>
+
+  <!-- RISKS -->
+  <section>
+    <h2>The honest risk list</h2>
+    <p class="sub">Ranked by how much it should affect your decision.</p>
+    <div class="risk"><h3>Single-theme concentration <span class="tag h">Highest</span></h3><p>Everything depends on one industry's trajectory. There's no sector diversification to cushion a space-specific downturn — regulatory, funding, or demand shocks hit the whole basket at once.</p></div>
+    <div class="risk"><h3>Volatility &amp; drawdowns <span class="tag h">High</span></h3><p>Beta ~1.7 and 40–60% drawdowns are the norm, not the exception. This is unsuitable for money you may need within ~5 years.</p></div>
+    <div class="risk"><h3>Rate sensitivity <span class="tag m">Medium-High</span></h3><p>Heavy in long-duration, pre-profit growth names. Rising rates compress their valuations disproportionately, independent of how the actual businesses do.</p></div>
+    <div class="risk"><h3>Single-name blow-up risk <span class="tag m">Medium</span></h3><p>With top names ~5–6% each and some pre-revenue (e.g., AST SpaceMobile), a failure or capital raise at one holding can dent the fund meaningfully.</p></div>
+    <div class="risk"><h3>Fee drag &amp; small AUM <span class="tag l">Lower</span></h3><p>0.75% compounds against you, and a ~$1.3B fund carries modestly wider spreads and a small risk of closure if interest fades.</p></div>
+  </section>
+
+  <!-- FIT -->
+  <section>
+    <h2>Where it fits in a portfolio</h2>
+    <p class="sub">The useful question isn't "is it good?" — it's "what role, and how much?"</p>
+    <p>Standard portfolio-construction logic treats funds like this as a <strong>satellite</strong>: a small, optional tilt around a diversified <strong>core</strong> (a broad index fund). A common guardrail is keeping all speculative/thematic bets combined to a modest slice — often cited as ~5–10% of a portfolio — so a bad outcome is a setback, not a catastrophe.</p>
+    <div class="fit">
+      <div class="fitcard yes"><div class="h">Reasonable if…</div><p>You hold a diversified core already, have a multi-year horizon, have real conviction in the space thesis, and size it small enough to ride out a 50% drawdown without selling.</p></div>
+      <div class="fitcard maybe"><div class="h">Premature if…</div><p>You don't yet have a broad base. Build the core first; thematic tilts are an add-on, not a starting point.</p></div>
+      <div class="fitcard no"><div class="h">Wrong tool if…</div><p>The horizon is short, the position would be large, or you'd be buying mainly because it's recently run up. That's chasing, and it's how thematic funds hurt people.</p></div>
+    </div>
+  </section>
+
+  <!-- GLOSSARY -->
+  <section>
+    <h2>Glossary</h2>
+    <p class="sub">Terms from this page, defined once, properly.</p>
+    <div class="gloss">
+      <div class="gitem"><div class="t">ETF</div><div class="d">Exchange-traded fund — a basket of securities traded intraday like a stock.</div></div>
+      <div class="gitem"><div class="t">Thematic / pure-play</div><div class="d">A fund concentrated on one trend or industry. "Pure-play" means the holdings are tightly tied to that theme.</div></div>
+      <div class="gitem"><div class="t">Expense ratio</div><div class="d">Annual fee as a % of assets, deducted continuously. 0.75% = $7.50/yr per $1,000.</div></div>
+      <div class="gitem"><div class="t">Passive vs active</div><div class="d">Passive tracks a fixed index; active means a manager picks holdings, aiming to outperform.</div></div>
+      <div class="gitem"><div class="t">Market-cap weighting</div><div class="d">Sizing holdings by company value, so the largest dominate. UFO caps weights to avoid that.</div></div>
+      <div class="gitem"><div class="t">Beta</div><div class="d">Sensitivity to market moves. 1.0 = in line; ~1.7 = ~70% bigger swings up and down.</div></div>
+      <div class="gitem"><div class="t">Drawdown</div><div class="d">A peak-to-trough decline. Measures how far, and how painfully, something falls before recovering.</div></div>
+      <div class="gitem"><div class="t">Core &amp; satellite</div><div class="d">A diversified base (core) plus small targeted tilts (satellites). UFO is a satellite, never a core.</div></div>
+      <div class="gitem"><div class="t">AUM</div><div class="d">Assets under management — total money in the fund. Affects liquidity and closure risk.</div></div>
+      <div class="gitem"><div class="t">Bid-ask spread</div><div class="d">Gap between buy and sell prices — a hidden trading cost, wider in smaller funds.</div></div>
+    </div>
+    <a class="home" href="../">← Back to all primers</a>
+  </section>
+
+  <footer>
+    <strong>UFO · Plain-English Primer.</strong> Educational only — not financial, investment, or tax advice, and not a recommendation to buy or sell any security. Prices, AUM, holdings, fees and performance are a June 2026 snapshot from public sources, are not independently verified, and change over time. Thematic ETFs are concentrated and can be highly volatile. Do your own research and consider consulting a qualified professional.
+  </footer>
+
+</div>
+</body>
+</html>
