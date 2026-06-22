@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investing Accounts — A Plain-English Primer</title>
+<style>
+  :root{ color-scheme:light;
+    --rose:#C24E78; --rose800:#8E2F4F; --rose100:#F3DFE7;
+    --empty:#F0E7DE;
+    --paper:#FBF7F2; --card:#FFFFFF; --line:#E7DCD0;
+    --ink:#2A2620; --muted:#7A726B;
+    --serif:Georgia,"Times New Roman",serif;
+    --mono:ui-monospace,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+    line-height:1.55; -webkit-font-smoothing:antialiased;}
+  .page{max-width:760px; margin:0 auto; padding:30px 18px 64px;}
+
+  /* header */
+  .kicker{font-family:var(--mono); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--rose); font-weight:700;}
+  h1{font-family:var(--serif); font-weight:700; font-size:30px; line-height:1.15; margin:8px 0 8px; letter-spacing:-.2px;}
+  .sub{color:var(--muted); font-size:15px; max-width:620px; margin:0;}
+
+  /* the one big idea */
+  .bigidea{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--rose);
+    border-radius:12px; padding:18px 20px; margin:24px 0 8px;}
+  .bigidea .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--rose800); font-weight:700;}
+  .bigidea h2{font-family:var(--serif); font-size:20px; margin:6px 0 8px; font-weight:700;}
+  .bigidea p{margin:0; font-size:14.5px;}
+  .bigidea b{color:var(--rose800);}
+
+  /* figures */
+  .fig{margin:16px 0 4px; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 16px 12px;}
+  .fig svg{width:100%; height:auto; display:block;}
+  .fig .cap{font-size:12.2px; color:var(--muted); margin-top:10px; text-align:center; line-height:1.5;}
+  .fig .cap b{color:var(--rose800);}
+  .svg-mono{font-family:var(--mono); }
+  .svg-serif{font-family:var(--serif);}
+
+  /* section heads */
+  .sec{margin:38px 0 14px;}
+  .sec .step{font-family:var(--mono); font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--rose); font-weight:700;}
+  .sec h2{font-family:var(--serif); font-size:23px; margin:5px 0 4px; font-weight:700;}
+  .sec p{margin:0; color:var(--muted); font-size:14px;}
+
+  /* nav pills */
+  .nav{display:flex; flex-wrap:wrap; gap:8px; margin:22px 0 4px;}
+  .nav a{font-size:12.5px; font-weight:600; text-decoration:none; color:var(--ink);
+    background:var(--card); border:1px solid var(--line); border-radius:20px; padding:6px 13px; transition:.15s;}
+  .nav a:hover{border-color:var(--rose); color:var(--rose800);}
+
+  /* expand cards */
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; margin-bottom:12px; overflow:hidden;}
+  .card .face{display:flex; align-items:center; gap:14px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .card .face:hover{background:var(--rose100);}
+  .badge{flex:0 0 auto; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.5px;
+    background:var(--rose100); color:var(--rose800); border-radius:7px; padding:6px 9px; min-width:62px; text-align:center; text-transform:uppercase;}
+  .face .ft{flex:1;}
+  .face .nm{font-family:var(--serif); font-size:18px; font-weight:700;}
+  .face .one{font-size:13.2px; color:var(--muted); margin-top:1px;}
+  .chev{flex:0 0 auto; color:var(--rose); font-size:20px; transition:transform .2s; line-height:1;}
+  .card.open .chev{transform:rotate(45deg);}
+  .body{display:none; padding:2px 18px 18px; border-top:1px solid var(--line);}
+  .card.open .body{display:block; animation:fade .2s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(3px);} to{opacity:1; transform:none;}}
+
+  /* tax flow row inside card */
+  .flow{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:14px 0 4px;}
+  .flow .cell{background:var(--paper); border:1px solid var(--line); border-radius:9px; padding:10px 11px; text-align:center;}
+  .flow .cell .lab{font-family:var(--mono); font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); font-weight:700;}
+  .flow .cell .val{font-size:13px; font-weight:700; margin-top:4px;}
+  .flow .cell .val.good{color:#1f7a52;} .flow .cell .val.tax{color:var(--rose800);}
+
+  .body h4{font-size:12px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); margin:16px 0 6px; font-weight:700;}
+  .body p{font-size:13.8px; margin:0 0 8px;}
+  .body ul{margin:0; padding-left:18px; font-size:13.6px;}
+  .body li{margin:5px 0;}
+  .body b{color:var(--rose800);}
+  .num{display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 2px;}
+  .num .pill{background:var(--rose100); border-radius:8px; padding:7px 11px; font-size:12.6px;}
+  .num .pill b{color:var(--rose800); font-family:var(--mono);}
+
+  /* compare tool */
+  .tool{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; }
+  .toggles{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:6px;}
+  .tg{font-family:var(--mono); font-size:11.5px; font-weight:700; letter-spacing:.5px; text-transform:uppercase;
+    background:var(--paper); color:var(--muted); border:1px solid var(--line); border-radius:8px; padding:7px 11px; cursor:pointer; transition:.12s;}
+  .tg.on{background:var(--rose); color:#fff; border-color:var(--rose);}
+  .hint{font-size:12px; color:var(--muted); margin:4px 0 12px;}
+  .ctbl{width:100%; border-collapse:collapse; font-size:13px;}
+  .ctbl th,.ctbl td{text-align:left; padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:top;}
+  .ctbl th{font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); font-weight:700;}
+  .ctbl td:first-child, .ctbl th:first-child{font-weight:700; color:var(--ink); width:122px;}
+  .ctbl .colh{font-family:var(--mono); font-size:11px; letter-spacing:.5px; color:var(--rose800); text-transform:uppercase;}
+  .ctbl td{color:var(--ink);}
+
+  /* picker */
+  .picker{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px;}
+  .q{margin-bottom:16px;}
+  .q .qt{font-family:var(--serif); font-size:16px; font-weight:700; margin-bottom:9px;}
+  .opts{display:flex; flex-wrap:wrap; gap:8px;}
+  .opt{font-size:13px; font-weight:600; background:var(--paper); border:1px solid var(--line); border-radius:9px; padding:9px 13px; cursor:pointer; transition:.12s;}
+  .opt:hover{border-color:var(--rose);}
+  .opt.sel{background:var(--rose); color:#fff; border-color:var(--rose);}
+  .result{display:none; margin-top:6px; border-top:1px dashed var(--line); padding-top:16px;}
+  .result.show{display:block; animation:fade .2s ease;}
+  .result .rlab{font-family:var(--mono); font-size:10.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--rose); font-weight:700;}
+  .result .rnm{font-family:var(--serif); font-size:21px; font-weight:700; margin:4px 0 6px;}
+  .result p{font-size:13.8px; margin:0;}
+  .result .order{margin-top:12px; font-size:13px; color:var(--muted);}
+  .result .order b{color:var(--rose800);}
+  .reset{margin-top:14px; font-size:12px; color:var(--rose800); background:none; border:none; cursor:pointer; text-decoration:underline; padding:0;}
+
+  /* quiz */
+  .quiz{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px;}
+  .qz{border-top:1px solid var(--line); padding:16px 0;}
+  .qz:first-of-type{border-top:none; padding-top:2px;}
+  .qz .qzq{font-size:14.5px; font-weight:700; margin-bottom:10px;}
+  .qz .qzo{display:block; width:100%; text-align:left; font-size:13.3px; background:var(--paper); border:1px solid var(--line);
+    border-radius:8px; padding:9px 12px; margin:6px 0; cursor:pointer; transition:.12s; color:var(--ink);}
+  .qz .qzo:hover{border-color:var(--rose);}
+  .qz .qzo.correct{background:#e8f5ee; border-color:#1f7a52; color:#155f3e; font-weight:600;}
+  .qz .qzo.wrong{background:#fbeae8; border-color:var(--rose); color:var(--rose800);}
+  .qz .exp{display:none; font-size:12.8px; color:var(--muted); margin-top:8px; padding-left:2px;}
+  .qz .exp.show{display:block;}
+  .qz .exp b{color:var(--rose800);}
+  .score{font-family:var(--mono); font-size:12.5px; color:var(--rose800); font-weight:700; margin-top:6px;}
+
+  .disclaimer{font-size:11.5px; color:var(--muted); margin-top:30px; line-height:1.6; border-top:1px solid var(--line); padding-top:16px;}
+  .disclaimer b{color:var(--ink);}
+  .updated{font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.5px; margin-top:6px;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="kicker">Rose Ticker · Investing 101</div>
+  <h1>The four accounts your money can live in</h1>
+  <p class="sub">If you have a 401(k) but have never really understood it, start here. Plain English, one idea at a time, nothing to memorize. Tap anything to open it.</p>
+
+  <!-- THE ONE BIG IDEA -->
+  <div class="bigidea">
+    <div class="tag">Read this part if nothing else</div>
+    <h2>An account is a container, not an investment.</h2>
+    <p>A 401(k) or an IRA isn't a thing you buy — it's a <b>box you put investments inside</b>. The box decides the <b>tax rules</b>; the stuff inside the box (funds, stocks) decides how it grows. Two people can own the exact same fund — one in a Roth, one in a brokerage — and keep wildly different amounts after taxes. So the question isn't only <i>what</i> to buy. It's <b>which box to put it in first.</b></p>
+  </div>
+
+  <!-- container diagram -->
+  <figure class="fig" style="margin-top:12px">
+    <svg viewBox="0 0 600 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram: the account is a box that holds investments inside">
+      <!-- the box -->
+      <rect x="28" y="58" width="544" height="168" rx="14" fill="#FBF7F2" stroke="#C24E78" stroke-width="2"/>
+      <!-- label tab -->
+      <rect x="28" y="36" width="300" height="32" rx="8" fill="#C24E78"/>
+      <text x="44" y="57" fill="#FFFFFF" class="svg-mono" font-size="13" font-weight="700" letter-spacing="1">THE ACCOUNT  ·  THE BOX</text>
+      <text x="338" y="52" fill="#8E2F4F" class="svg-mono" font-size="11" letter-spacing="1">401(k) / Roth / Traditional / Brokerage</text>
+      <text x="338" y="66" fill="#7A726B" class="svg-mono" font-size="10">↑ this is what sets the tax rules</text>
+      <!-- inside label -->
+      <text x="48" y="98" fill="#7A726B" class="svg-mono" font-size="10.5" letter-spacing="1">WHAT YOU PUT INSIDE (YOU CHOOSE):</text>
+      <!-- three tiles -->
+      <g>
+        <rect x="48" y="112" width="156" height="86" rx="10" fill="#FFFFFF" stroke="#E7DCD0"/>
+        <text x="126" y="150" text-anchor="middle" fill="#2A2620" class="svg-serif" font-size="15" font-weight="700">Index fund</text>
+        <text x="126" y="172" text-anchor="middle" fill="#7A726B" font-size="11">a basket of stocks</text>
+      </g>
+      <g>
+        <rect x="222" y="112" width="156" height="86" rx="10" fill="#FFFFFF" stroke="#E7DCD0"/>
+        <text x="300" y="150" text-anchor="middle" fill="#2A2620" class="svg-serif" font-size="15" font-weight="700">A stock</text>
+        <text x="300" y="172" text-anchor="middle" fill="#7A726B" font-size="11">one company</text>
+      </g>
+      <g>
+        <rect x="396" y="112" width="156" height="86" rx="10" fill="#FFFFFF" stroke="#E7DCD0"/>
+        <text x="474" y="150" text-anchor="middle" fill="#2A2620" class="svg-serif" font-size="15" font-weight="700">Bonds / cash</text>
+        <text x="474" y="172" text-anchor="middle" fill="#7A726B" font-size="11">steadier, lower growth</text>
+      </g>
+    </svg>
+    <div class="cap">The <b>box</b> sets the tax rules. The <b>investments inside</b> decide how it grows. Same fund in a different box can mean a very different amount kept.</div>
+  </figure>
+
+  <div class="nav">
+    <a href="#accounts">The 4 boxes</a>
+    <a href="#compare">Compare them</a>
+    <a href="#picker">Which one for me?</a>
+    <a href="#quiz">Check yourself</a>
+  </div>
+
+  <!-- ACCOUNTS -->
+  <div class="sec" id="accounts">
+    <div class="step">Step 1</div>
+    <h2>The four boxes</h2>
+    <p>Each card shows a one-line version. Tap to open the full picture. The colored strip = when you pay tax.</p>
+  </div>
+
+  <!-- 401k -->
+  <div class="card" data-acct="401k">
+    <div class="face">
+      <span class="badge">401(k)</span>
+      <span class="ft">
+        <span class="nm">The work box</span>
+        <span class="one">Set up by your job. Money goes in from your paycheck — often with free matching cash.</span>
+      </span>
+      <span class="chev">+</span>
+    </div>
+    <div class="body">
+      <div class="flow">
+        <div class="cell"><div class="lab">Money in</div><div class="val good">No tax now*</div></div>
+        <div class="cell"><div class="lab">While it grows</div><div class="val good">No tax</div></div>
+        <div class="cell"><div class="lab">Money out (retire)</div><div class="val tax">Taxed</div></div>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin:2px 0 0">*This is the classic "traditional" 401(k). Many plans also offer a <b>Roth 401(k)</b>, where it flips: taxed now, tax-free later.</p>
+
+      <h4>What it actually is</h4>
+      <p>A retirement account your <b>employer</b> sets up. You pick a percentage of your paycheck, and it's pulled out automatically before you ever see it — that "set it and forget it" auto-pilot is why most people end up invested without trying.</p>
+
+      <h4>The best part</h4>
+      <p>Many employers <b>match</b> part of what you put in — say, 50¢ for every $1 up to a limit. That's a 50% return before the market does anything. <b>Always grab the full match</b>; skipping it is leaving pay on the table.</p>
+
+      <h4>The catches</h4>
+      <ul>
+        <li>You can only invest in the <b>menu of funds</b> your plan offers — not anything you want.</li>
+        <li>Touch it before age <b>59½</b> and you usually owe taxes + a <b>10% penalty</b>.</li>
+        <li>Traditional 401(k)s force you to start withdrawing (and paying tax) at age <b>73</b> — called RMDs.</li>
+      </ul>
+
+      <h4>2026 limits</h4>
+      <div class="num">
+        <span class="pill">You can add <b>$24,500</b>/yr</span>
+        <span class="pill">Age 50+: <b>+$8,000</b></span>
+        <span class="pill">Age 60–63: <b>+$11,250</b></span>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:8px">Employer match is on top of your own limit. Note: if you earned over $150k in 2025, any catch-up must go in Roth-style starting 2026.</p>
+    </div>
+  </div>
+
+  <!-- Roth IRA -->
+  <div class="card" data-acct="roth">
+    <div class="face">
+      <span class="badge">Roth IRA</span>
+      <span class="ft">
+        <span class="nm">The tax-free-later box</span>
+        <span class="one">You open it yourself. Pay tax now, then never again on the growth.</span>
+      </span>
+      <span class="chev">+</span>
+    </div>
+    <div class="body">
+      <div class="flow">
+        <div class="cell"><div class="lab">Money in</div><div class="val tax">Taxed now</div></div>
+        <div class="cell"><div class="lab">While it grows</div><div class="val good">No tax</div></div>
+        <div class="cell"><div class="lab">Money out (retire)</div><div class="val good">Tax-free</div></div>
+      </div>
+
+      <h4>What it actually is</h4>
+      <p>A retirement account <b>you</b> open at a brokerage (Fidelity, Vanguard, Schwab). You fund it with money you've <b>already paid tax on</b> — so the deal is: pay the IRS now, and every dollar of growth comes out <b>completely tax-free</b> in retirement.</p>
+
+      <h4>The best part</h4>
+      <p>Decades of gains, never taxed. It's the best deal in the tax code if you expect to be in a similar-or-higher tax bracket later — and it has <b>no RMDs</b>, so it can grow untouched your whole life. You can also pull out <b>what you contributed</b> (not the growth) anytime, penalty-free — a quiet emergency backstop.</p>
+
+      <h4>The catches</h4>
+      <ul>
+        <li>Earn too much and you <b>can't contribute directly</b> (see limits below).</li>
+        <li>Pulling out the <b>earnings</b> early can trigger taxes + a 10% penalty.</li>
+        <li>You're using after-tax dollars, so it "costs" more up front than a traditional account.</li>
+      </ul>
+
+      <h4>2026 limits</h4>
+      <div class="num">
+        <span class="pill">Add <b>$7,500</b>/yr</span>
+        <span class="pill">Age 50+: <b>+$1,100</b></span>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:8px">Income to contribute fully phases out: single <b>$153k–$168k</b>, married-jointly <b>$242k–$252k</b> (2026). Above that, contributions shrink to zero. This $7,500 is <b>shared</b> with a Traditional IRA — it's one combined limit.</p>
+    </div>
+  </div>
+
+  <!-- Traditional IRA -->
+  <div class="card" data-acct="trad">
+    <div class="face">
+      <span class="badge">Trad IRA</span>
+      <span class="ft">
+        <span class="nm">The tax-break-now box</span>
+        <span class="one">You open it yourself. Often a tax deduction today; pay tax when you withdraw.</span>
+      </span>
+      <span class="chev">+</span>
+    </div>
+    <div class="body">
+      <div class="flow">
+        <div class="cell"><div class="lab">Money in</div><div class="val good">No tax now*</div></div>
+        <div class="cell"><div class="lab">While it grows</div><div class="val good">No tax</div></div>
+        <div class="cell"><div class="lab">Money out (retire)</div><div class="val tax">Taxed</div></div>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin:2px 0 0">*The contribution may be tax-deductible — but if you (or a spouse) also have a 401(k), the deduction phases out at higher incomes.</p>
+
+      <h4>What it actually is</h4>
+      <p>The mirror image of a Roth, opened the same way (by you, at a brokerage). You may get a <b>tax deduction this year</b> for what you put in, the money grows untaxed, and you pay ordinary tax later when you pull it out. Think: <b>tax break now, bill later.</b></p>
+
+      <h4>The best part</h4>
+      <p>Lowers your taxable income <b>today</b>. Most useful if you think you'll be in a <b>lower tax bracket</b> in retirement than you are now, or you want the deduction this year. It's also the landing spot when people <b>roll over an old 401(k)</b> after leaving a job.</p>
+
+      <h4>The catches</h4>
+      <ul>
+        <li>Withdrawals are <b>fully taxed</b> as income — the tax bill is just deferred, not erased.</li>
+        <li><b>RMDs at 73</b>: the IRS makes you start withdrawing (and paying).</li>
+        <li>Early withdrawals before 59½ generally cost taxes + a 10% penalty.</li>
+      </ul>
+
+      <h4>2026 limits</h4>
+      <div class="num">
+        <span class="pill">Add <b>$7,500</b>/yr</span>
+        <span class="pill">Age 50+: <b>+$1,100</b></span>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:8px">Anyone with earned income can contribute — but the <b>deduction</b> is what phases out at higher incomes if you're covered by a work plan. Shares the $7,500 limit with a Roth IRA.</p>
+    </div>
+  </div>
+
+  <!-- Brokerage -->
+  <div class="card" data-acct="brok">
+    <div class="face">
+      <span class="badge">Brokerage</span>
+      <span class="ft">
+        <span class="nm">The no-rules box</span>
+        <span class="one">A regular investment account. No tax perks, but no limits and no waiting.</span>
+      </span>
+      <span class="chev">+</span>
+    </div>
+    <div class="body">
+      <div class="flow">
+        <div class="cell"><div class="lab">Money in</div><div class="val tax">After-tax</div></div>
+        <div class="cell"><div class="lab">While it grows</div><div class="val tax">Taxed</div></div>
+        <div class="cell"><div class="lab">Money out</div><div class="val good">No penalty</div></div>
+      </div>
+
+      <h4>What it actually is</h4>
+      <p>A plain <b>taxable</b> investment account you open yourself. No retirement strings attached — you invest after-tax money and the government taxes your <b>dividends and gains</b> along the way, but in exchange you get total freedom.</p>
+
+      <h4>The best part</h4>
+      <p>No contribution limits, no income limits, and <b>no age rules</b> — take money out whenever you want, for anything. It's the right box for goals <b>before</b> retirement (a house, a few years out) and for investing more once your tax-advantaged accounts are full.</p>
+
+      <h4>The catches</h4>
+      <ul>
+        <li>No tax break — you owe tax on <b>gains and dividends</b>, even some years you don't sell.</li>
+        <li>Holding over a year gets a <b>lower long-term capital-gains rate</b>; selling quickly is taxed higher.</li>
+        <li>Easy access cuts both ways — nothing stops you from cashing out at the worst time.</li>
+      </ul>
+
+      <h4>Limits</h4>
+      <div class="num">
+        <span class="pill"><b>None</b> — invest as much as you want</span>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:8px">Usually the box you fill <b>after</b> capturing your 401(k) match and maxing an IRA.</p>
+    </div>
+  </div>
+
+  <!-- GROWTH CHART -->
+  <div class="sec">
+    <div class="step">Why it matters</div>
+    <h2>What investing actually does</h2>
+    <p>Even $200 a month — invested, versus just left sitting in the bank.</p>
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Line chart comparing the same money invested versus left in the bank over 30 years">
+      <!-- gap fill = the growth -->
+      <polygon points="60.0,250.0 76.7,247.8 93.3,245.4 110.0,242.8 126.7,240.0 143.3,237.1 160.0,233.9 176.7,230.5 193.3,226.9 210.0,223.0 226.7,218.8 243.3,214.3 260.0,209.5 276.7,204.3 293.3,198.8 310.0,192.8 326.7,186.5 343.3,179.6 360.0,172.3 376.7,164.5 393.3,156.1 410.0,147.0 426.7,137.4 443.3,127.0 460.0,115.9 476.7,103.9 493.3,91.1 510.0,77.4 526.7,62.7 543.3,46.9 560.0,30.0 560.0,185.1 543.3,187.2 526.7,189.4 510.0,191.6 493.3,193.7 476.7,195.9 460.0,198.1 443.3,200.2 426.7,202.4 410.0,204.6 393.3,206.7 376.7,208.9 360.0,211.0 343.3,213.2 326.7,215.4 310.0,217.5 293.3,219.7 276.7,221.9 260.0,224.0 243.3,226.2 226.7,228.4 210.0,230.5 193.3,232.7 176.7,234.9 160.0,237.0 143.3,239.2 126.7,241.3 110.0,243.5 93.3,245.7 76.7,247.8 60.0,250.0" fill="#F3DFE7"/>
+      <!-- axes -->
+      <line x1="60" y1="30" x2="60" y2="250" stroke="#E7DCD0" stroke-width="1"/>
+      <line x1="60" y1="250" x2="560" y2="250" stroke="#E7DCD0" stroke-width="1"/>
+      <!-- left-in-the-bank line (dashed) -->
+      <polyline fill="none" stroke="#7A726B" stroke-width="2" stroke-dasharray="5 4" points="60.0,250.0 76.7,247.8 93.3,245.7 110.0,243.5 126.7,241.3 143.3,239.2 160.0,237.0 176.7,234.9 193.3,232.7 210.0,230.5 226.7,228.4 243.3,226.2 260.0,224.0 276.7,221.9 293.3,219.7 310.0,217.5 326.7,215.4 343.3,213.2 360.0,211.0 376.7,208.9 393.3,206.7 410.0,204.6 426.7,202.4 443.3,200.2 460.0,198.1 476.7,195.9 493.3,193.7 510.0,191.6 526.7,189.4 543.3,187.2 560.0,185.1"/>
+      <!-- invested line -->
+      <polyline fill="none" stroke="#C24E78" stroke-width="2.6" points="60.0,250.0 76.7,247.8 93.3,245.4 110.0,242.8 126.7,240.0 143.3,237.1 160.0,233.9 176.7,230.5 193.3,226.9 210.0,223.0 226.7,218.8 243.3,214.3 260.0,209.5 276.7,204.3 293.3,198.8 310.0,192.8 326.7,186.5 343.3,179.6 360.0,172.3 376.7,164.5 393.3,156.1 410.0,147.0 426.7,137.4 443.3,127.0 460.0,115.9 476.7,103.9 493.3,91.1 510.0,77.4 526.7,62.7 543.3,46.9 560.0,30.0"/>
+      <!-- end dots -->
+      <circle cx="560" cy="30" r="4" fill="#C24E78"/>
+      <circle cx="560" cy="185.1" r="4" fill="#7A726B"/>
+      <!-- end value labels -->
+      <text x="552" y="24" text-anchor="end" fill="#8E2F4F" class="svg-mono" font-size="12.5" font-weight="700">~$244,000</text>
+      <text x="552" y="202" text-anchor="end" fill="#7A726B" class="svg-mono" font-size="12.5" font-weight="700">$72,000</text>
+      <!-- gap label -->
+      <text x="300" y="150" text-anchor="middle" fill="#8E2F4F" class="svg-mono" font-size="13" font-weight="700">+$172,000</text>
+      <text x="300" y="166" text-anchor="middle" fill="#8E2F4F" class="svg-mono" font-size="10">your money earning money</text>
+      <!-- legend -->
+      <line x1="72" y1="42" x2="96" y2="42" stroke="#C24E78" stroke-width="2.6"/>
+      <text x="102" y="46" fill="#2A2620" font-size="11.5">Invested (about 7% a year)</text>
+      <line x1="72" y1="60" x2="96" y2="60" stroke="#7A726B" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="102" y="64" fill="#2A2620" font-size="11.5">Just left in the bank</text>
+      <!-- x ticks -->
+      <text x="60" y="270" text-anchor="middle" fill="#7A726B" font-size="11">Today</text>
+      <text x="310" y="270" text-anchor="middle" fill="#7A726B" font-size="11">15 years</text>
+      <text x="560" y="270" text-anchor="middle" fill="#7A726B" font-size="11">30 years</text>
+    </svg>
+    <div class="cap"><b>$200 a month for 30 years.</b> You set aside <b>$72,000</b> either way — but invested at about 7% a year it could grow to <b>~$244,000</b>. That extra <b>~$172,000</b> is your money earning money, not extra hours at work. This is exactly what your 401(k) is doing in the background. Markets rise and fall; this shows the idea, not a promise.</div>
+  </figure>
+
+  <!-- COMPARE -->
+  <div class="sec" id="compare">
+    <div class="step">Step 2</div>
+    <h2>Compare them side by side</h2>
+    <p>Turn boxes on and off to compare just the ones you care about.</p>
+  </div>
+
+  <div class="tool">
+    <div class="toggles" id="toggles">
+      <button class="tg on" data-col="401k">401(k)</button>
+      <button class="tg on" data-col="roth">Roth IRA</button>
+      <button class="tg on" data-col="trad">Trad IRA</button>
+      <button class="tg on" data-col="brok">Brokerage</button>
+    </div>
+    <div class="hint">Tip: compare just 401(k) vs Roth IRA — the two most people mix up.</div>
+    <div style="overflow-x:auto;">
+    <table class="ctbl" id="ctbl">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="colh" data-col="401k">401(k)</th>
+          <th class="colh" data-col="roth">Roth IRA</th>
+          <th class="colh" data-col="trad">Trad IRA</th>
+          <th class="colh" data-col="brok">Brokerage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Who opens it</td>
+          <td data-col="401k">Your employer</td>
+          <td data-col="roth">You</td>
+          <td data-col="trad">You</td>
+          <td data-col="brok">You</td></tr>
+        <tr><td>Tax break</td>
+          <td data-col="401k">Now (traditional)</td>
+          <td data-col="roth">Later — growth tax-free</td>
+          <td data-col="trad">Now (a deduction)</td>
+          <td data-col="brok">None</td></tr>
+        <tr><td>2026 yearly limit</td>
+          <td data-col="401k">$24,500</td>
+          <td data-col="roth">$7,500*</td>
+          <td data-col="trad">$7,500*</td>
+          <td data-col="brok">No limit</td></tr>
+        <tr><td>Income limit to use it</td>
+          <td data-col="401k">None</td>
+          <td data-col="roth">Yes — phases out</td>
+          <td data-col="trad">None to contribute</td>
+          <td data-col="brok">None</td></tr>
+        <tr><td>Free employer money</td>
+          <td data-col="401k">Often — the match</td>
+          <td data-col="roth">No</td>
+          <td data-col="trad">No</td>
+          <td data-col="brok">No</td></tr>
+        <tr><td>Get money early?</td>
+          <td data-col="401k">Penalty before 59½</td>
+          <td data-col="roth">Contributions yes; growth no</td>
+          <td data-col="trad">Penalty before 59½</td>
+          <td data-col="brok">Anytime</td></tr>
+        <tr><td>Forced withdrawals (RMDs)</td>
+          <td data-col="401k">Yes, at 73</td>
+          <td data-col="roth">No</td>
+          <td data-col="trad">Yes, at 73</td>
+          <td data-col="brok">No</td></tr>
+        <tr><td>Best for</td>
+          <td data-col="401k">Easy auto-investing + match</td>
+          <td data-col="roth">Tax-free retirement growth</td>
+          <td data-col="trad">A deduction now / rollovers</td>
+          <td data-col="brok">Flexible & pre-retirement goals</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:11.5px;color:var(--muted);margin:12px 0 0">*The $7,500 is a single combined limit shared across your Roth and Traditional IRAs.</p>
+  </div>
+
+  <!-- PICKER -->
+  <div class="sec" id="picker">
+    <div class="step">Step 3</div>
+    <h2>Which box for me?</h2>
+    <p>Answer two quick questions. This is a starting nudge, not personal advice.</p>
+  </div>
+
+  <div class="picker">
+    <div class="q">
+      <div class="qt">1. Does your job offer a 401(k) match?</div>
+      <div class="opts" data-q="match">
+        <button class="opt" data-v="yes">Yes, or not sure</button>
+        <button class="opt" data-v="no">No match offered</button>
+      </div>
+    </div>
+    <div class="q">
+      <div class="qt">2. When will you likely need this money?</div>
+      <div class="opts" data-q="when">
+        <button class="opt" data-v="retire">Retirement (far off)</button>
+        <button class="opt" data-v="soon">Sooner — a goal in a few years</button>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <div class="rlab">Start with</div>
+      <div class="rnm" id="rnm">—</div>
+      <p id="rtext"></p>
+      <div class="order" id="rorder"></div>
+      <button class="reset" id="reset">Start over</button>
+    </div>
+  </div>
+
+  <figure class="fig" style="margin-top:16px">
+    <svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A staircase showing the usual order to fund accounts: match, then IRA, then max the 401k, then a brokerage">
+      <!-- climb arrow -->
+      <line x1="34" y1="300" x2="34" y2="60" stroke="#E7DCD0" stroke-width="2"/>
+      <polygon points="34,48 28,62 40,62" fill="#C24E78"/>
+      <text x="20" y="200" transform="rotate(-90 20 200)" text-anchor="middle" fill="#7A726B" class="svg-mono" font-size="10" letter-spacing="1.5">FILL IN THIS ORDER</text>
+
+      <!-- Step 1 (bottom) -->
+      <rect x="60" y="262" width="430" height="62" rx="12" fill="#FFFFFF" stroke="#C24E78" stroke-width="2"/>
+      <circle cx="94" cy="293" r="18" fill="#C24E78"/>
+      <text x="94" y="299" text-anchor="middle" fill="#FFFFFF" class="svg-serif" font-size="17" font-weight="700">1</text>
+      <text x="124" y="289" fill="#2A2620" class="svg-serif" font-size="15.5" font-weight="700">Grab the full 401(k) match</text>
+      <text x="124" y="309" fill="#7A726B" font-size="11.5">Free money — an instant ~50–100% return</text>
+      <rect x="430" y="276" width="52" height="20" rx="10" fill="#F3DFE7"/>
+      <text x="456" y="290" text-anchor="middle" fill="#8E2F4F" class="svg-mono" font-size="10" font-weight="700">START</text>
+
+      <!-- Step 2 -->
+      <rect x="100" y="196" width="430" height="62" rx="12" fill="#FFFFFF" stroke="#E7DCD0"/>
+      <circle cx="134" cy="227" r="18" fill="#C24E78"/>
+      <text x="134" y="233" text-anchor="middle" fill="#FFFFFF" class="svg-serif" font-size="17" font-weight="700">2</text>
+      <text x="164" y="223" fill="#2A2620" class="svg-serif" font-size="15.5" font-weight="700">Max an IRA (Roth or Traditional)</text>
+      <text x="164" y="243" fill="#7A726B" font-size="11.5">Up to $7,500 — a box you fully control (2026)</text>
+
+      <!-- Step 3 -->
+      <rect x="140" y="130" width="430" height="62" rx="12" fill="#FFFFFF" stroke="#E7DCD0"/>
+      <circle cx="174" cy="161" r="18" fill="#C24E78"/>
+      <text x="174" y="167" text-anchor="middle" fill="#FFFFFF" class="svg-serif" font-size="17" font-weight="700">3</text>
+      <text x="204" y="157" fill="#2A2620" class="svg-serif" font-size="15.5" font-weight="700">Go back &amp; fill the 401(k)</text>
+      <text x="204" y="177" fill="#7A726B" font-size="11.5">Up to $24,500 total for the year (2026)</text>
+
+      <!-- Step 4 (top) -->
+      <rect x="180" y="64" width="430" height="62" rx="12" fill="#FBF7F2" stroke="#E7DCD0"/>
+      <circle cx="214" cy="95" r="18" fill="#7A726B"/>
+      <text x="214" y="101" text-anchor="middle" fill="#FFFFFF" class="svg-serif" font-size="17" font-weight="700">4</text>
+      <text x="244" y="91" fill="#2A2620" class="svg-serif" font-size="15.5" font-weight="700">Then a brokerage account</text>
+      <text x="244" y="111" fill="#7A726B" font-size="11.5">No limits — for anything left to invest</text>
+    </svg>
+    <div class="cap">The usual order most people follow: <b>free money first</b>, then the tax-advantaged boxes, then the flexible one. A common rule of thumb — not personal advice, and the IRA-vs-401(k) order can flip depending on your plan's fees and fund menu.</div>
+  </figure>
+
+  <!-- QUIZ -->
+  <div class="sec" id="quiz">
+    <div class="step">Step 4</div>
+    <h2>Check yourself</h2>
+    <p>Three quick questions. Tap an answer — it tells you why right away.</p>
+  </div>
+
+  <div class="quiz" id="quizbox">
+    <div class="qz" data-correct="b">
+      <div class="qzq">1. Your friend says "I bought a 401(k)." What's off about that?</div>
+      <button class="qzo" data-k="a">Nothing — a 401(k) is an investment you buy</button>
+      <button class="qzo" data-k="b">A 401(k) is a container; you buy investments inside it</button>
+      <button class="qzo" data-k="c">401(k)s can't hold investments</button>
+      <div class="exp"><b>An account is a container, not an investment.</b> The 401(k) is the box; funds go inside. That one idea unlocks the rest.</div>
+    </div>
+
+    <div class="qz" data-correct="a">
+      <div class="qzq">2. Your employer matches 401(k) contributions. What should you usually do first?</div>
+      <button class="qzo" data-k="a">Contribute at least enough to get the full match</button>
+      <button class="qzo" data-k="b">Skip the 401(k) and open a brokerage</button>
+      <button class="qzo" data-k="c">Wait until you earn more</button>
+      <div class="exp">The match is <b>free money</b> — often an instant 50–100% return. Grabbing the full match almost always comes before anything else.</div>
+    </div>
+
+    <div class="qz" data-correct="c">
+      <div class="qzq">3. Which box lets your growth come out completely tax-free in retirement?</div>
+      <button class="qzo" data-k="a">Traditional IRA</button>
+      <button class="qzo" data-k="b">Brokerage account</button>
+      <button class="qzo" data-k="c">Roth IRA</button>
+      <div class="exp">A <b>Roth</b> is taxed going in, then growth and withdrawals come out tax-free. Traditional is the reverse; a brokerage is taxed along the way.</div>
+    </div>
+    <div class="score" id="score"></div>
+  </div>
+
+  <div class="disclaimer">
+    <b>Educational, not financial advice.</b> This primer explains how account types generally work; it isn't a recommendation for your situation. Tax rules, limits, and income thresholds change and have exceptions — 2026 figures are from the IRS cost-of-living announcement. Confirm specifics with the IRS or a qualified advisor before acting.
+    <div class="updated">Rose Ticker · Investing 101 · figures current as of 2026</div>
+  </div>
+
+</div>
+
+<script>
+  // expand cards
+  document.querySelectorAll('.card .face').forEach(function(f){
+    f.addEventListener('click', function(){ f.parentElement.classList.toggle('open'); });
+  });
+
+  // compare toggles
+  document.querySelectorAll('#toggles .tg').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var col = btn.dataset.col;
+      var on = btn.classList.toggle('on');
+      document.querySelectorAll('#ctbl [data-col="'+col+'"]').forEach(function(cell){
+        cell.style.display = on ? '' : 'none';
+      });
+    });
+  });
+
+  // picker
+  var picks = {match:null, when:null};
+  document.querySelectorAll('.opts').forEach(function(grp){
+    grp.querySelectorAll('.opt').forEach(function(o){
+      o.addEventListener('click', function(){
+        grp.querySelectorAll('.opt').forEach(function(x){x.classList.remove('sel');});
+        o.classList.add('sel');
+        picks[grp.dataset.q] = o.dataset.v;
+        if(picks.match && picks.when) showResult();
+      });
+    });
+  });
+  function showResult(){
+    var nm, txt, order;
+    if(picks.when === 'soon'){
+      nm = 'A brokerage account';
+      txt = 'For money you’ll need before retirement, skip the locked-up retirement boxes — a brokerage lets you take it out anytime with no penalty.';
+      order = picks.match==='yes'
+        ? 'Still grab your <b>401(k) match</b> first (free money), then put short-term savings in a <b>brokerage</b>.'
+        : 'Use a <b>brokerage</b> for the near-term goal; keep retirement money in retirement boxes.';
+    } else if(picks.match === 'yes'){
+      nm = 'Your 401(k) — up to the match';
+      txt = 'Free matching money beats every other tax perk. Capture the full match first, then look at an IRA for more tax-advantaged room.';
+      order = 'A common order: <b>1)</b> 401(k) up to the match → <b>2)</b> Roth or Traditional IRA → <b>3)</b> back to the 401(k) → <b>4)</b> brokerage.';
+    } else {
+      nm = 'A Roth IRA';
+      txt = 'No match to chase, so start with the account you control. A Roth gives you decades of tax-free growth (if your income qualifies).';
+      order = 'A common order: <b>1)</b> Roth (or Traditional) IRA → <b>2)</b> any 401(k) → <b>3)</b> brokerage for the rest.';
+    }
+    document.getElementById('rnm').innerHTML = nm;
+    document.getElementById('rtext').innerHTML = txt;
+    document.getElementById('rorder').innerHTML = order;
+    document.getElementById('result').classList.add('show');
+  }
+  document.getElementById('reset').addEventListener('click', function(){
+    picks = {match:null, when:null};
+    document.querySelectorAll('.picker .opt').forEach(function(x){x.classList.remove('sel');});
+    document.getElementById('result').classList.remove('show');
+  });
+
+  // quiz
+  var answered = 0, correct = 0, total = document.querySelectorAll('#quizbox .qz').length;
+  document.querySelectorAll('#quizbox .qz').forEach(function(qz){
+    var done = false;
+    qz.querySelectorAll('.qzo').forEach(function(opt){
+      opt.addEventListener('click', function(){
+        if(done) return; done = true; answered++;
+        var key = opt.dataset.k, ans = qz.dataset.correct;
+        if(key === ans){ opt.classList.add('correct'); correct++; }
+        else{
+          opt.classList.add('wrong');
+          qz.querySelector('.qzo[data-k="'+ans+'"]').classList.add('correct');
+        }
+        qz.querySelector('.exp').classList.add('show');
+        if(answered === total){
+          document.getElementById('score').textContent = 'You got '+correct+' of '+total+' — now you know the boxes.';
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
