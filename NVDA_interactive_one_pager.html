@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nvidia (NVDA) — Rose Ticker Primer</title>
+<style>
+  :root{ color-scheme:light;
+    --ink:#2A2620; --muted:#7A726B; --soft:#9A918A; --line:#E7DCD0;
+    --bg:#FBF7F2; --card:#FFFFFF;
+    --brand:#C24E78; --rose800:#8E2F4F; --rose100:#F3DFE7; --empty:#F0E7DE;
+    --green:#1b7a49; --greenbg:#EEF4EE; --red:#B3402E; --redbg:#F7ECE9;
+    --amber:#9a6b16; --amberbg:#F7F0E1;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.6;}
+  .page{max-width:1000px; margin:0 auto; padding:24px 18px 50px;}
+  .serif{font-family:Georgia,"Times New Roman",serif;}
+
+  /* header — editorial, no gradient, no emoji */
+  .head{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--brand);
+    border-radius:0 14px 14px 0; padding:22px 26px;}
+  .toprow{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .ticker{display:inline-block; background:var(--ink); color:#fff; font-family:ui-monospace,Menlo,monospace;
+    font-weight:700; border-radius:6px; padding:4px 11px; letter-spacing:1px; font-size:13px;}
+  .sub{font-size:12px; color:var(--muted); font-weight:600;}
+  .head h1{margin:12px 0 6px; font-size:27px; letter-spacing:-.2px; color:var(--ink);}
+  .head p{margin:0; color:var(--muted); max-width:730px; font-size:14px;}
+  .head .ex{margin-top:12px; font-size:11.5px; color:var(--soft);}
+
+  /* stat strip */
+  .strip{display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin:16px 0;}
+  @media(max-width:760px){ .strip{grid-template-columns:repeat(3,1fr);} }
+  @media(max-width:460px){ .strip{grid-template-columns:repeat(2,1fr);} }
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:11px; padding:12px 14px;}
+  .stat .k{font-size:10px; text-transform:uppercase; letter-spacing:.6px; color:var(--soft); font-weight:700;}
+  .stat .v{font-size:18.5px; font-weight:800; margin-top:3px;}
+  .stat .s{font-size:11px; color:var(--soft); margin-top:1px;}
+
+  /* 60-second TL;DR */
+  .tldr{background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin:16px 0;}
+  .tldr .tldr-tag{font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:1px;
+    text-transform:uppercase; color:var(--brand); font-weight:700; margin-bottom:8px;}
+  .tldr .tldr-row{display:flex; gap:12px; font-size:13.6px; color:var(--ink); padding:7px 0; border-top:1px solid #EFE7DE;}
+  .tldr .tldr-row:first-of-type{border-top:none;}
+  .tldr .tldr-k{flex:0 0 58px; font-weight:800; color:var(--rose800);}
+
+  /* Interactive Hype Check scorecard */
+  .rtv{background:#fff; border:1px solid var(--line); border-left:4px solid var(--brand);
+    border-radius:0 14px 14px 0; padding:18px 22px; margin:16px 0;}
+  .rtv .rtv-tag{font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:1px;
+    text-transform:uppercase; color:var(--brand); font-weight:700;}
+  .rtv .rtv-verdict{font-family:Georgia,"Times New Roman",serif; font-size:20px; line-height:1.35;
+    color:var(--ink); margin:6px 0 8px;}
+  .rtv .rtv-score{font-size:13px; color:var(--ink); margin:2px 0 6px;}
+  .rtv .rtv-score b{color:var(--rose800);}
+  .rtv .rtv-hint{font-size:11px; color:var(--soft); margin-left:6px;}
+  .rtv .sc-group{font-size:11px; text-transform:uppercase; letter-spacing:.6px; color:var(--muted); font-weight:700; margin:14px 0 2px;}
+  .rtv .sc{border-top:1px solid #EFE7DE; cursor:pointer;}
+  .rtv .sc:first-of-type{border-top:none;}
+  .rtv .sc-head{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:9px 0;}
+  .rtv .sc-name{font-size:13.4px; color:var(--ink); font-weight:600;}
+  .rtv .sc-meter{font-family:ui-monospace,Menlo,monospace; font-size:13px; color:var(--brand); letter-spacing:2px; white-space:nowrap;}
+  .rtv .sc-meter.drag{color:var(--red); letter-spacing:.3px;}
+  .rtv .sc-ev{display:none; font-size:12.6px; color:#4A433D; line-height:1.55; padding:0 2px 10px;}
+  .rtv .sc-ev .dis{display:block; margin-top:5px; color:var(--muted);}
+  .rtv .sc.open .sc-ev{display:block;}
+  .rtv .rtv-foot{font-size:11px; color:var(--soft); margin-top:10px;}
+
+  /* tabs — no emoji */
+  .tabs{display:flex; gap:5px; flex-wrap:wrap; margin:8px 0 0;}
+  .tab{flex:1; min-width:120px; background:var(--card); border:1px solid var(--line); border-bottom:none;
+    border-radius:9px 9px 0 0; padding:11px 10px; font-size:13px; font-weight:700; color:var(--muted);
+    cursor:pointer; text-align:center; transition:.15s;}
+  .tab:hover{color:var(--ink);}
+  .tab.active{background:var(--brand); color:#fff; border-color:var(--brand);}
+  .panel{display:none; background:var(--card); border:1px solid var(--line); border-radius:0 0 13px 13px; padding:24px 26px;}
+  .panel.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+
+  h2{margin:0 0 5px; font-size:19px; font-family:Georgia,"Times New Roman",serif;}
+  h3{font-size:13px; margin:20px 0 7px; color:var(--rose800); text-transform:uppercase; letter-spacing:.5px;}
+  .lead{color:var(--muted); font-size:13.8px; margin:0 0 14px;}
+  p.body{font-size:13.8px;} p.body b{color:var(--ink);}
+  .two{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media(max-width:680px){ .two{grid-template-columns:1fr;} }
+
+  .callout{border-left:3px solid var(--brand); background:var(--rose100); border-radius:0 8px 8px 0; padding:11px 15px; margin:12px 0; font-size:13.4px;}
+  .callout b{color:var(--rose800);}
+
+  .chips{display:flex; flex-wrap:wrap; gap:7px; margin:8px 0 2px;}
+  .chip{background:var(--bg); border:1px solid var(--line); border-radius:7px; padding:5px 11px; font-size:12.3px; font-weight:600; color:var(--ink);}
+  .chip b{color:var(--brand);}
+
+  table{width:100%; border-collapse:collapse; font-size:13px; margin-top:8px;}
+  th,td{text-align:left; padding:9px 11px; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{font-size:10px; text-transform:uppercase; letter-spacing:.5px; color:var(--soft); background:var(--bg);}
+  td.g{font-weight:700; color:var(--green);} td.r{font-weight:700; color:var(--red);}
+  tr:last-child td{border-bottom:none;}
+  caption{caption-side:bottom; text-align:left; font-size:11px; color:var(--soft); padding-top:8px;}
+
+  .pc{border-radius:11px; padding:16px 18px;}
+  .pc.pro{background:var(--greenbg); border:1px solid #c6e2d2;}
+  .pc.con{background:var(--redbg); border:1px solid #eecabf;}
+  .pc h3{margin:0 0 10px; font-size:13px;}
+  .pc.pro h3{color:var(--green);} .pc.con h3{color:var(--red);}
+  .pc ul{margin:0; padding:0; list-style:none;}
+  .pc li{position:relative; padding:7px 0 7px 22px; font-size:13px; border-top:1px solid rgba(0,0,0,.05);}
+  .pc li:first-child{border-top:none;}
+  .pc li b{display:block;} .pc li span{color:var(--muted); font-size:12.2px;}
+  .pc.pro li:before{content:"+"; position:absolute; left:3px; top:6px; color:var(--green); font-weight:800; font-size:15px;}
+  .pc.con li:before{content:"\2013"; position:absolute; left:3px; top:6px; color:var(--red); font-weight:800; font-size:15px;}
+
+  .risk{display:flex; gap:12px; align-items:flex-start; padding:11px 0; border-top:1px solid var(--line); font-size:13.4px;}
+  .risk:first-of-type{border-top:none;}
+  .sev{flex:0 0 auto; font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; letter-spacing:.4px; white-space:nowrap; margin-top:2px;}
+  .sev.hi{background:var(--redbg); color:var(--red);}
+  .sev.md{background:var(--amberbg); color:var(--amber);}
+
+  /* calculator */
+  .calc{background:var(--ink); color:#F4EEE6; border-radius:14px; padding:22px 24px; margin-top:18px;}
+  .calc h2{color:#fff;}
+  .calc .lead{color:#C9BEB2;}
+  .crow{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:14px 0;}
+  @media(max-width:520px){ .crow{grid-template-columns:1fr;} }
+  .field label{display:block; font-size:11.5px; text-transform:uppercase; letter-spacing:.5px; color:#C9BEB2; font-weight:700; margin-bottom:5px;}
+  .field input{width:100%; padding:10px 12px; border-radius:9px; border:1px solid #4A433D; background:#3A342E; color:#fff; font-size:16px; font-weight:700;}
+  .presets{display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 8px;}
+  .preset{background:#3A342E; border:1px solid #4A433D; color:#D9CEC2; border-radius:8px; padding:7px 12px; font-size:12.5px; cursor:pointer; font-weight:600;}
+  .preset:hover{border-color:var(--brand);}
+  .preset b{color:#fff; display:block; font-size:13px;}
+  .out{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:8px;}
+  @media(max-width:520px){ .out{grid-template-columns:1fr;} }
+  .obox{background:#3A342E; border:1px solid #4A433D; border-radius:10px; padding:13px 15px;}
+  .obox .k{font-size:10.5px; text-transform:uppercase; letter-spacing:.5px; color:#C9BEB2; font-weight:700;}
+  .obox .v{font-size:21px; font-weight:800; margin-top:3px; color:#fff;}
+  .calc .note{font-size:11.5px; color:#A99E92; margin-top:12px;}
+
+  .as-of{font-size:11px; color:var(--soft); text-align:right; margin:10px 2px 0;}
+  .disclaimer{font-size:11px; color:var(--soft); margin-top:14px; line-height:1.6; border-top:1px solid var(--line); padding-top:12px;}
+  a{color:var(--brand);}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="head">
+    <div class="toprow">
+      <span class="ticker">NASDAQ: NVDA</span>
+      <span class="sub">NVIDIA Corporation · Semiconductors / AI infrastructure</span>
+    </div>
+    <h1 class="serif">NVIDIA Corporation</h1>
+    <p>The company whose chips train and run almost all of today's AI. Nvidia designs the GPUs at the heart of AI data centers and — increasingly — the networking and software around them, selling whole computing systems rather than just parts. It is the most valuable company in the world and the single biggest name in the "AI trade."</p>
+    <div class="ex">A plain-English primer for someone deciding whether to buy. Click the tabs. Educational only — not financial advice.</div>
+  </div>
+
+  <div class="strip">
+    <div class="stat"><div class="k">Share price</div><div class="v">~$209</div><div class="s">52-wk $142–$237</div></div>
+    <div class="stat"><div class="k">Market value</div><div class="v">~$5.1T</div><div class="s">world's most valuable co.</div></div>
+    <div class="stat"><div class="k">FY26 revenue</div><div class="v">$215.9B</div><div class="s">+65% vs prior year</div></div>
+    <div class="stat"><div class="k">FY26 net income</div><div class="v">$120.1B</div><div class="s">71% gross margin</div></div>
+    <div class="stat"><div class="k">Trailing P/E</div><div class="v">~32x</div><div class="s">~20x sales</div></div>
+  </div>
+
+  <!-- 60-SECOND VERSION -->
+  <div class="tldr">
+    <div class="tldr-tag">The 60-second version</div>
+    <div class="tldr-row"><span class="tldr-k">What</span><span>Makes the chips, networking and software that nearly all AI is built and run on.</span></div>
+    <div class="tldr-row"><span class="tldr-k">Bull</span><span>Elite financials (65% growth, 71% margins, net cash) with a CUDA software moat rivals can't easily copy.</span></div>
+    <div class="tldr-row"><span class="tldr-k">Bear</span><span>Demand leans on a handful of customers' AI spending, and China export rules are an enacted headwind.</span></div>
+    <div class="tldr-row"><span class="tldr-k">Verdict</span><span>Hype 3 · Substance 4 — the loudest stock in the market, but <b>not</b> the most over-priced.</span></div>
+  </div>
+
+  <!-- HYPE CHECK -->
+  <div class="rtv">
+    <div class="rtv-tag">Hype check · NVDA</div>
+    <div class="rtv-verdict">A genuinely great business — and, unusually for the most-talked-about stock, the valuation isn't the most stretched part of the story.</div>
+    <div class="rtv-score">Hype <b>3/5</b> · Substance <b>4/5</b><span class="rtv-hint">tap any line for the evidence</span></div>
+
+    <div class="sc-group">What's real — substance</div>
+    <div class="sc">
+      <div class="sc-head"><span class="sc-name">Financial reality</span><span class="sc-meter">&#9679;&#9679;&#9679;&#9679;&#9679;</span></div>
+      <div class="sc-ev">FY2026 (ended Jan 2026) revenue $215.9B, up 65% year-over-year; net income $120.1B; ~71% gross margin; a net-cash balance sheet that funds its own R&amp;D and large buybacks without diluting holders. About as strong as a financial profile gets.
+        <span class="dis">Disconfirming: full-year gross margin actually fell from 75.0% to 71.1% as the mix shifted to lower-margin systems — still elite, but the trend is down, not up.</span></div>
+    </div>
+    <div class="sc">
+      <div class="sc-head"><span class="sc-name">Competitive moat</span><span class="sc-meter">&#9679;&#9679;&#9679;&#9679;&#9679;</span></div>
+      <div class="sc-ev">The CUDA software layer (built over ~18 years) plus full-stack hardware — GPU, CPU, and networking sold as one system — create high switching costs and demonstrated pricing power; Nvidia holds an estimated ~80% of AI accelerator revenue.
+        <span class="dis">Disconfirming: the moat is being probed at the edges — custom ASICs from Broadcom/Google/Amazon and AMD's GPUs let big buyers reduce dependence over time.</span></div>
+    </div>
+    <div class="sc">
+      <div class="sc-head"><span class="sc-name">Demand durability</span><span class="sc-meter">&#9679;&#9679;&#9679;&#9679;&#9675;</span></div>
+      <div class="sc-ev">Demand is enormous and broadening beyond cloud giants into enterprise and "sovereign AI" national projects — but it is largely purchase-order driven, not multi-year contracted backlog, and a few hyperscalers still make up a large share of revenue.
+        <span class="dis">Disconfirming: this is the one pillar that could wobble — a pause or digestion in AI capex by a handful of customers would hit revenue fast.</span></div>
+    </div>
+    <div class="sc">
+      <div class="sc-head"><span class="sc-name">Policy &amp; structural</span><span class="sc-meter drag">headwind &minus;1</span></div>
+      <div class="sc-ev">U.S. export controls are enacted law with named exposure: Nvidia's most advanced chips can't be sold to China, cutting off a once-material market and forcing performance-capped versions. Per the rubric, an enacted law that <i>hurts</i> a company is a negative drag on substance, not a tailwind. Sovereign-AI demand is a real opportunity but mostly narrative for now — no law-plus-money line names Nvidia specifically.</div>
+    </div>
+
+    <div class="sc-group">What's priced in — hype</div>
+    <div class="sc">
+      <div class="sc-head"><span class="sc-name">Valuation richness</span><span class="sc-meter">&#9679;&#9679;&#9679;&#9675;&#9675;</span></div>
+      <div class="sc-ev">~20x trailing sales and ~32x trailing earnings is expensive in absolute terms — but for a company growing earnings ~65%, that P/E implies a PEG under 1, and the multiple sits at the <i>low</i> end of Nvidia's own 5-year range (it has traded well above 30x sales before). Full, not flawless-priced.
+        <span class="dis">Disconfirming: 20x sales still bakes in years of strong growth — any real slowdown re-rates it hard.</span></div>
+    </div>
+    <div class="sc">
+      <div class="sc-head"><span class="sc-name">Run-up</span><span class="sc-meter">&#9679;&#9679;&#9679;&#9675;&#9675;</span></div>
+      <div class="sc-ev">Up ~47% off the 52-week low ($142) but ~12% <i>below</i> the high ($237) and only ~10% above the 200-day average — consolidating, not parabolic. The vertical run was 2023–24; the last year has been sideways-to-up.</div>
+    </div>
+
+    <div class="rtv-foot">Scored as of June 22, 2026 at ~$209 (~32x earnings). Our read, not advice — full risk breakdown in the tabs.</div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <div class="tab active" data-t="biz">Business</div>
+    <div class="tab" data-t="fin">Financials</div>
+    <div class="tab" data-t="case">Bull vs Bear</div>
+    <div class="tab" data-t="risk">Risks</div>
+  </div>
+
+  <!-- BUSINESS -->
+  <div class="panel active" id="biz">
+    <h2 class="serif">What the company actually does</h2>
+    <p class="lead">Nvidia makes the "engines" of modern AI. Training and running large AI models takes thousands of specialized chips (GPUs); Nvidia designs the best ones and, increasingly, sells the whole system around them — chips, the cables and switches that connect them, and the software that makes them work.</p>
+    <div class="two">
+      <div>
+        <h3>The core business</h3>
+        <p class="body">The <b>data center</b> segment is now roughly 90% of revenue — this is the AI buildout. The old <b>gaming</b> business (still real, profitable) is a small minority today. The strategic shift is from selling a chip to selling an integrated "AI factory": GPUs + Nvidia's own CPUs + networking, optimized to work together.</p>
+        <div class="callout"><b>Why people are excited:</b> almost every company and government racing into AI needs this hardware, and Nvidia's products are the default choice. Demand has outrun supply for two years.</div>
+      </div>
+      <div>
+        <h3>The real moat: software</h3>
+        <p class="body">The hardware is excellent, but the durable advantage is <b>CUDA</b> — the software platform developers have built on for ~18 years. Switching to a rival chip means rewriting that work, so customers stay. Nvidia is extending this lock-in across networking and now its own server CPUs.</p>
+        <div class="chips">
+          <span class="chip"><b>GPUs</b> · Blackwell / Rubin</span>
+          <span class="chip"><b>Networking</b> · fastest-growing line</span>
+          <span class="chip"><b>CUDA</b> · the sticky software layer</span>
+          <span class="chip"><b>~80%</b> · est. AI accelerator share</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINANCIALS -->
+  <div class="panel" id="fin">
+    <h2 class="serif">The financial picture (fiscal year 2026)</h2>
+    <p class="lead">Unlike most AI stories, the numbers here are already huge and deeply profitable. Nvidia's fiscal 2026 ended in late January 2026. These are reported (audited) figures, not projections.</p>
+    <table>
+      <tr><th>Measure</th><th>FY2026</th><th>What it means (plain English)</th></tr>
+      <tr><td>Revenue</td><td class="g">$215.9B</td><td>Up 65% from $130.5B the year before. Roughly 90% is data center / AI.</td></tr>
+      <tr><td>Net income</td><td class="g">$120.1B</td><td>Up 65%. It keeps about 56 cents of every sales dollar as profit.</td></tr>
+      <tr><td>Gross margin</td><td class="r">71.1%</td><td>Elite — but <b>down</b> from 75.0%, as more revenue comes from lower-margin full systems.</td></tr>
+      <tr><td>Diluted EPS</td><td class="g">$4.90</td><td>Up from $2.94. Earnings per share rose faster than the share price over the year.</td></tr>
+      <tr><td>Balance sheet</td><td class="g">Net cash</td><td>More cash than debt; generates tens of billions in free cash flow and buys back stock.</td></tr>
+    </table>
+    <h3>What the price assumes</h3>
+    <div class="chips">
+      <span class="chip">Trailing P/E <b>~32x</b></span>
+      <span class="chip">Price / sales <b>~20x</b></span>
+      <span class="chip">EV / EBITDA <b>~26x</b></span>
+    </div>
+    <div class="callout" style="margin-top:14px;"><b>The honest read on valuation:</b> these multiples are expensive against the whole market, but <b>cheap-ish against Nvidia's own history</b> and modest relative to ~65% earnings growth. The bubble worry here is less about today's multiple and more about whether growth this fast can last.</div>
+  </div>
+
+  <!-- BULL VS BEAR -->
+  <div class="panel" id="case">
+    <h2 class="serif">Bull case vs. bear case</h2>
+    <p class="lead">Both sides agree the business is exceptional. They disagree on how long the growth lasts and how concentrated the demand really is.</p>
+    <div class="two">
+      <div class="pc pro">
+        <h3>Bull case</h3>
+        <ul>
+          <li><b>Best-in-class financials</b><span>65% revenue growth, 71% gross margin, $120B profit, net cash — self-funding, no dilution.</span></li>
+          <li><b>CUDA software moat</b><span>~18 years of developer lock-in plus full-stack systems make switching painful.</span></li>
+          <li><b>Demand still broadening</b><span>Beyond cloud giants into enterprise and national "sovereign AI" projects.</span></li>
+          <li><b>Pricing power</b><span>71% gross margins on complex hardware signal customers will pay up.</span></li>
+          <li><b>Valuation not extreme</b><span>~32x earnings for ~65% growth is reasonable by its own history.</span></li>
+        </ul>
+      </div>
+      <div class="pc con">
+        <h3>Bear case</h3>
+        <ul>
+          <li><b>Customer concentration</b><span>A few hyperscalers drive a large share of revenue; their capex sets the trajectory.</span></li>
+          <li><b>AI-capex digestion risk</b><span>Demand is purchase-order based, not contracted backlog — it can slow fast.</span></li>
+          <li><b>China / export controls</b><span>Enacted U.S. rules cut off a once-material market and could tighten further.</span></li>
+          <li><b>Custom-chip threat</b><span>Broadcom, Google, Amazon and AMD are building alternatives to reduce dependence.</span></li>
+          <li><b>Margin already rolling over</b><span>Gross margin fell ~4 points; the easy pricing era may be maturing.</span></li>
+          <li><b>It IS expensive in absolute terms</b><span>20x sales leaves no room for a genuine growth disappointment.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISKS -->
+  <div class="panel" id="risk">
+    <h2 class="serif">Risks, ranked</h2>
+    <p class="lead">The risk here isn't whether the business is good — it plainly is. It's that the price assumes the boom continues, while the demand sits with a few buyers and one big geopolitical wildcard.</p>
+    <div class="risk"><span class="sev hi">HIGH</span><div><b>AI-capex concentration &amp; cyclicality.</b> A handful of hyperscalers fund much of the data-center revenue. If they slow or "digest" what they've bought, Nvidia's sales can drop sharply even though the technology is unchanged.</div></div>
+    <div class="risk"><span class="sev hi">HIGH</span><div><b>Valuation in absolute terms.</b> At ~20x sales, the price already expects years of strong growth. Even a good-but-not-spectacular quarter can trigger a large drop.</div></div>
+    <div class="risk"><span class="sev hi">HIGH</span><div><b>China &amp; export controls.</b> An enacted U.S. policy headwind that has already cut a market and could tighten — or loosen — abruptly. This is a binary, hard-to-handicap risk.</div></div>
+    <div class="risk"><span class="sev md">MEDIUM</span><div><b>Custom silicon erosion.</b> Big customers co-designing their own chips (via Broadcom, Google, Amazon) chip away at Nvidia's share in inference over time, even if training stays sticky.</div></div>
+    <div class="risk"><span class="sev md">MEDIUM</span><div><b>Margin normalization.</b> Gross margin already slipped ~4 points. As competition and a richer system mix grow, the extraordinary profitability may keep easing.</div></div>
+    <div class="risk"><span class="sev md">MEDIUM</span><div><b>Sentiment &amp; volatility.</b> As the anchor of the "AI trade," NVDA swings hard on sector-wide news regardless of its own results.</div></div>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div class="calc">
+    <h2 class="serif">"What if" return calculator</h2>
+    <p class="lead">Enter an amount and a target price to see a hypothetical outcome. The scenario buttons are <b>illustrative only — not predictions</b>.</p>
+    <div class="crow">
+      <div class="field">
+        <label>Amount you'd invest ($)</label>
+        <input id="amt" type="number" value="1000" min="0" step="100">
+      </div>
+      <div class="field">
+        <label>Buy price ($/share)</label>
+        <input id="buy" type="number" value="209" min="0.01" step="1">
+      </div>
+    </div>
+    <div class="field">
+      <label>Target / future price ($/share)</label>
+      <input id="tgt" type="number" value="260" min="0" step="1">
+    </div>
+    <div class="presets">
+      <div class="preset" data-p="140"><span>Bear</span><b>$140</b></div>
+      <div class="preset" data-p="209"><span>Flat</span><b>$209</b></div>
+      <div class="preset" data-p="260"><span>Base</span><b>$260</b></div>
+      <div class="preset" data-p="320"><span>Bull</span><b>$320</b></div>
+    </div>
+    <div class="out">
+      <div class="obox"><div class="k">Shares bought</div><div class="v" id="oShares">4.78</div></div>
+      <div class="obox"><div class="k">Value at target</div><div class="v" id="oVal">$1,244</div></div>
+      <div class="obox"><div class="k">Gain / loss</div><div class="v" id="oGl">+$244 (+24%)</div></div>
+    </div>
+    <p class="note">Simplified: ignores fees and taxes. Stock prices can fall a long way. Past or hypothetical performance does not predict future results.</p>
+  </div>
+
+  <p class="as-of">Financials are reported fiscal-2026 figures (year ended Jan 2026). Price, market cap and multiples gathered June 22, 2026 from a market-data feed; verify before acting.</p>
+
+  <p class="disclaimer">
+    <b>Disclaimer:</b> This primer is for general education only and is <b>not</b> financial, investment, or tax advice, nor a recommendation to buy or sell any security. The author is not a licensed financial advisor. Figures come from public company disclosures and market-data sources; some are rounded or estimated and may be out of date. NVDA is a large, widely-held but volatile stock that can lose value rapidly. Hype/Substance scores are Rose Ticker's own opinion derived from a published rubric, not a forecast. Do your own research and consider consulting a qualified professional before investing.
+  </p>
+
+</div>
+
+<script>
+  // tabs
+  var tabs = document.querySelectorAll('.tab');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.classList.remove('active'); });
+      document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+      t.classList.add('active');
+      document.getElementById(t.dataset.t).classList.add('active');
+    });
+  });
+
+  // hype-check tap-to-reveal
+  document.querySelectorAll('.rtv .sc').forEach(function(s){
+    s.addEventListener('click', function(){ s.classList.toggle('open'); });
+  });
+
+  // calculator
+  var amt=document.getElementById('amt'), buy=document.getElementById('buy'), tgt=document.getElementById('tgt');
+  function fmt(n){ return '$'+Math.round(n).toLocaleString('en-US'); }
+  function calc(){
+    var a=parseFloat(amt.value)||0, b=parseFloat(buy.value)||0, t=parseFloat(tgt.value)||0;
+    var shares = b>0 ? a/b : 0;
+    var val = shares*t;
+    var gl = val-a;
+    var pct = a>0 ? (gl/a*100) : 0;
+    document.getElementById('oShares').textContent = shares.toFixed(2);
+    document.getElementById('oVal').textContent = fmt(val);
+    var sign = gl>=0 ? '+' : '−';
+    var box = document.getElementById('oGl');
+    box.textContent = sign+fmt(Math.abs(gl))+' ('+sign+Math.abs(pct).toFixed(0)+'%)';
+    box.style.color = gl>=0 ? '#7fd6a3' : '#ef9a8a';
+  }
+  [amt,buy,tgt].forEach(function(el){ el.addEventListener('input', calc); });
+  document.querySelectorAll('.preset').forEach(function(p){
+    p.addEventListener('click', function(){ tgt.value=p.dataset.p; calc(); });
+  });
+  calc();
+</script>
+</body>
+</html>
