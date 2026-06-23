@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>401(k), 403(b), 457, TSP — What's the Difference? A Plain-English Primer</title>
+<meta name="description" content="401(k), 403(b), 457(b), and the federal TSP explained side by side in plain English — who has each, 2026 contribution limits, matches, and Roth vs traditional." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0d1612;--bg-alt:#111c17;--bg-card:#16221c;--bg-elev:#1c2b23;
+  --border:#2a3a31;--border-soft:#1f2c25;
+  --text:#f0e9d6;--text-soft:#b9b29f;--muted:#7a8378;
+  --accent:#7fb89a;--accent-deep:#5a9b7a;--gold:#c9a961;--gold-soft:rgba(201,169,97,0.15);
+  --up:#7fb89a;--down:#c98570;--warn:#d4ab5f;--bad:#c87b7b;
+  --max:1160px;--radius:4px;--radius-lg:8px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at top,rgba(127,184,154,0.04),transparent 60%),radial-gradient(ellipse at bottom right,rgba(201,169,97,0.03),transparent 60%);pointer-events:none;z-index:0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+strong{color:var(--text);font-weight:600}
+em{color:var(--text-soft);font-style:italic}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-0.015em;color:var(--text);margin:0;line-height:1.15}
+.mono{font-family:'JetBrains Mono',monospace}
+.topnav{position:sticky;top:0;z-index:50;background:rgba(13,22,18,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:16px;white-space:nowrap;flex-shrink:0}
+.brand:hover{text-decoration:none}
+.brand svg{color:var(--accent)}
+.nav-links{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;justify-content:flex-end}
+.nav-links a{color:var(--text-soft);font-weight:500;letter-spacing:0.01em}
+.nav-links a:hover{color:var(--accent);text-decoration:none}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+@media(max-width:900px){.nav-links{display:none;flex-direction:column;width:100%;padding-top:12px}.nav-links.open{display:flex}.nav-toggle{display:block}.nav-inner{flex-wrap:wrap}}
+.hero{position:relative;max-width:var(--max);margin:0 auto;padding:72px 24px 40px;overflow:hidden}
+@media(max-width:900px){.hero{padding:36px 20px 24px}}
+.kicker{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.12em;color:var(--accent);border:1px solid var(--accent);border-radius:100px;padding:6px 14px;margin-bottom:24px;text-transform:uppercase}
+h1.hero-title{font-size:clamp(36px,5.2vw,60px);letter-spacing:-0.022em;margin-bottom:14px;max-width:16ch}
+.hero-lede{font-size:18px;color:var(--text-soft);max-width:620px;margin-bottom:28px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;max-width:760px}
+@media(max-width:600px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 14px}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.stat-val{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:22px;letter-spacing:-0.01em}
+.stat-sub{font-size:12px;color:var(--text-soft);margin-top:4px}
+.verdict{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-lg);padding:22px 26px;margin-top:8px;max-width:820px}
+.verdict-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+.verdict-body{font-size:15.5px;line-height:1.65;color:var(--text)}
+.section{position:relative;max-width:var(--max);margin:0 auto;padding:72px 24px}
+.section.alt{max-width:100%;background:var(--bg-alt);padding-left:max(24px,calc((100vw - var(--max))/2));padding-right:max(24px,calc((100vw - var(--max))/2))}
+.section.alt>*{max-width:var(--max);margin-left:auto;margin-right:auto}
+@media(max-width:700px){.section{padding:52px 20px}}
+.section-head{margin-bottom:36px;max-width:780px}
+.section-head .kicker{margin-bottom:16px}
+.section-head h2{font-size:clamp(28px,3.4vw,42px);margin-bottom:12px}
+.section-head p.lead{font-size:17px;color:var(--text-soft);max-width:680px;line-height:1.6}
+.snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.snap-grid{grid-template-columns:1fr}}
+.snap-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 22px}
+.snap-icon{font-family:'Fraunces',Georgia,serif;font-size:26px;width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid var(--border);color:var(--accent);margin-bottom:14px}
+.snap-card.good .snap-icon{color:var(--up);border-color:rgba(127,184,154,0.4)}
+.snap-card.warn .snap-icon{color:var(--warn);border-color:rgba(212,171,95,0.4)}
+.snap-card.neutral .snap-icon{color:var(--gold);border-color:rgba(201,169,97,0.4)}
+.snap-card h3{font-size:19px;margin-bottom:10px}
+.snap-card ul{padding-left:0;list-style:none;margin:0}
+.snap-card li{font-size:14.5px;color:var(--text-soft);padding:6px 0;border-top:1px solid var(--border-soft)}
+.snap-card li:first-child{border-top:none}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;gap:24px}}
+.big-p{font-size:18px;line-height:1.65;color:var(--text)}
+.callout{border-left:3px solid var(--gold);background:var(--gold-soft);padding:16px 20px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:22px 0;font-size:15px}
+.callout-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px}
+.feat-list{list-style:none;padding-left:0;margin:12px 0 0}
+.feat-list li{padding:9px 0;border-top:1px solid var(--border-soft);font-size:15px;color:var(--text-soft)}
+.feat-list li:first-child{border-top:none}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px}
+.card-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:18px;margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+.cmp-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -16px;padding:0 16px}
+.cmp-table{width:100%;border-collapse:collapse;font-size:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.cmp-table th,.cmp-table td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--border-soft);vertical-align:top}
+.cmp-table th{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;background:var(--bg-elev);font-weight:600}
+.cmp-table tr:last-child td{border-bottom:none}
+.cmp-table .ticker{font-family:'JetBrains Mono',monospace;color:var(--accent);font-weight:600;font-size:15px}
+.cmp-table .featured{background:rgba(127,184,154,0.05)}
+.cmp-table .featured .ticker{color:var(--gold)}
+.limit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:780px){.limit-grid{grid-template-columns:1fr}}
+.limit-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px}
+.limit-num{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:34px;color:var(--accent);letter-spacing:-0.01em;margin-bottom:4px}
+.limit-label{font-size:14.5px;color:var(--text);font-weight:600;margin-bottom:4px}
+.limit-sub{font-size:13px;color:var(--text-soft);line-height:1.5}
+.gloss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px}
+.gloss-term{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:15.5px;color:var(--accent);margin-bottom:4px}
+.gloss-def{font-size:14px;color:var(--text-soft);line-height:1.55}
+.next-card{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.next-link{flex:1;min-width:240px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;transition:all .18s}
+.next-link:hover{border-color:var(--accent);transform:translateY(-2px);text-decoration:none}
+.next-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.next-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;color:var(--text);margin-bottom:4px}
+.next-desc{font-size:13.5px;color:var(--text-soft);line-height:1.5}
+footer{border-top:1px solid var(--border-soft);margin-top:40px;padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+.foot-brand{font-weight:600;margin-bottom:4px;color:var(--text-soft);font-family:'Fraunces',Georgia,serif}
+.foot-note{max-width:620px;margin:8px auto 0;line-height:1.55}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="../../" class="brand" aria-label="Rose Ticker home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2"/>
+        <path d="M8 18 L13 13 L17 16 L24 9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="9" r="2" fill="currentColor"/>
+      </svg>
+      <span>Rose Ticker · The Basics</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle nav">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#quick">In a minute</a>
+      <a href="#what">What they are</a>
+      <a href="#family">The family</a>
+      <a href="#limits">2026 limits</a>
+      <a href="#roth">Roth vs traditional</a>
+      <a href="#catch">The catch</a>
+      <a href="#glossary">Jargon</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="kicker">Start Here · Level 0 · 6-min read</span>
+  <h1 class="hero-title">401(k), 403(b), 457, TSP — what's the difference?</h1>
+  <p class="hero-lede">
+    They sound like robot model numbers, and the alphabet soup is genuinely confusing. But they're all variations on one simple idea — a tax-friendly bucket for retirement savings. Here's what each one is, who gets which, and the handful of differences that actually matter.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-label">What they share</div><div class="stat-val">Same idea</div><div class="stat-sub">Tax-advantaged buckets</div></div>
+    <div class="stat"><div class="stat-label">2026 you can add</div><div class="stat-val">$24,500</div><div class="stat-sub">Per year, most plans</div></div>
+    <div class="stat"><div class="stat-label">Who has them</div><div class="stat-val">Depends on job</div><div class="stat-sub">Private, nonprofit, gov</div></div>
+    <div class="stat"><div class="stat-label">The real choice</div><div class="stat-val">Roth or not</div><div class="stat-sub">Tax now vs tax later</div></div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-label">The one-sentence version</div>
+    <div class="verdict-body">
+      A 401(k), 403(b), 457(b), and the federal <strong>TSP</strong> are the same basic thing — a workplace account that lets your retirement savings grow with a big tax break — just with different names depending on whether you work for a company, a nonprofit, a school, or the government. The differences are mostly in the fine print.
+    </div>
+  </div>
+</header>
+
+<section id="quick" class="section">
+  <div class="section-head">
+    <span class="kicker">01 · If you only have a minute</span>
+    <h2>The short version</h2>
+  </div>
+  <div class="snap-grid">
+    <div class="snap-card good">
+      <div class="snap-icon">✓</div>
+      <h3>What's true of all of them</h3>
+      <ul>
+        <li>They're <strong>tax-advantaged buckets</strong> — the government rewards you for saving.</li>
+        <li>Money comes out of your paycheck <strong>automatically</strong>.</li>
+        <li>In 2026 you can contribute up to <strong>$24,500</strong> (more if you're 50+).</li>
+        <li>Many come with <strong>free employer money</strong> (a match) on top.</li>
+      </ul>
+    </div>
+    <div class="snap-card warn">
+      <div class="snap-icon">!</div>
+      <h3>Where they differ</h3>
+      <ul>
+        <li><strong>Who gets which</strong> depends on your employer type.</li>
+        <li><strong>457(b)</strong> has a friendly quirk: no early-withdrawal penalty after you leave the job.</li>
+        <li>The <strong>TSP</strong> (federal) has famously low fees and simple fund choices.</li>
+        <li>Some let you stack <em>two</em> plans (e.g. a 403(b) <em>and</em> a 457).</li>
+      </ul>
+    </div>
+    <div class="snap-card neutral">
+      <div class="snap-icon">?</div>
+      <h3>What to focus on</h3>
+      <ul>
+        <li>Get your <strong>full employer match</strong> first.</li>
+        <li>Decide <strong>Roth vs traditional</strong> (tax now or tax later).</li>
+        <li>Remember the bucket is empty until you <strong>pick an investment</strong>.</li>
+        <li>Then automate it and look away.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="what" class="section alt">
+  <div class="section-head">
+    <span class="kicker">02 · The shared idea</span>
+    <h2>Why these exist at all</h2>
+    <p class="lead">Strip away the numbers and letters, and every one of these is the government saying: "save for your own retirement, and we'll cut you a tax deal for it."</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">Left alone, most people under-save for retirement. So the tax code offers a bribe: put money in one of these accounts and you get a <strong>tax break</strong> — either now or later (more on that below).</p>
+      <p class="big-p" style="margin-top:14px">In exchange, there's a catch: it's meant for retirement, so pulling it out early usually means taxes and a penalty. That "lock" is a feature — it keeps future-you funded.</p>
+      <div class="callout">
+        <div class="callout-title">The names are just job labels</div>
+        <div>401(k) = most private companies. 403(b) = schools, hospitals, nonprofits. 457(b) = state/local government and some nonprofits. TSP = federal employees and the military. Same engine, different badge.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">The tax break, in one breath</div>
+        <ul class="feat-list">
+          <li><strong>Traditional:</strong> you skip taxes on the money <em>now</em>, and pay them when you withdraw in retirement.</li>
+          <li><strong>Roth:</strong> you pay taxes <em>now</em>, and everything comes out tax-free in retirement — including decades of growth.</li>
+          <li>Either way, while the money sits invested, its growth <strong>isn't taxed year to year</strong> — which is a big deal over decades.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="family" class="section">
+  <div class="section-head">
+    <span class="kicker">03 · Meet the family</span>
+    <h2>The four, side by side</h2>
+    <p class="lead">Same DNA, slightly different personalities. Find the one that matches your job.</p>
+  </div>
+  <div class="cmp-wrap">
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th>Plan</th>
+          <th>Who usually has it</th>
+          <th>Worth knowing</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="ticker">401(k)</span></td>
+          <td>Private-sector / company employees</td>
+          <td>The most common one. Often comes with an employer match. Quality and fees vary a lot by employer.</td>
+        </tr>
+        <tr>
+          <td><span class="ticker">403(b)</span></td>
+          <td>Public schools, universities, hospitals, nonprofits</td>
+          <td>Nearly identical to a 401(k). Watch for higher-fee insurance-style options in some plans — favor low-cost index funds.</td>
+        </tr>
+        <tr>
+          <td><span class="ticker">457(b)</span></td>
+          <td>State &amp; local government, some nonprofits</td>
+          <td>The friendly quirk: <strong>no 10% early-withdrawal penalty</strong> once you leave that employer. Can sometimes be stacked on top of a 403(b).</td>
+        </tr>
+        <tr class="featured">
+          <td><span class="ticker">TSP</span></td>
+          <td>Federal employees &amp; military</td>
+          <td>The government's own plan. <strong>Rock-bottom fees</strong>, a short menu of simple funds (G, F, C, S, I) plus all-in-one Lifecycle (L) funds. Usually paired with a FERS pension.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout" style="max-width:880px">
+    <div class="callout-title">Public-sector readers, a note</div>
+    <div>If you work in government or public service, you may have a <strong>pension</strong> <em>and</em> one of these savings plans (classic example: federal <strong>FERS pension + TSP</strong>). They're separate things working together — the pension is a promised monthly check; the savings plan is your own invested pot. Understanding both is worth an afternoon.</div>
+  </div>
+</section>
+
+<section id="limits" class="section alt">
+  <div class="section-head">
+    <span class="kicker">04 · How much you can put in</span>
+    <h2>2026 contribution limits</h2>
+    <p class="lead">These are the most-you're-allowed numbers, set by the IRS and updated each year. You don't have to hit them — most people don't — but here's the ceiling.</p>
+  </div>
+  <div class="limit-grid">
+    <div class="limit-card">
+      <div class="limit-num">$24,500</div>
+      <div class="limit-label">Your own contribution</div>
+      <div class="limit-sub">The most you can personally put into a 401(k), 403(b), 457(b), or TSP in 2026.</div>
+    </div>
+    <div class="limit-card">
+      <div class="limit-num">+$8,000</div>
+      <div class="limit-label">Catch-up, age 50+</div>
+      <div class="limit-sub">An extra allowance once you turn 50 — bringing the total to $32,500.</div>
+    </div>
+    <div class="limit-card">
+      <div class="limit-num">+$11,250</div>
+      <div class="limit-label">Super catch-up, ages 60–63</div>
+      <div class="limit-sub">A larger catch-up in those four years (instead of the $8,000), under the SECURE 2.0 law.</div>
+    </div>
+  </div>
+  <div class="callout" style="max-width:880px;margin-top:24px">
+    <div class="callout-title">Two more numbers, while we're here</div>
+    <div>
+      A separate <strong>IRA</strong> (an account you open yourself, outside work) lets you add up to <strong>$7,500</strong> in 2026, plus <strong>$1,100</strong> more if you're 50+. And a heads-up for higher earners: starting in 2026, if your prior-year wages topped <strong>$150,000</strong>, any catch-up contributions must go in as <strong>Roth</strong>. Not something to worry about for most people just getting started.
+    </div>
+  </div>
+</section>
+
+<section id="roth" class="section">
+  <div class="section-head">
+    <span class="kicker">05 · The one real decision</span>
+    <h2>Roth or traditional?</h2>
+    <p class="lead">This is the choice that actually matters, and it comes down to a single question: do you want your tax break now, or later?</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-title">Traditional</div>
+        <div class="card-sub">Tax break now</div>
+        <ul class="feat-list">
+          <li>Your contribution is <strong>not taxed this year</strong> — it lowers your taxable income now.</li>
+          <li>You pay ordinary income tax <strong>when you withdraw</strong> in retirement.</li>
+          <li>Often favored if you expect to be in a <strong>lower tax bracket</strong> later.</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Roth</div>
+        <div class="card-sub">Tax break later</div>
+        <ul class="feat-list">
+          <li>You contribute <strong>after-tax</strong> money — no break this year.</li>
+          <li>Everything comes out <strong>completely tax-free</strong> in retirement, growth included.</li>
+          <li>Often favored when you're <strong>early-career</strong> and your tax rate is relatively low now.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="callout-title">If you can't decide</div>
+    <div>Many people early in their careers lean Roth, on the bet that paying tax at today's rate is a deal they'll be glad they took. But there's no universally "right" answer — it depends on your income now versus later. A fuller plain-English walkthrough is a good next read (coming in this series). You can also split contributions between both.</div>
+  </div>
+</section>
+
+<section id="catch" class="section alt">
+  <div class="section-head">
+    <span class="kicker">06 · Don't forget</span>
+    <h2>The plan is still just the bucket</h2>
+    <p class="lead">Picking the right account is step one. But an account on its own doesn't grow your money — what you put inside it does.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">It's worth repeating, because it's the single most common gap: enrolling in a 401(k) or TSP sets up the <strong>container</strong>. Your money only grows once it's <strong>invested</strong> in something inside that container — usually a target-date fund or an index fund.</p>
+      <p class="big-p" style="margin-top:14px">So once you've sorted out which plan you have and whether you're going Roth or traditional, the very next thing to check is what your money is actually <em>invested in</em>.</p>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Your order of operations</div>
+        <ul class="feat-list">
+          <li><strong>1.</strong> Contribute at least enough to get the full employer match.</li>
+          <li><strong>2.</strong> Choose Roth or traditional.</li>
+          <li><strong>3.</strong> Make sure the money is invested, not sitting in cash.</li>
+          <li><strong>4.</strong> Automate it, then leave it alone for years.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="glossary" class="section">
+  <div class="section-head">
+    <span class="kicker">07 · Plain-English glossary</span>
+    <h2>Jargon, translated</h2>
+  </div>
+  <div class="gloss-grid">
+    <div class="gloss-item"><div class="gloss-term">401(k)</div><div class="gloss-def">A workplace retirement account for most private-company employees. Named after a section of the tax code (riveting, we know).</div></div>
+    <div class="gloss-item"><div class="gloss-term">403(b)</div><div class="gloss-def">The school / hospital / nonprofit version of a 401(k). Works almost identically.</div></div>
+    <div class="gloss-item"><div class="gloss-term">457(b)</div><div class="gloss-def">The state &amp; local government version. Its perk: no early-withdrawal penalty once you leave that job.</div></div>
+    <div class="gloss-item"><div class="gloss-term">TSP</div><div class="gloss-def">Thrift Savings Plan — the federal government and military's retirement plan. Very low fees, very simple fund menu.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Tax-advantaged</div><div class="gloss-def">A government-blessed account that gives you a tax break for saving — either now (traditional) or later (Roth).</div></div>
+    <div class="gloss-item"><div class="gloss-term">Traditional</div><div class="gloss-def">Skip the tax now, pay it when you withdraw in retirement.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Roth</div><div class="gloss-def">Pay the tax now, withdraw everything tax-free later — growth included.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Contribution limit</div><div class="gloss-def">The most you're allowed to put in per year, set by the IRS. $24,500 for these plans in 2026.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Catch-up contribution</div><div class="gloss-def">Extra room to contribute once you're 50+ (and even more at ages 60–63), to help you make up ground.</div></div>
+    <div class="gloss-item"><div class="gloss-term">IRA</div><div class="gloss-def">Individual Retirement Account — one you open yourself, separate from work. Smaller limit ($7,500 in 2026), more fund choice.</div></div>
+    <div class="gloss-item"><div class="gloss-term">FERS</div><div class="gloss-def">Federal Employees Retirement System — the package most federal workers get: a pension, Social Security, and the TSP.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Pension</div><div class="gloss-def">A promised monthly payment in retirement, funded by your employer. Common in public-sector jobs; separate from your savings plan.</div></div>
+  </div>
+
+  <div style="margin-top:36px">
+    <div class="kicker" style="color:var(--gold);border-color:var(--gold)">Keep going</div>
+    <div class="next-card">
+      <a class="next-link" href="../paycheck/">
+        <div class="next-tag">Level 0 · Start</div>
+        <div class="next-title">Where does my paycheck money actually go?</div>
+        <div class="next-desc">The account vs. the investment — the distinction that clears up most of the confusion.</div>
+      </a>
+      <a class="next-link" href="../target-date-funds/">
+        <div class="next-tag">Next · Level 0</div>
+        <div class="next-title">"I'm in the 2055 fund." What is that?</div>
+        <div class="next-desc">The easiest way to actually invest the money inside your plan, decoded.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">Rose Ticker · The Basics</div>
+  <div>Educational — not financial advice · 2026 figures from IRS Notice 2025-67</div>
+  <div class="foot-note">
+    Contribution limits are 2026 IRS figures and change yearly. This explains general concepts, not personalized financial or tax advice — plan features and rules vary by employer, so check your plan documents or a qualified professional for your situation.
+  </div>
+</footer>
+
+<script>
+  var t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+  if(t){t.addEventListener('click',function(){l.classList.toggle('open');});}
+  document.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open');});});
+</script>
+</body>
+</html>

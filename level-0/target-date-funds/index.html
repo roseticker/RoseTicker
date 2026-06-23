@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>"I'm in the 2055 Fund." What Is a Target-Date Fund? — Plain-English Primer</title>
+<meta name="description" content="That '2055 Fund' in your 401(k) or TSP, explained in plain English. What a target-date fund is, how the glide path works, the TSP Lifecycle funds, and what to watch for." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0d1612;--bg-alt:#111c17;--bg-card:#16221c;--bg-elev:#1c2b23;
+  --border:#2a3a31;--border-soft:#1f2c25;
+  --text:#f0e9d6;--text-soft:#b9b29f;--muted:#7a8378;
+  --accent:#7fb89a;--accent-deep:#5a9b7a;--gold:#c9a961;--gold-soft:rgba(201,169,97,0.15);
+  --up:#7fb89a;--down:#c98570;--warn:#d4ab5f;--bad:#c87b7b;
+  --max:1160px;--radius:4px;--radius-lg:8px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at top,rgba(127,184,154,0.04),transparent 60%),radial-gradient(ellipse at bottom right,rgba(201,169,97,0.03),transparent 60%);pointer-events:none;z-index:0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+strong{color:var(--text);font-weight:600}
+em{color:var(--text-soft);font-style:italic}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-0.015em;color:var(--text);margin:0;line-height:1.15}
+.mono{font-family:'JetBrains Mono',monospace}
+.topnav{position:sticky;top:0;z-index:50;background:rgba(13,22,18,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:16px;white-space:nowrap;flex-shrink:0}
+.brand:hover{text-decoration:none}
+.brand svg{color:var(--accent)}
+.nav-links{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;justify-content:flex-end}
+.nav-links a{color:var(--text-soft);font-weight:500;letter-spacing:0.01em}
+.nav-links a:hover{color:var(--accent);text-decoration:none}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+@media(max-width:900px){.nav-links{display:none;flex-direction:column;width:100%;padding-top:12px}.nav-links.open{display:flex}.nav-toggle{display:block}.nav-inner{flex-wrap:wrap}}
+.hero{position:relative;max-width:var(--max);margin:0 auto;padding:72px 24px 40px;overflow:hidden}
+@media(max-width:900px){.hero{padding:36px 20px 24px}}
+.kicker{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.12em;color:var(--accent);border:1px solid var(--accent);border-radius:100px;padding:6px 14px;margin-bottom:24px;text-transform:uppercase}
+h1.hero-title{font-size:clamp(36px,5.2vw,60px);letter-spacing:-0.022em;margin-bottom:14px;max-width:15ch}
+.hero-lede{font-size:18px;color:var(--text-soft);max-width:620px;margin-bottom:28px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;max-width:760px}
+@media(max-width:600px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 14px}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.stat-val{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:22px;letter-spacing:-0.01em}
+.stat-sub{font-size:12px;color:var(--text-soft);margin-top:4px}
+.verdict{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-lg);padding:22px 26px;margin-top:8px;max-width:820px}
+.verdict-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+.verdict-body{font-size:15.5px;line-height:1.65;color:var(--text)}
+.section{position:relative;max-width:var(--max);margin:0 auto;padding:72px 24px}
+.section.alt{max-width:100%;background:var(--bg-alt);padding-left:max(24px,calc((100vw - var(--max))/2));padding-right:max(24px,calc((100vw - var(--max))/2))}
+.section.alt>*{max-width:var(--max);margin-left:auto;margin-right:auto}
+@media(max-width:700px){.section{padding:52px 20px}}
+.section-head{margin-bottom:36px;max-width:780px}
+.section-head .kicker{margin-bottom:16px}
+.section-head h2{font-size:clamp(28px,3.4vw,42px);margin-bottom:12px}
+.section-head p.lead{font-size:17px;color:var(--text-soft);max-width:680px;line-height:1.6}
+.snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.snap-grid{grid-template-columns:1fr}}
+.snap-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 22px}
+.snap-icon{font-family:'Fraunces',Georgia,serif;font-size:26px;width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid var(--border);color:var(--accent);margin-bottom:14px}
+.snap-card.good .snap-icon{color:var(--up);border-color:rgba(127,184,154,0.4)}
+.snap-card.warn .snap-icon{color:var(--warn);border-color:rgba(212,171,95,0.4)}
+.snap-card.neutral .snap-icon{color:var(--gold);border-color:rgba(201,169,97,0.4)}
+.snap-card h3{font-size:19px;margin-bottom:10px}
+.snap-card ul{padding-left:0;list-style:none;margin:0}
+.snap-card li{font-size:14.5px;color:var(--text-soft);padding:6px 0;border-top:1px solid var(--border-soft)}
+.snap-card li:first-child{border-top:none}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;gap:24px}}
+.big-p{font-size:18px;line-height:1.65;color:var(--text)}
+.callout{border-left:3px solid var(--gold);background:var(--gold-soft);padding:16px 20px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:22px 0;font-size:15px}
+.callout-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px}
+.feat-list{list-style:none;padding-left:0;margin:12px 0 0}
+.feat-list li{padding:9px 0;border-top:1px solid var(--border-soft);font-size:15px;color:var(--text-soft)}
+.feat-list li:first-child{border-top:none}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px}
+.card-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:18px;margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+.glide-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px}
+.glide-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--text-soft);margin-bottom:14px}
+.glide-legend .dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:7px;vertical-align:middle}
+.dot.stocks{background:var(--accent)}
+.dot.bonds{background:var(--gold)}
+.glide-foot{font-size:13px;color:var(--text-soft);margin-top:14px;line-height:1.55}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.steps li{counter-increment:s;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px 18px 60px;position:relative;font-size:15px;color:var(--text-soft);line-height:1.6}
+.steps li::before{content:counter(s);position:absolute;left:18px;top:16px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--accent);color:var(--bg);font-family:'JetBrains Mono',monospace;font-weight:600;font-size:14px}
+.steps li strong{color:var(--text)}
+.gloss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px}
+.gloss-term{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:15.5px;color:var(--accent);margin-bottom:4px}
+.gloss-def{font-size:14px;color:var(--text-soft);line-height:1.55}
+.next-card{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.next-link{flex:1;min-width:240px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;transition:all .18s}
+.next-link:hover{border-color:var(--accent);transform:translateY(-2px);text-decoration:none}
+.next-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.next-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;color:var(--text);margin-bottom:4px}
+.next-desc{font-size:13.5px;color:var(--text-soft);line-height:1.5}
+footer{border-top:1px solid var(--border-soft);margin-top:40px;padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+.foot-brand{font-weight:600;margin-bottom:4px;color:var(--text-soft);font-family:'Fraunces',Georgia,serif}
+.foot-note{max-width:620px;margin:8px auto 0;line-height:1.55}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="../../" class="brand" aria-label="Rose Ticker home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2"/>
+        <path d="M8 18 L13 13 L17 16 L24 9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="9" r="2" fill="currentColor"/>
+      </svg>
+      <span>Rose Ticker · The Basics</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle nav">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#quick">In a minute</a>
+      <a href="#what">What it is</a>
+      <a href="#number">The year</a>
+      <a href="#glide">The glide path</a>
+      <a href="#tsp">TSP version</a>
+      <a href="#watch">What to watch</a>
+      <a href="#glossary">Jargon</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="kicker">Start Here · Level 0 · 6-min read</span>
+  <h1 class="hero-title">"I'm in the 2055 fund." What is that?</h1>
+  <p class="hero-lede">
+    If you peeked at your 401(k) or TSP and saw your money in something like a "2055 Fund" or "Lifecycle 2050," good news: that's a <em>target-date fund</em>, and it's one of the smartest defaults out there. It's a whole diversified portfolio in a single pick — designed so you can do nothing and still be invested sensibly.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-label">What it is</div><div class="stat-val">All-in-one</div><div class="stat-sub">A full portfolio, one fund</div></div>
+    <div class="stat"><div class="stat-label">The number</div><div class="stat-val">Your year</div><div class="stat-sub">≈ when you'll retire</div></div>
+    <div class="stat"><div class="stat-label">Maintenance</div><div class="stat-val">Basically none</div><div class="stat-sub">It adjusts itself</div></div>
+    <div class="stat"><div class="stat-label">Best for</div><div class="stat-val">Most people</div><div class="stat-sub">Especially beginners</div></div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-label">The one-sentence version</div>
+    <div class="verdict-body">
+      A target-date fund is a <strong>ready-made, diversified portfolio in a single fund</strong> — you pick the one with the year closest to your retirement, and it automatically holds a sensible mix of stocks and bonds, getting gradually safer as that year approaches. For most beginners, it's the closest thing to a "just handle it for me" button.
+    </div>
+  </div>
+</header>
+
+<section id="quick" class="section">
+  <div class="section-head">
+    <span class="kicker">01 · If you only have a minute</span>
+    <h2>The short version</h2>
+  </div>
+  <div class="snap-grid">
+    <div class="snap-card good">
+      <div class="snap-icon">✓</div>
+      <h3>Why it's great</h3>
+      <ul>
+        <li><strong>One fund = a full portfolio.</strong> Instantly diversified across thousands of companies.</li>
+        <li><strong>It rebalances itself</strong> and gets safer over time. Zero effort from you.</li>
+        <li><strong>Hard to mess up.</strong> No picking stocks, no guessing.</li>
+        <li>Often the <strong>default</strong> you're already in — and a good one.</li>
+      </ul>
+    </div>
+    <div class="snap-card warn">
+      <div class="snap-icon">!</div>
+      <h3>What to watch</h3>
+      <ul>
+        <li><strong>Fees vary a lot.</strong> Index-based ones are cheap; some are pricey.</li>
+        <li><strong>Don't double up.</strong> It's meant to be your <em>whole</em> mix, not one slice.</li>
+        <li>The "right" year is about <strong>your</strong> timeline, not a default guess.</li>
+        <li>Two funds with the same year can hold different mixes.</li>
+      </ul>
+    </div>
+    <div class="snap-card neutral">
+      <div class="snap-icon">?</div>
+      <h3>Is it for you?</h3>
+      <ul>
+        <li>Want investing to be <strong>simple and hands-off</strong>? Yes.</li>
+        <li>New and not sure what to pick? <strong>This is the safe starting point.</strong></li>
+        <li>Federal employee? Your version is a <strong>TSP Lifecycle (L) fund.</strong></li>
+        <li>Like tinkering? You may eventually prefer building your own mix.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="what" class="section alt">
+  <div class="section-head">
+    <span class="kicker">02 · The big idea</span>
+    <h2>A portfolio in a single fund</h2>
+    <p class="lead">Normally, investing means choosing a mix of things — some stocks, some bonds, US and international — and adjusting it over the years. A target-date fund does all of that for you, inside one fund.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">Imagine ordering a <strong>meal-kit box</strong> instead of shopping for every ingredient. The box already has the right proportions, and it even adjusts the recipe as your tastes change. That's a target-date fund: a complete, balanced mix in one tidy package.</p>
+      <p class="big-p" style="margin-top:14px">When you buy a single "2055 Fund," under the hood you actually own a slice of <strong>thousands of companies</strong> plus some bonds — diversification that would take several funds to build yourself.</p>
+      <div class="callout">
+        <div class="callout-title">Why beginners love it</div>
+        <div>The two ways people hurt their returns are (1) not being diversified and (2) fiddling at the wrong moments. A target-date fund quietly solves both — it's diversified on day one and it adjusts on a schedule, not on your emotions.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">What's inside one fund</div>
+        <div class="card-sub">A simplified peek under the hood of a "2055" fund</div>
+        <ul class="feat-list">
+          <li><strong>US stocks</strong> — the biggest slice when retirement is far off.</li>
+          <li><strong>International stocks</strong> — companies outside the US, for broader reach.</li>
+          <li><strong>Bonds</strong> — steadier, lower-growth ballast that grows as you near the date.</li>
+          <li><strong>Auto-rebalancing</strong> — the fund keeps these in their target proportions for you.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="number" class="section">
+  <div class="section-head">
+    <span class="kicker">03 · Decoding the year</span>
+    <h2>What the "2055" actually means</h2>
+    <p class="lead">The number is roughly the year you expect to retire — and you generally pick the fund closest to it. That's the entire selection process.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">A simple way to find your year: take the age you'd like to retire (many people use ~65) and figure out which calendar year you'll hit it. Then pick the fund with the nearest year.</p>
+      <div class="callout">
+        <div class="callout-title">A quick example</div>
+        <div>If you're 32 in 2026 and imagine retiring around 65, that's roughly the year <strong>2059</strong> — so you'd choose the <strong>2060 Fund</strong> (the closest available, since they usually come in 5-year steps). That's it. You've just built a complete, age-appropriate portfolio.</div>
+      </div>
+      <p class="big-p" style="margin-top:8px">Prefer a more cautious or more aggressive ride? You can pick a fund with an <em>earlier</em> year (safer sooner) or a <em>later</em> year (more growth, more bumps) on purpose.</p>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Find your fund in 10 seconds</div>
+        <ul class="feat-list">
+          <li><strong>Step 1:</strong> Pick a target retirement age (65 is a common anchor).</li>
+          <li><strong>Step 2:</strong> Add the years between now and then to this year.</li>
+          <li><strong>Step 3:</strong> Round to the nearest fund (they come in 5-year jumps: 2050, 2055, 2060…).</li>
+          <li><strong>Step 4:</strong> That's your fund. Done.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="glide" class="section alt">
+  <div class="section-head">
+    <span class="kicker">04 · The clever part</span>
+    <h2>The "glide path" — getting safer on autopilot</h2>
+    <p class="lead">When retirement is decades away, the fund leans into growth (more stocks). As your date nears, it automatically shifts toward stability (more bonds). You never lift a finger.</p>
+  </div>
+  <div class="glide-card">
+    <div class="card-title" style="margin-bottom:10px">How the mix shifts over a lifetime</div>
+    <div class="glide-legend">
+      <span><span class="dot stocks"></span>Stocks (growth)</span>
+      <span><span class="dot bonds"></span>Bonds (stability)</span>
+    </div>
+    <svg viewBox="0 0 600 280" width="100%" height="280" role="img" aria-label="Glide path showing stocks decreasing and bonds increasing from age 25 to 85">
+      <!-- bonds area (top) -->
+      <polygon points="60,60 185,70 310,90 435,120 510,160 560,180 560,40 60,40" fill="#c9a961" opacity="0.5"/>
+      <!-- stocks area (bottom) -->
+      <polygon points="60,240 60,60 185,70 310,90 435,120 510,160 560,180 560,240" fill="#7fb89a" opacity="0.75"/>
+      <!-- dividing line -->
+      <polyline points="60,60 185,70 310,90 435,120 510,160 560,180" fill="none" stroke="#0d1612" stroke-width="2"/>
+      <!-- frame -->
+      <line x1="60" y1="40" x2="60" y2="240" stroke="#2a3a31" stroke-width="1"/>
+      <line x1="60" y1="240" x2="560" y2="240" stroke="#2a3a31" stroke-width="1"/>
+      <!-- target-date marker at age 65 -->
+      <line x1="510" y1="40" x2="510" y2="240" stroke="#f0e9d6" stroke-width="1" stroke-dasharray="3,4" opacity="0.6"/>
+      <text x="510" y="32" text-anchor="middle" fill="#f0e9d6" font-size="11" font-family="JetBrains Mono">target date</text>
+      <!-- x labels -->
+      <text x="60" y="258" text-anchor="middle" fill="#7a8378" font-size="11" font-family="JetBrains Mono">Age 25</text>
+      <text x="310" y="258" text-anchor="middle" fill="#7a8378" font-size="11" font-family="JetBrains Mono">Age 45</text>
+      <text x="510" y="258" text-anchor="middle" fill="#7a8378" font-size="11" font-family="JetBrains Mono">Age 65</text>
+      <!-- annotations -->
+      <text x="120" y="200" fill="#0d1612" font-size="13" font-family="Inter" font-weight="700">~90% stocks</text>
+      <text x="430" y="210" fill="#0d1612" font-size="12" font-family="Inter" font-weight="700">fewer stocks</text>
+      <text x="300" y="60" fill="#0d1612" font-size="12" font-family="Inter" font-weight="700">more bonds over time</text>
+    </svg>
+    <div class="glide-foot">
+      Illustrative shape only — every fund family designs its glide path a little differently. The point is the direction: <strong>aggressive when you're young and can ride out dips, gradually steadier as you approach the day you'll actually need the money.</strong> It does this on a schedule, immune to whatever the headlines are screaming.
+    </div>
+  </div>
+</section>
+
+<section id="tsp" class="section">
+  <div class="section-head">
+    <span class="kicker">05 · For federal &amp; military readers</span>
+    <h2>The TSP version: Lifecycle (L) funds</h2>
+    <p class="lead">If you're in the Thrift Savings Plan, your target-date funds are called <strong>Lifecycle funds</strong> — "L 2055," "L 2050," and so on. Same idea, government edition.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">A TSP <strong>L fund</strong> automatically blends the TSP's underlying funds — the stock funds (<strong>C, S, I</strong>) for growth and the steadier funds (<strong>G, F</strong>) for stability — and shifts that mix toward safety as your target year approaches. Exactly like a civilian target-date fund, with the TSP's famously low fees.</p>
+      <div class="callout">
+        <div class="callout-title">Good to know</div>
+        <div>Since 2015, new federal employees are automatically placed in an age-appropriate L fund (rather than the ultra-safe G Fund, which was the old default). So if you were hired more recently and never chose anything, there's a good chance you're already in a sensible L fund. Worth confirming — log in and check.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">The TSP building blocks</div>
+        <div class="card-sub">What an L fund mixes together for you</div>
+        <ul class="feat-list">
+          <li><strong>G Fund</strong> — government securities. Very safe, very slow.</li>
+          <li><strong>F Fund</strong> — bonds. Steadier ballast.</li>
+          <li><strong>C Fund</strong> — large US companies (think S&amp;P 500).</li>
+          <li><strong>S Fund</strong> — smaller US companies.</li>
+          <li><strong>I Fund</strong> — international companies.</li>
+          <li><strong>L Funds</strong> — auto-blends all of the above by your target year.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="watch" class="section alt">
+  <div class="section-head">
+    <span class="kicker">06 · The honest fine print</span>
+    <h2>Three things worth knowing</h2>
+    <p class="lead">Target-date funds are excellent, but they're not magic. A few things are worth a glance so you're choosing on purpose, not by accident.</p>
+  </div>
+  <ul class="steps">
+    <li><strong>Check the fee.</strong> A target-date fund built from index funds is cheap (often around 0.1% or less). Some older or insurance-flavored versions cost far more — and high fees quietly eat returns over decades. If your plan offers a low-cost index target-date series, that's usually the one to favor.</li>
+    <li><strong>It's meant to be your whole portfolio.</strong> The mix is already balanced, so you generally pick <em>one</em> and put everything there. Holding a target-date fund <em>plus</em> a pile of other funds can accidentally undo its careful balance.</li>
+    <li><strong>The default year may not match your plan.</strong> Same year, different fund families can be more or less aggressive — and "to" versus "through" designs treat the years <em>after</em> retirement differently. You don't need to master this, just know you're allowed to pick an earlier (safer) or later (bolder) year if the default doesn't fit your comfort.</li>
+  </ul>
+  <div class="callout" style="max-width:880px">
+    <div class="callout-title">The bottom line</div>
+    <div>For a beginner who wants to be invested sensibly and then get on with life, a low-cost target-date fund is one of the best single decisions available. Pick your year, check the fee, make it your one holding, and let it do its job.</div>
+  </div>
+</section>
+
+<section id="glossary" class="section">
+  <div class="section-head">
+    <span class="kicker">07 · Plain-English glossary</span>
+    <h2>Jargon, translated</h2>
+  </div>
+  <div class="gloss-grid">
+    <div class="gloss-item"><div class="gloss-term">Target-date fund</div><div class="gloss-def">An all-in-one fund built around a retirement year (like "2055"). Holds a full, diversified mix and adjusts it for you over time.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Glide path</div><div class="gloss-def">The pre-set schedule by which the fund shifts from mostly stocks (growth) to more bonds (stability) as the target year nears.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Stocks</div><div class="gloss-def">Slices of companies. Higher growth over time, but bumpier. The engine of a young person's portfolio.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Bonds</div><div class="gloss-def">Loans to governments or companies that pay interest. Steadier and lower-growth — the ballast that smooths the ride.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Diversification</div><div class="gloss-def">Not putting all your eggs in one basket — owning many investments so no single one can sink you.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Rebalancing</div><div class="gloss-def">Periodically nudging your mix back to its targets as markets move. A target-date fund does this automatically.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Expense ratio</div><div class="gloss-def">The fund's annual fee, as a percent. 0.10% means $1 a year per $1,000. Lower is better; it compounds.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Lifecycle (L) fund</div><div class="gloss-def">The TSP's name for its target-date funds (L 2055, etc.). Same concept, with the TSP's very low fees.</div></div>
+    <div class="gloss-item"><div class="gloss-term">"To" vs "through"</div><div class="gloss-def">Whether a fund keeps shifting safer for years <em>after</em> the target date ("through") or stops at it ("to"). A design detail, not a beginner worry.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Asset allocation</div><div class="gloss-def">The fancy term for your mix of stocks vs. bonds (and more). A target-date fund picks and manages it for you.</div></div>
+  </div>
+
+  <div style="margin-top:36px">
+    <div class="kicker" style="color:var(--gold);border-color:var(--gold)">Keep going</div>
+    <div class="next-card">
+      <a class="next-link" href="../paycheck/">
+        <div class="next-tag">Level 0 · Start</div>
+        <div class="next-title">Where does my paycheck money actually go?</div>
+        <div class="next-desc">The account vs. the investment — make sure your money is actually invested.</div>
+      </a>
+      <a class="next-link" href="../../vti/">
+        <div class="next-tag">When you're ready · Level 2</div>
+        <div class="next-title">VTI: "just buy the index," explained</div>
+        <div class="next-desc">If you ever want to build your own simple mix, start with the total-market index fund.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">Rose Ticker · The Basics</div>
+  <div>Educational — not financial advice</div>
+  <div class="foot-note">
+    This explains general concepts to help you understand your own options. It isn't personalized financial advice — fund designs, fees, and glide paths differ, so check your specific fund's documents or a qualified professional before deciding.
+  </div>
+</footer>
+
+<script>
+  var t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+  if(t){t.addEventListener('click',function(){l.classList.toggle('open');});}
+  document.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open');});});
+</script>
+</body>
+</html>

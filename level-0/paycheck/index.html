@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Where Does My Paycheck Money Actually Go? — A Plain-English Primer</title>
+<meta name="description" content="Money comes out of every paycheck for retirement. Where does it actually go — and is it even invested? The account vs. the investment, explained in plain English." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0d1612;--bg-alt:#111c17;--bg-card:#16221c;--bg-elev:#1c2b23;
+  --border:#2a3a31;--border-soft:#1f2c25;
+  --text:#f0e9d6;--text-soft:#b9b29f;--muted:#7a8378;
+  --accent:#7fb89a;--accent-deep:#5a9b7a;--gold:#c9a961;--gold-soft:rgba(201,169,97,0.15);
+  --up:#7fb89a;--down:#c98570;--warn:#d4ab5f;--bad:#c87b7b;
+  --max:1160px;--radius:4px;--radius-lg:8px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at top,rgba(127,184,154,0.04),transparent 60%),radial-gradient(ellipse at bottom right,rgba(201,169,97,0.03),transparent 60%);pointer-events:none;z-index:0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+strong{color:var(--text);font-weight:600}
+em{color:var(--text-soft);font-style:italic}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-0.015em;color:var(--text);margin:0;line-height:1.15}
+.mono{font-family:'JetBrains Mono',monospace}
+.topnav{position:sticky;top:0;z-index:50;background:rgba(13,22,18,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:16px;white-space:nowrap;flex-shrink:0}
+.brand:hover{text-decoration:none}
+.brand svg{color:var(--accent)}
+.nav-links{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;justify-content:flex-end}
+.nav-links a{color:var(--text-soft);font-weight:500;letter-spacing:0.01em}
+.nav-links a:hover{color:var(--accent);text-decoration:none}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+@media(max-width:900px){.nav-links{display:none;flex-direction:column;width:100%;padding-top:12px}.nav-links.open{display:flex}.nav-toggle{display:block}.nav-inner{flex-wrap:wrap}}
+.hero{position:relative;max-width:var(--max);margin:0 auto;padding:72px 24px 40px;overflow:hidden}
+@media(max-width:900px){.hero{padding:36px 20px 24px}}
+.kicker{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.12em;color:var(--accent);border:1px solid var(--accent);border-radius:100px;padding:6px 14px;margin-bottom:24px;text-transform:uppercase}
+h1.hero-title{font-size:clamp(36px,5.2vw,60px);letter-spacing:-0.022em;margin-bottom:14px;max-width:14ch}
+.hero-lede{font-size:18px;color:var(--text-soft);max-width:600px;margin-bottom:28px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;max-width:760px}
+@media(max-width:600px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 14px}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.stat-val{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:22px;letter-spacing:-0.01em}
+.stat-sub{font-size:12px;color:var(--text-soft);margin-top:4px}
+.verdict{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-lg);padding:22px 26px;margin-top:8px;max-width:820px}
+.verdict-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+.verdict-body{font-size:15.5px;line-height:1.65;color:var(--text)}
+.section{position:relative;max-width:var(--max);margin:0 auto;padding:72px 24px}
+.section.alt{max-width:100%;background:var(--bg-alt);padding-left:max(24px,calc((100vw - var(--max))/2));padding-right:max(24px,calc((100vw - var(--max))/2))}
+.section.alt>*{max-width:var(--max);margin-left:auto;margin-right:auto}
+@media(max-width:700px){.section{padding:52px 20px}}
+.section-head{margin-bottom:36px;max-width:760px}
+.section-head .kicker{margin-bottom:16px}
+.section-head h2{font-size:clamp(28px,3.4vw,42px);margin-bottom:12px}
+.section-head p.lead{font-size:17px;color:var(--text-soft);max-width:660px;line-height:1.6}
+.snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.snap-grid{grid-template-columns:1fr}}
+.snap-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 22px}
+.snap-icon{font-family:'Fraunces',Georgia,serif;font-size:26px;width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid var(--border);color:var(--accent);margin-bottom:14px}
+.snap-card.good .snap-icon{color:var(--up);border-color:rgba(127,184,154,0.4)}
+.snap-card.warn .snap-icon{color:var(--warn);border-color:rgba(212,171,95,0.4)}
+.snap-card.neutral .snap-icon{color:var(--gold);border-color:rgba(201,169,97,0.4)}
+.snap-card h3{font-size:19px;margin-bottom:10px}
+.snap-card ul{padding-left:0;list-style:none;margin:0}
+.snap-card li{font-size:14.5px;color:var(--text-soft);padding:6px 0;border-top:1px solid var(--border-soft)}
+.snap-card li:first-child{border-top:none}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;gap:24px}}
+.big-p{font-size:18px;line-height:1.65;color:var(--text)}
+.callout{border-left:3px solid var(--gold);background:var(--gold-soft);padding:16px 20px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:22px 0;font-size:15px}
+.callout-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px}
+.feat-list{list-style:none;padding-left:0;margin:12px 0 0}
+.feat-list li{padding:9px 0;border-top:1px solid var(--border-soft);font-size:15px;color:var(--text-soft)}
+.feat-list li:first-child{border-top:none}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px}
+.card-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:18px;margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+/* layers diagram */
+.layers{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+.layer{background:var(--bg-elev);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;position:relative}
+.layer-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px}
+.layer.acct{border-left:3px solid var(--gold)}
+.layer.acct .layer-tag{color:var(--gold)}
+.layer.inv{border-left:3px solid var(--accent)}
+.layer.inv .layer-tag{color:var(--accent)}
+.layer-name{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:18px;margin-bottom:4px}
+.layer-desc{font-size:14px;color:var(--text-soft);line-height:1.55}
+.layer-arrow{text-align:center;color:var(--muted);font-size:20px;line-height:1}
+/* flow steps */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:step}
+@media(max-width:780px){.flow{grid-template-columns:1fr 1fr}}
+.flow-step{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 16px;position:relative}
+.flow-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:0.12em;margin-bottom:8px}
+.flow-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:16px;margin-bottom:6px}
+.flow-desc{font-size:13.5px;color:var(--text-soft);line-height:1.5}
+/* steps list */
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.steps li{counter-increment:s;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px 18px 60px;position:relative;font-size:15px;color:var(--text-soft);line-height:1.6}
+.steps li::before{content:counter(s);position:absolute;left:18px;top:16px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--accent);color:var(--bg);font-family:'JetBrains Mono',monospace;font-weight:600;font-size:14px}
+.steps li strong{color:var(--text)}
+.gloss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px}
+.gloss-term{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:15.5px;color:var(--accent);margin-bottom:4px}
+.gloss-def{font-size:14px;color:var(--text-soft);line-height:1.55}
+.next-card{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.next-link{flex:1;min-width:240px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;transition:all .18s}
+.next-link:hover{border-color:var(--accent);transform:translateY(-2px);text-decoration:none}
+.next-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.next-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;color:var(--text);margin-bottom:4px}
+.next-desc{font-size:13.5px;color:var(--text-soft);line-height:1.5}
+footer{border-top:1px solid var(--border-soft);margin-top:40px;padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+.foot-brand{font-weight:600;margin-bottom:4px;color:var(--text-soft);font-family:'Fraunces',Georgia,serif}
+.foot-note{max-width:620px;margin:8px auto 0;line-height:1.55}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="../../" class="brand" aria-label="Rose Ticker home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2"/>
+        <path d="M8 18 L13 13 L17 16 L24 9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="9" r="2" fill="currentColor"/>
+      </svg>
+      <span>Rose Ticker · The Basics</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle nav">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#quick">In a minute</a>
+      <a href="#two-things">Two things</a>
+      <a href="#journey">The journey</a>
+      <a href="#trap">The cash trap</a>
+      <a href="#match">Free money</a>
+      <a href="#check">Check yours</a>
+      <a href="#glossary">Jargon</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="kicker">Start Here · Level 0 · 5-min read</span>
+  <h1 class="hero-title">Where does my paycheck money actually go?</h1>
+  <p class="hero-lede">
+    Every payday, a slice of your money disappears toward "retirement." Most people have no idea where it lands, whether it's actually growing, or that they had any say in it. Here's the whole picture — no jargon, no judgment, no assumption that you should already know this.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-label">The big idea</div><div class="stat-val">Account ≠ Investment</div><div class="stat-sub">Two different things</div></div>
+    <div class="stat"><div class="stat-label">Common surprise</div><div class="stat-val">Maybe cash</div><div class="stat-sub">Money can sit uninvested</div></div>
+    <div class="stat"><div class="stat-label">Often missed</div><div class="stat-val">Free match</div><div class="stat-sub">Employer money on the table</div></div>
+    <div class="stat"><div class="stat-label">Time to check</div><div class="stat-val">~5 min</div><div class="stat-sub">One login</div></div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-label">The one-sentence version</div>
+    <div class="verdict-body">
+      Your retirement <strong>account</strong> (a 401(k), 403(b), 457, or TSP) is just a container — and the <strong>investments inside it</strong> are a separate choice. You can "have a retirement account" and still have your money sitting in cash, barely growing, because no one ever told you those were two different decisions.
+    </div>
+  </div>
+</header>
+
+<section id="quick" class="section">
+  <div class="section-head">
+    <span class="kicker">01 · If you only have a minute</span>
+    <h2>The short version</h2>
+  </div>
+  <div class="snap-grid">
+    <div class="snap-card good">
+      <div class="snap-icon">✓</div>
+      <h3>The good news</h3>
+      <ul>
+        <li>You're already doing the hardest part — <strong>money is going in automatically</strong>.</li>
+        <li>That money is <strong>yours</strong>. It's not a tax or a fee.</li>
+        <li>You probably get <strong>free money from your employer</strong> on top.</li>
+        <li>Checking on it takes <strong>one login and five minutes</strong>.</li>
+      </ul>
+    </div>
+    <div class="snap-card warn">
+      <div class="snap-icon">!</div>
+      <h3>The catch</h3>
+      <ul>
+        <li>The account is just a <strong>bucket</strong>. What's <em>inside</em> it is a separate choice.</li>
+        <li>Your money might be <strong>sitting in cash</strong>, not actually invested.</li>
+        <li>Cash inside a retirement account <strong>barely grows</strong> — inflation can quietly shrink it.</li>
+        <li>Nobody emails you about this. You have to look.</li>
+      </ul>
+    </div>
+    <div class="snap-card neutral">
+      <div class="snap-icon">?</div>
+      <h3>What to do</h3>
+      <ul>
+        <li>Log into your plan and find <strong>what your money is invested in</strong>.</li>
+        <li>Make sure you're getting your <strong>full employer match</strong>.</li>
+        <li>If it's in cash, learn about <strong>target-date funds</strong> (the easy default).</li>
+        <li>Then leave it alone. Seriously.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="two-things" class="section alt">
+  <div class="section-head">
+    <span class="kicker">02 · The one thing nobody explains</span>
+    <h2>The bucket and what's in it</h2>
+    <p class="lead">This single distinction clears up about 80% of the confusion. Once it clicks, the rest is easy.</p>
+  </div>
+
+  <div class="two-col">
+    <div>
+      <p class="big-p">
+        Think of it like a <strong>fridge</strong>. The retirement account — your 401(k), 403(b), 457, or TSP — is the fridge itself. It's just a special, tax-friendly box to keep things in.
+      </p>
+      <p class="big-p" style="margin-top:14px">
+        The <strong>investments</strong> are the food you put inside it. An empty fridge keeps nothing fresh. A retirement account with your money sitting in cash is a fridge with nothing growing in it.
+      </p>
+      <div class="callout">
+        <div class="callout-title">Why this trips everyone up</div>
+        <div>When HR says "you're enrolled in the 401(k)," it sounds finished — like the decision is made. But that only set up the <em>fridge</em>. Whether anything is actually growing inside it is a second step most people never realize exists.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Two layers, one account</div>
+        <div class="card-sub">Both have to be handled — the first usually is, the second often isn't.</div>
+        <div class="layers">
+          <div class="layer acct">
+            <div class="layer-tag">Layer 1 · The container</div>
+            <div class="layer-name">The account</div>
+            <div class="layer-desc">401(k), 403(b), 457(b), or TSP. A tax-advantaged box your contributions land in. Set up by HR when you enrolled.</div>
+          </div>
+          <div class="layer-arrow">↓ money flows into ↓</div>
+          <div class="layer inv">
+            <div class="layer-tag">Layer 2 · The contents</div>
+            <div class="layer-name">The investments</div>
+            <div class="layer-desc">Index funds, target-date funds, or cash. This is what actually grows (or doesn't). <strong>Your choice</strong> — even if you never made one.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="journey" class="section">
+  <div class="section-head">
+    <span class="kicker">03 · Follow the dollar</span>
+    <h2>The journey of one paycheck dollar</h2>
+    <p class="lead">Here's what actually happens between "money leaves your check" and "money grows for future you."</p>
+  </div>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-num">STEP 01</div>
+      <div class="flow-title">It leaves your paycheck</div>
+      <div class="flow-desc">A set percentage (say 5%) is taken out before you ever see it. Often before taxes, which lowers your tax bill that year.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">STEP 02</div>
+      <div class="flow-title">It lands in your account</div>
+      <div class="flow-desc">It arrives in your 401(k) / TSP / 403(b) — the tax-advantaged bucket with your name on it.</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">STEP 03</div>
+      <div class="flow-title">It buys an investment</div>
+      <div class="flow-desc">The dollar is used to buy whatever you're set to — a fund, or, by default, sometimes just cash. <strong>This is the step people miss.</strong></div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">STEP 04</div>
+      <div class="flow-title">It grows (or sits)</div>
+      <div class="flow-desc">In a fund, it compounds over decades. In cash, it mostly just waits. Same account, very different outcome.</div>
+    </div>
+  </div>
+  <div class="callout" style="max-width:880px">
+    <div class="callout-title">The quiet fork at step 3</div>
+    <div>Two people can contribute the exact same amount for 30 years. The one whose dollars bought a diversified fund can end up with hundreds of thousands more than the one whose dollars sat in cash — purely because of what happened at step 3. It's the cheapest, most overlooked decision in personal finance.</div>
+  </div>
+</section>
+
+<section id="trap" class="section alt">
+  <div class="section-head">
+    <span class="kicker">04 · The most common surprise</span>
+    <h2>"Wait — my money's just sitting there?"</h2>
+    <p class="lead">It happens more than you'd think, and it's nobody's fault. Here's why, and how to tell.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">When you're auto-enrolled, your money has to go <em>somewhere</em> by default. Depending on your plan and when you joined, that default is one of two things:</p>
+      <ul class="feat-list">
+        <li><strong>An age-based "target-date" fund</strong> — increasingly the norm. Your money is actually invested and diversified for you. Good default. (The federal TSP has worked this way for new hires since 2015.)</li>
+        <li><strong>A cash-like option</strong> — money-market or "stable value," and in older federal accounts the ultra-safe G Fund. Safe from crashes, but barely grows, and inflation slowly eats it. Not where long-term money should sit for decades.</li>
+      </ul>
+      <p class="big-p" style="margin-top:16px">You can't know which one you got until you look. That's the whole point of this page: <strong>go look.</strong></p>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">How to tell in 60 seconds</div>
+        <div class="card-sub">Log into your plan and find the words next to your balance.</div>
+        <ul class="feat-list">
+          <li>See a fund name with a <strong>year</strong> in it — like "2055 Fund" or "Lifecycle 2050"? You're invested. <span style="color:var(--up)">Good.</span></li>
+          <li>See <strong>"Index," "Total Market," "S&amp;P 500"</strong>? Also invested. <span style="color:var(--up)">Good.</span></li>
+          <li>See <strong>"Money Market," "Stable Value," "G Fund," or "Cash"</strong> as your <em>only</em> holding? That's the trap. <span style="color:var(--warn)">Worth a look.</span></li>
+          <li>Not sure what you're seeing? That's normal — the <a href="../target-date-funds/">target-date fund primer</a> decodes the most common one.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="match" class="section">
+  <div class="section-head">
+    <span class="kicker">05 · The part that's genuinely free</span>
+    <h2>The employer match (don't leave it behind)</h2>
+    <p class="lead">Many employers add their own money to your account when you contribute. It is, almost literally, free money — and it's easy to miss.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">A typical match sounds like: <em>"We match 100% of the first 5% you contribute."</em> In plain English: if you put in 5% of your paycheck, your employer puts in another 5%. Your money just got <strong>doubled</strong> before it's even invested.</p>
+      <div class="callout">
+        <div class="callout-title">The only "guaranteed 100% return" you'll find</div>
+        <div>No investment reliably doubles your money instantly. An employer match effectively does. If you're contributing <em>less</em> than the amount needed to get the full match, that's usually the first thing worth fixing.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Two words to learn</div>
+        <ul class="feat-list">
+          <li><strong>Match</strong> — the money your employer adds when you contribute. Find your plan's match formula (HR or your plan website).</li>
+          <li><strong>Vesting</strong> — how long you must stay before the <em>employer's</em> share is fully yours to keep. Your own contributions are always 100% yours immediately.</li>
+          <li>Public-sector note: many government jobs pair a <strong>pension</strong> with a matched plan (like FERS + TSP). The match and the pension are <em>both</em> yours to understand — they're separate.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="check" class="section alt">
+  <div class="section-head">
+    <span class="kicker">06 · Your 5-minute checkup</span>
+    <h2>What to actually do this week</h2>
+    <p class="lead">You don't have to become an investor. You just have to look once, fix anything obvious, and then get on with your life.</p>
+  </div>
+  <ol class="steps">
+    <li><strong>Log into your retirement plan.</strong> It's run by a company like Fidelity, Vanguard, Empower, TIAA, or (for federal workers) tsp.gov. If you don't know your login, your HR or benefits portal has it.</li>
+    <li><strong>Find what your money is invested in.</strong> Look for a holdings, investments, or "your funds" screen. Note the name next to your balance.</li>
+    <li><strong>Decode it.</strong> A fund with a year ("2055") or the words "index" / "total market" means you're invested. "Cash," "money market," "stable value," or "G Fund" alone means you may want to change it.</li>
+    <li><strong>Check your contribution and match.</strong> Are you contributing at least enough to get the full employer match? If not, that's the highest-value tweak you can make.</li>
+    <li><strong>If it's all in cash and you're decades from retiring,</strong> read up on <a href="../target-date-funds/">target-date funds</a> — the one-click way to get diversified — before changing anything.</li>
+    <li><strong>Then stop checking.</strong> Once it's set up sensibly, looking every day only makes you anxious. Set-and-forget is the strategy, not laziness.</li>
+  </ol>
+</section>
+
+<section id="glossary" class="section">
+  <div class="section-head">
+    <span class="kicker">07 · Plain-English glossary</span>
+    <h2>Jargon, translated</h2>
+  </div>
+  <div class="gloss-grid">
+    <div class="gloss-item"><div class="gloss-term">Retirement account</div><div class="gloss-def">A tax-advantaged "bucket" for long-term savings — a 401(k), 403(b), 457(b), or TSP. The container, not the contents.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Contribution</div><div class="gloss-def">The money you put in, usually a percentage of each paycheck, taken out automatically.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Investment / fund</div><div class="gloss-def">What your contributions actually buy inside the account — like a target-date fund or an index fund. This is what grows.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Cash / money market / stable value</div><div class="gloss-def">A "safe" holding that barely grows. Fine for short-term money; usually too cautious for money you won't touch for decades.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Employer match</div><div class="gloss-def">Money your employer adds to your account when you contribute. Free money — get the full amount if you can.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Vesting</div><div class="gloss-def">How long you must stay employed before the employer's matched money is permanently yours. Your own contributions are always yours.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Target-date fund</div><div class="gloss-def">A single all-in-one fund (e.g. "2055") that invests and adjusts itself for you over time. The easiest sensible default.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Compounding</div><div class="gloss-def">Your money earning money, then <em>that</em> money earning money too. The reason investing decades early matters so much.</div></div>
+  </div>
+
+  <div style="margin-top:36px">
+    <div class="kicker" style="color:var(--gold);border-color:var(--gold)">Keep going</div>
+    <div class="next-card">
+      <a class="next-link" href="../workplace-plans/">
+        <div class="next-tag">Next · Level 0</div>
+        <div class="next-title">401(k), TSP, 457, 403(b) — what's the difference?</div>
+        <div class="next-desc">All the retirement "buckets" explained side by side, in plain English.</div>
+      </a>
+      <a class="next-link" href="../target-date-funds/">
+        <div class="next-tag">Next · Level 0</div>
+        <div class="next-title">"I'm in the 2055 fund." What is that?</div>
+        <div class="next-desc">The most common holding, decoded — including the TSP's Lifecycle funds.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">Rose Ticker · The Basics</div>
+  <div>Educational — not financial advice</div>
+  <div class="foot-note">
+    This explains general concepts to help you understand your own accounts. It isn't personalized financial advice, and everyone's situation differs. Plan rules and defaults vary by employer — when in doubt, check your plan's documents or a qualified professional.
+  </div>
+</footer>
+
+<script>
+  var t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+  if(t){t.addEventListener('click',function(){l.classList.toggle('open');});}
+  document.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open');});});
+</script>
+</body>
+</html>
