@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Roth or Traditional? The Tax Choice, Explained Plainly — Rose Ticker</title>
+<meta name="description" content="Roth vs traditional, in plain English. Pay tax now or later? Who each suits, workplace Roth vs Roth IRA, and why you don't have to get it perfect." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0d1612;--bg-alt:#111c17;--bg-card:#16221c;--bg-elev:#1c2b23;
+  --border:#2a3a31;--border-soft:#1f2c25;
+  --text:#f0e9d6;--text-soft:#b9b29f;--muted:#7a8378;
+  --accent:#7fb89a;--accent-deep:#5a9b7a;--gold:#c9a961;--gold-soft:rgba(201,169,97,0.15);
+  --up:#7fb89a;--down:#c98570;--warn:#d4ab5f;--bad:#c87b7b;
+  --max:1160px;--radius:4px;--radius-lg:8px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at top,rgba(127,184,154,0.04),transparent 60%),radial-gradient(ellipse at bottom right,rgba(201,169,97,0.03),transparent 60%);pointer-events:none;z-index:0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+strong{color:var(--text);font-weight:600}
+em{color:var(--text-soft);font-style:italic}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-0.015em;color:var(--text);margin:0;line-height:1.15}
+.mono{font-family:'JetBrains Mono',monospace}
+.topnav{position:sticky;top:0;z-index:50;background:rgba(13,22,18,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:16px;white-space:nowrap;flex-shrink:0}
+.brand:hover{text-decoration:none}
+.brand svg{color:var(--accent)}
+.nav-links{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;justify-content:flex-end}
+.nav-links a{color:var(--text-soft);font-weight:500;letter-spacing:0.01em}
+.nav-links a:hover{color:var(--accent);text-decoration:none}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+@media(max-width:900px){.nav-links{display:none;flex-direction:column;width:100%;padding-top:12px}.nav-links.open{display:flex}.nav-toggle{display:block}.nav-inner{flex-wrap:wrap}}
+.hero{position:relative;max-width:var(--max);margin:0 auto;padding:72px 24px 40px;overflow:hidden}
+@media(max-width:900px){.hero{padding:36px 20px 24px}}
+.kicker{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.12em;color:var(--accent);border:1px solid var(--accent);border-radius:100px;padding:6px 14px;margin-bottom:24px;text-transform:uppercase}
+h1.hero-title{font-size:clamp(36px,5.2vw,60px);letter-spacing:-0.022em;margin-bottom:14px;max-width:16ch}
+.hero-lede{font-size:18px;color:var(--text-soft);max-width:620px;margin-bottom:28px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;max-width:760px}
+@media(max-width:600px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 14px}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.stat-val{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:22px;letter-spacing:-0.01em}
+.stat-sub{font-size:12px;color:var(--text-soft);margin-top:4px}
+.verdict{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-lg);padding:22px 26px;margin-top:8px;max-width:820px}
+.verdict-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+.verdict-body{font-size:15.5px;line-height:1.65;color:var(--text)}
+.section{position:relative;max-width:var(--max);margin:0 auto;padding:72px 24px}
+.section.alt{max-width:100%;background:var(--bg-alt);padding-left:max(24px,calc((100vw - var(--max))/2));padding-right:max(24px,calc((100vw - var(--max))/2))}
+.section.alt>*{max-width:var(--max);margin-left:auto;margin-right:auto}
+@media(max-width:700px){.section{padding:52px 20px}}
+.section-head{margin-bottom:36px;max-width:780px}
+.section-head .kicker{margin-bottom:16px}
+.section-head h2{font-size:clamp(28px,3.4vw,42px);margin-bottom:12px}
+.section-head p.lead{font-size:17px;color:var(--text-soft);max-width:680px;line-height:1.6}
+.snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.snap-grid{grid-template-columns:1fr}}
+.snap-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 22px}
+.snap-icon{font-family:'Fraunces',Georgia,serif;font-size:26px;width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid var(--border);color:var(--accent);margin-bottom:14px}
+.snap-card.good .snap-icon{color:var(--up);border-color:rgba(127,184,154,0.4)}
+.snap-card.warn .snap-icon{color:var(--warn);border-color:rgba(212,171,95,0.4)}
+.snap-card.neutral .snap-icon{color:var(--gold);border-color:rgba(201,169,97,0.4)}
+.snap-card h3{font-size:19px;margin-bottom:10px}
+.snap-card ul{padding-left:0;list-style:none;margin:0}
+.snap-card li{font-size:14.5px;color:var(--text-soft);padding:6px 0;border-top:1px solid var(--border-soft)}
+.snap-card li:first-child{border-top:none}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;gap:24px}}
+.big-p{font-size:18px;line-height:1.65;color:var(--text)}
+.callout{border-left:3px solid var(--gold);background:var(--gold-soft);padding:16px 20px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:22px 0;font-size:15px}
+.callout-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px}
+.feat-list{list-style:none;padding-left:0;margin:12px 0 0}
+.feat-list li{padding:9px 0;border-top:1px solid var(--border-soft);font-size:15px;color:var(--text-soft)}
+.feat-list li:first-child{border-top:none}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px}
+.card.roth{border-top:3px solid var(--accent)}
+.card.trad{border-top:3px solid var(--gold)}
+.card-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:20px;margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.steps li{counter-increment:s;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px 18px 60px;position:relative;font-size:15px;color:var(--text-soft);line-height:1.6}
+.steps li::before{content:counter(s);position:absolute;left:18px;top:16px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--accent);color:var(--bg);font-family:'JetBrains Mono',monospace;font-weight:600;font-size:14px}
+.steps li strong{color:var(--text)}
+.gloss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px}
+.gloss-term{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:15.5px;color:var(--accent);margin-bottom:4px}
+.gloss-def{font-size:14px;color:var(--text-soft);line-height:1.55}
+.next-card{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.next-link{flex:1;min-width:240px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;transition:all .18s}
+.next-link:hover{border-color:var(--accent);transform:translateY(-2px);text-decoration:none}
+.next-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.next-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;color:var(--text);margin-bottom:4px}
+.next-desc{font-size:13.5px;color:var(--text-soft);line-height:1.5}
+footer{border-top:1px solid var(--border-soft);margin-top:40px;padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+.foot-brand{font-weight:600;margin-bottom:4px;color:var(--text-soft);font-family:'Fraunces',Georgia,serif}
+.foot-note{max-width:620px;margin:8px auto 0;line-height:1.55}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="../../" class="brand" aria-label="Rose Ticker home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2"/>
+        <path d="M8 18 L13 13 L17 16 L24 9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="9" r="2" fill="currentColor"/>
+      </svg>
+      <span>Rose Ticker · The Basics</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle nav">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#quick">In a minute</a>
+      <a href="#idea">The idea</a>
+      <a href="#compare">Side by side</a>
+      <a href="#decide">How to decide</a>
+      <a href="#fineprint">Fine print</a>
+      <a href="#glossary">Jargon</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="kicker">Start Here · Level 0 · 5-min read</span>
+  <h1 class="hero-title">Roth or traditional?</h1>
+  <p class="hero-lede">
+    Your retirement plan asks you to pick "Roth" or "traditional," and it sounds like a trick question. It isn't. It's one simple trade — pay tax now, or pay it later — and once you see it that way, the choice gets a lot less scary.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-label">The whole choice</div><div class="stat-val">Tax now or later</div><div class="stat-sub">That's really it</div></div>
+    <div class="stat"><div class="stat-label">Roth</div><div class="stat-val">Pay now</div><div class="stat-sub">Free in retirement</div></div>
+    <div class="stat"><div class="stat-label">Traditional</div><div class="stat-val">Pay later</div><div class="stat-sub">Break this year</div></div>
+    <div class="stat"><div class="stat-label">Can't decide?</div><div class="stat-val">Split it</div><div class="stat-sub">Or change anytime</div></div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-label">The one-sentence version</div>
+    <div class="verdict-body">
+      <strong>Roth</strong> means you pay taxes on the money now and it comes out tax-free in retirement; <strong>traditional</strong> means you skip the tax now and pay it when you withdraw later. Early in your career, when your income (and tax rate) is relatively low, <strong>Roth is often the popular pick</strong> — but there's no wrong answer you can't adjust.
+    </div>
+  </div>
+</header>
+
+<section id="quick" class="section">
+  <div class="section-head">
+    <span class="kicker">01 · If you only have a minute</span>
+    <h2>The short version</h2>
+  </div>
+  <div class="snap-grid">
+    <div class="snap-card good">
+      <div class="snap-icon">✓</div>
+      <h3>Roth, in brief</h3>
+      <ul>
+        <li>You pay tax on the money <strong>now</strong>.</li>
+        <li>It grows, and you withdraw it all <strong>tax-free</strong> later.</li>
+        <li>Great when your tax rate today is <strong>relatively low</strong>.</li>
+        <li>You already "own" every dollar — none owed to the IRS later.</li>
+      </ul>
+    </div>
+    <div class="snap-card neutral">
+      <div class="snap-icon">↺</div>
+      <h3>Traditional, in brief</h3>
+      <ul>
+        <li>You skip the tax <strong>now</strong> — lowers this year's tax bill.</li>
+        <li>You pay ordinary income tax <strong>when you withdraw</strong>.</li>
+        <li>Great when you expect a <strong>lower tax rate</strong> in retirement.</li>
+        <li>More take-home-friendly today, taxed tomorrow.</li>
+      </ul>
+    </div>
+    <div class="snap-card warn">
+      <div class="snap-icon">?</div>
+      <h3>What to remember</h3>
+      <ul>
+        <li>It's not all-or-nothing — you can <strong>split</strong> contributions.</li>
+        <li>You can <strong>change</strong> the setting for future paychecks anytime.</li>
+        <li>The <strong>employer match</strong> matters more than this choice — get it first.</li>
+        <li>Either way, the money grows tax-sheltered along the way.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="idea" class="section alt">
+  <div class="section-head">
+    <span class="kicker">02 · The core idea</span>
+    <h2>It's a bet about your tax rate</h2>
+    <p class="lead">The government will tax this money at <em>some</em> point. The only question is whether you'd rather pay at today's rate or your future one.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">Picture a farmer choosing when to pay tax: <strong>on the seed, or on the harvest.</strong></p>
+      <p class="big-p" style="margin-top:14px"><strong>Roth</strong> is paying tax on the seed — a small, known amount now — and then the entire harvest is yours, untaxed. <strong>Traditional</strong> is skipping the tax on the seed and paying it on the whole grown harvest later.</p>
+      <div class="callout">
+        <div class="callout-title">Why "early career" tilts Roth</div>
+        <div>If your income is modest now, your tax rate is probably lower than it'll be at your peak earning years. Paying tax now (Roth) locks in that low rate and shelters decades of growth from ever being taxed. That's the logic behind the common "go Roth while you're young" advice.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">The growth is the prize</div>
+        <div class="card-sub">Why the Roth tax-free part can be a big deal</div>
+        <p style="font-size:15px;color:var(--text-soft);line-height:1.65">Say $6,000 of contributions grows into $40,000 over decades. With a <strong>Roth</strong>, that whole $40,000 is yours, tax-free. With <strong>traditional</strong>, you'll owe income tax on the full $40,000 when you take it out. You skipped tax on the small seed but pay it on the big harvest.</p>
+        <p style="font-size:15px;color:var(--text-soft);line-height:1.65;margin-top:12px">Neither is a scam — traditional's upfront break can be reinvested and is worth more if your future rate is genuinely lower. It's a real trade, not a trap.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare" class="section">
+  <div class="section-head">
+    <span class="kicker">03 · Side by side</span>
+    <h2>The two, head to head</h2>
+    <p class="lead">Same account, same investments inside it — the only difference is <em>when</em> the tax happens.</p>
+  </div>
+  <div class="two-col">
+    <div class="card roth">
+      <div class="card-title">Roth</div>
+      <div class="card-sub">Tax the seed</div>
+      <ul class="feat-list">
+        <li><strong>This year:</strong> no tax break — you contribute after-tax dollars.</li>
+        <li><strong>While invested:</strong> grows with no yearly taxes.</li>
+        <li><strong>In retirement:</strong> withdrawals are 100% tax-free.</li>
+        <li><strong>Best when:</strong> you think your tax rate is lower now than later.</li>
+        <li><strong>Bonus:</strong> what you see is what you get — no future tax bill lurking.</li>
+      </ul>
+    </div>
+    <div class="card trad">
+      <div class="card-title">Traditional</div>
+      <div class="card-sub">Tax the harvest</div>
+      <ul class="feat-list">
+        <li><strong>This year:</strong> lowers your taxable income — a break now.</li>
+        <li><strong>While invested:</strong> grows with no yearly taxes.</li>
+        <li><strong>In retirement:</strong> withdrawals taxed as ordinary income.</li>
+        <li><strong>Best when:</strong> you think your tax rate will be lower in retirement.</li>
+        <li><strong>Note:</strong> the upfront break is only an advantage if you actually invest it, not spend it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="decide" class="section alt">
+  <div class="section-head">
+    <span class="kicker">04 · How to actually decide</span>
+    <h2>A simple way to choose</h2>
+    <p class="lead">You can't predict future tax law perfectly, and you don't have to. Here's a sane, beginner-friendly way to land on an answer.</p>
+  </div>
+  <ol class="steps">
+    <li><strong>Get the match first — this comes before the Roth question.</strong> Whatever you pick, contribute enough to capture your full employer match. That free money dwarfs the Roth-vs-traditional decision.</li>
+    <li><strong>Early career or lower income right now? Lean Roth.</strong> You're likely paying a low tax rate today, so locking it in and getting decades of tax-free growth is a strong default.</li>
+    <li><strong>High income now and expecting less in retirement? Traditional has a real case.</strong> The upfront tax break is worth more when your current rate is high — just be sure you invest the savings, not spend them.</li>
+    <li><strong>Truly unsure? Split it.</strong> Many plans let you send part of each contribution to Roth and part to traditional. That hedges your bet and gives you both tax-free and taxable money in retirement — which is genuinely useful flexibility.</li>
+    <li><strong>Remember it's not permanent.</strong> You can change the Roth/traditional setting for <em>future</em> contributions whenever you like. This is a steering wheel, not a one-time door.</li>
+  </ol>
+</section>
+
+<section id="fineprint" class="section">
+  <div class="section-head">
+    <span class="kicker">05 · A little fine print</span>
+    <h2>Two things worth knowing</h2>
+    <p class="lead">You don't need to master the tax code, but these two facts save people confusion later.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <div class="card">
+        <div class="card-title">Workplace Roth vs. Roth IRA</div>
+        <p style="font-size:15px;color:var(--text-soft);line-height:1.65">"Roth" shows up in two places. The <strong>Roth option inside your 401(k), 403(b), or TSP</strong> has no income limit — anyone in the plan can use it. A <strong>Roth IRA</strong> (one you open yourself) is different: it has <strong>income limits</strong>, so high earners may be restricted or shut out. Same tax idea, different rulebooks.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Two facts about traditional money</div>
+        <ul class="feat-list">
+          <li><strong>RMDs:</strong> traditional accounts eventually force you to start withdrawing (and paying tax) in your 70s. Roth accounts are friendlier here.</li>
+          <li><strong>2026 high-earner rule:</strong> if you earned over $150,000 last year, your catch-up contributions (age 50+) must go in as Roth. Not a concern for most people starting out, but good to know.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="callout" style="max-width:880px">
+    <div class="callout-title">The honest bottom line</div>
+    <div>For most people early on, "go Roth, capture the full match, and don't agonize" is a perfectly good answer. The difference between a reasonable choice and the theoretically optimal one is small compared to simply <em>contributing and staying invested.</em> Don't let this decision stall you.</div>
+  </div>
+</section>
+
+<section id="glossary" class="section alt">
+  <div class="section-head">
+    <span class="kicker">06 · Plain-English glossary</span>
+    <h2>Jargon, translated</h2>
+  </div>
+  <div class="gloss-grid">
+    <div class="gloss-item"><div class="gloss-term">Roth</div><div class="gloss-def">Pay tax on the money now; withdraw it all tax-free in retirement, growth included.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Traditional (pre-tax)</div><div class="gloss-def">Skip the tax now (lowering this year's bill); pay ordinary income tax when you withdraw later.</div></div>
+    <div class="gloss-item"><div class="gloss-term">After-tax dollars</div><div class="gloss-def">Money you've already paid income tax on. Roth contributions are made with these.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Tax bracket / rate</div><div class="gloss-def">The percentage of income you pay in tax. The Roth-vs-traditional bet is really about your rate now vs. later.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Roth IRA</div><div class="gloss-def">A Roth account you open yourself, outside work. Same tax perk, but with income limits.</div></div>
+    <div class="gloss-item"><div class="gloss-term">RMD</div><div class="gloss-def">Required Minimum Distribution — the age (currently 70s) at which traditional accounts force taxable withdrawals. Roth accounts are exempt for the original owner.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Tax-sheltered growth</div><div class="gloss-def">Your money grows without being taxed year to year inside the account — true for both Roth and traditional.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Split contribution</div><div class="gloss-def">Sending part of each paycheck's contribution to Roth and part to traditional — a way to hedge.</div></div>
+  </div>
+
+  <div style="margin-top:36px">
+    <div class="kicker" style="color:var(--gold);border-color:var(--gold)">Keep going</div>
+    <div class="next-card">
+      <a class="next-link" href="../employer-match/">
+        <div class="next-tag">Level 0 · Do this first</div>
+        <div class="next-title">The employer match — free money</div>
+        <div class="next-desc">The decision that beats the Roth question: don't leave your employer's money on the table.</div>
+      </a>
+      <a class="next-link" href="../workplace-plans/">
+        <div class="next-tag">Level 0</div>
+        <div class="next-title">401(k), 403(b), 457, TSP explained</div>
+        <div class="next-desc">The accounts where this Roth-or-traditional choice actually lives.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">Rose Ticker · The Basics</div>
+  <div>Educational — not financial or tax advice</div>
+  <div class="foot-note">
+    This explains general concepts to help you understand your options. It isn't personalized tax or financial advice — your best choice depends on your income, tax situation, and plan rules. The 2026 figure is an IRS rule that can change; check current details or a qualified professional for your situation.
+  </div>
+</footer>
+
+<script>
+  var t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+  if(t){t.addEventListener('click',function(){l.classList.toggle('open');});}
+  document.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open');});});
+</script>
+</body>
+</html>

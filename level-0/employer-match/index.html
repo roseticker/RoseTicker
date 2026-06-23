@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Employer Match: Free Money You Might Be Leaving Behind — Rose Ticker</title>
+<meta name="description" content="The employer match explained in plain English — how match formulas work, why it's the closest thing to free money, vesting, and how to make sure you get all of it." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#0d1612;--bg-alt:#111c17;--bg-card:#16221c;--bg-elev:#1c2b23;
+  --border:#2a3a31;--border-soft:#1f2c25;
+  --text:#f0e9d6;--text-soft:#b9b29f;--muted:#7a8378;
+  --accent:#7fb89a;--accent-deep:#5a9b7a;--gold:#c9a961;--gold-soft:rgba(201,169,97,0.15);
+  --up:#7fb89a;--down:#c98570;--warn:#d4ab5f;--bad:#c87b7b;
+  --max:1160px;--radius:4px;--radius-lg:8px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at top,rgba(127,184,154,0.04),transparent 60%),radial-gradient(ellipse at bottom right,rgba(201,169,97,0.03),transparent 60%);pointer-events:none;z-index:0}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+strong{color:var(--text);font-weight:600}
+em{color:var(--text-soft);font-style:italic}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-0.015em;color:var(--text);margin:0;line-height:1.15}
+.mono{font-family:'JetBrains Mono',monospace}
+.topnav{position:sticky;top:0;z-index:50;background:rgba(13,22,18,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-soft)}
+.nav-inner{max-width:var(--max);margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:16px;white-space:nowrap;flex-shrink:0}
+.brand:hover{text-decoration:none}
+.brand svg{color:var(--accent)}
+.nav-links{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;justify-content:flex-end}
+.nav-links a{color:var(--text-soft);font-weight:500;letter-spacing:0.01em}
+.nav-links a:hover{color:var(--accent);text-decoration:none}
+.nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer}
+@media(max-width:900px){.nav-links{display:none;flex-direction:column;width:100%;padding-top:12px}.nav-links.open{display:flex}.nav-toggle{display:block}.nav-inner{flex-wrap:wrap}}
+.hero{position:relative;max-width:var(--max);margin:0 auto;padding:72px 24px 40px;overflow:hidden}
+@media(max-width:900px){.hero{padding:36px 20px 24px}}
+.kicker{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.12em;color:var(--accent);border:1px solid var(--accent);border-radius:100px;padding:6px 14px;margin-bottom:24px;text-transform:uppercase}
+h1.hero-title{font-size:clamp(36px,5.2vw,60px);letter-spacing:-0.022em;margin-bottom:14px;max-width:15ch}
+.hero-lede{font-size:18px;color:var(--text-soft);max-width:620px;margin-bottom:28px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px;max-width:760px}
+@media(max-width:600px){.hero-stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 14px}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.stat-val{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:22px;letter-spacing:-0.01em}
+.stat-sub{font-size:12px;color:var(--text-soft);margin-top:4px}
+.verdict{background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:var(--radius-lg);padding:22px 26px;margin-top:8px;max-width:820px}
+.verdict-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+.verdict-body{font-size:15.5px;line-height:1.65;color:var(--text)}
+.section{position:relative;max-width:var(--max);margin:0 auto;padding:72px 24px}
+.section.alt{max-width:100%;background:var(--bg-alt);padding-left:max(24px,calc((100vw - var(--max))/2));padding-right:max(24px,calc((100vw - var(--max))/2))}
+.section.alt>*{max-width:var(--max);margin-left:auto;margin-right:auto}
+@media(max-width:700px){.section{padding:52px 20px}}
+.section-head{margin-bottom:36px;max-width:780px}
+.section-head .kicker{margin-bottom:16px}
+.section-head h2{font-size:clamp(28px,3.4vw,42px);margin-bottom:12px}
+.section-head p.lead{font-size:17px;color:var(--text-soft);max-width:680px;line-height:1.6}
+.snap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:900px){.snap-grid{grid-template-columns:1fr}}
+.snap-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 22px}
+.snap-icon{font-family:'Fraunces',Georgia,serif;font-size:26px;width:40px;height:40px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;border:1px solid var(--border);color:var(--accent);margin-bottom:14px}
+.snap-card.good .snap-icon{color:var(--up);border-color:rgba(127,184,154,0.4)}
+.snap-card.warn .snap-icon{color:var(--warn);border-color:rgba(212,171,95,0.4)}
+.snap-card.neutral .snap-icon{color:var(--gold);border-color:rgba(201,169,97,0.4)}
+.snap-card h3{font-size:19px;margin-bottom:10px}
+.snap-card ul{padding-left:0;list-style:none;margin:0}
+.snap-card li{font-size:14.5px;color:var(--text-soft);padding:6px 0;border-top:1px solid var(--border-soft)}
+.snap-card li:first-child{border-top:none}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;gap:24px}}
+.big-p{font-size:18px;line-height:1.65;color:var(--text)}
+.callout{border-left:3px solid var(--gold);background:var(--gold-soft);padding:16px 20px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:22px 0;font-size:15px}
+.callout-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:8px}
+.feat-list{list-style:none;padding-left:0;margin:12px 0 0}
+.feat-list li{padding:9px 0;border-top:1px solid var(--border-soft);font-size:15px;color:var(--text-soft)}
+.feat-list li:first-child{border-top:none}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px}
+.card-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:18px;margin-bottom:4px}
+.card-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+/* match math */
+.matchbox{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.match-row{display:grid;grid-template-columns:130px 1fr 80px;gap:12px;align-items:center;font-size:13.5px}
+.match-label{color:var(--text-soft)}
+.match-bar{background:var(--bg-elev);border-radius:3px;height:18px;position:relative;overflow:hidden}
+.match-fill{position:absolute;top:0;left:0;bottom:0;border-radius:3px}
+.match-fill.you{background:linear-gradient(90deg,var(--accent),var(--accent-deep))}
+.match-fill.them{background:linear-gradient(90deg,var(--gold),#a8893f)}
+.match-val{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--text);text-align:right}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px}
+.steps li{counter-increment:s;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px 18px 60px;position:relative;font-size:15px;color:var(--text-soft);line-height:1.6}
+.steps li::before{content:counter(s);position:absolute;left:18px;top:16px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--accent);color:var(--bg);font-family:'JetBrains Mono',monospace;font-weight:600;font-size:14px}
+.steps li strong{color:var(--text)}
+.gloss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:700px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px}
+.gloss-term{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:15.5px;color:var(--accent);margin-bottom:4px}
+.gloss-def{font-size:14px;color:var(--text-soft);line-height:1.55}
+.next-card{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px}
+.next-link{flex:1;min-width:240px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 22px;transition:all .18s}
+.next-link:hover{border-color:var(--accent);transform:translateY(-2px);text-decoration:none}
+.next-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.next-title{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;color:var(--text);margin-bottom:4px}
+.next-desc{font-size:13.5px;color:var(--text-soft);line-height:1.5}
+footer{border-top:1px solid var(--border-soft);margin-top:40px;padding:36px 24px;text-align:center;font-size:13px;color:var(--muted)}
+.foot-brand{font-weight:600;margin-bottom:4px;color:var(--text-soft);font-family:'Fraunces',Georgia,serif}
+.foot-note{max-width:620px;margin:8px auto 0;line-height:1.55}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="nav-inner">
+    <a href="../../" class="brand" aria-label="Rose Ticker home">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <circle cx="16" cy="16" r="13" stroke="currentColor" stroke-width="2"/>
+        <path d="M8 18 L13 13 L17 16 L24 9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="9" r="2" fill="currentColor"/>
+      </svg>
+      <span>Rose Ticker · The Basics</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle nav">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#quick">In a minute</a>
+      <a href="#what">What it is</a>
+      <a href="#math">The math</a>
+      <a href="#cost">Cost of missing</a>
+      <a href="#vesting">Vesting</a>
+      <a href="#get">Get it all</a>
+      <a href="#glossary">Jargon</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <span class="kicker">Start Here · Level 0 · 5-min read</span>
+  <h1 class="hero-title">The employer match: free money, really</h1>
+  <p class="hero-lede">
+    If your job offers to "match" your retirement contributions, that's your employer handing you extra pay just for saving — the rare deal in finance that's genuinely too good to pass up. Here's how it works, and how to make sure you're getting all of it.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-label">What it is</div><div class="stat-val">Bonus pay</div><div class="stat-sub">For contributing</div></div>
+    <div class="stat"><div class="stat-label">Typical return</div><div class="stat-val">50–100%</div><div class="stat-sub">Instantly, on your money</div></div>
+    <div class="stat"><div class="stat-label">The trap</div><div class="stat-val">Under-contributing</div><div class="stat-sub">Leaves money behind</div></div>
+    <div class="stat"><div class="stat-label">To check</div><div class="stat-val">Your %</div><div class="stat-sub">Hit the full match</div></div>
+  </div>
+
+  <div class="verdict">
+    <div class="verdict-label">The one-sentence version</div>
+    <div class="verdict-body">
+      An employer match is <strong>extra money your employer adds to your retirement account when you contribute</strong> — often dollar-for-dollar up to a few percent of your pay. Contributing at least enough to get the <strong>full match</strong> is usually the single highest-value money move you can make, ahead of almost everything else.
+    </div>
+  </div>
+</header>
+
+<section id="quick" class="section">
+  <div class="section-head">
+    <span class="kicker">01 · If you only have a minute</span>
+    <h2>The short version</h2>
+  </div>
+  <div class="snap-grid">
+    <div class="snap-card good">
+      <div class="snap-icon">✓</div>
+      <h3>Why it's special</h3>
+      <ul>
+        <li>It's an <strong>instant return</strong> no investment can promise.</li>
+        <li>A "100% match" literally <strong>doubles</strong> the money you put in.</li>
+        <li>It's <strong>on top of</strong> your salary — true extra pay.</li>
+        <li>Then it gets invested and compounds for decades.</li>
+      </ul>
+    </div>
+    <div class="snap-card warn">
+      <div class="snap-icon">!</div>
+      <h3>How people miss it</h3>
+      <ul>
+        <li>Contributing <strong>less</strong> than the match threshold.</li>
+        <li>Not knowing their plan even <em>has</em> a match.</li>
+        <li>Leaving before they're <strong>vested</strong> in the employer's part.</li>
+        <li>Assuming "I'm enrolled" means "I'm getting it all." Not always.</li>
+      </ul>
+    </div>
+    <div class="snap-card neutral">
+      <div class="snap-icon">?</div>
+      <h3>What to do</h3>
+      <ul>
+        <li>Find your <strong>match formula</strong> (HR or plan website).</li>
+        <li>Contribute at least enough to get <strong>100% of it</strong>.</li>
+        <li>Learn your <strong>vesting</strong> schedule.</li>
+        <li>This comes <em>before</em> fancier decisions like Roth vs traditional.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="what" class="section alt">
+  <div class="section-head">
+    <span class="kicker">02 · What a match actually is</span>
+    <h2>Your employer chips in too</h2>
+    <p class="lead">A match is a promise: "for every dollar you save (up to a limit), we'll add some of our own." It's compensation you only unlock by participating.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">The most common formula sounds like: <em>"We match 100% of the first 5% of your salary."</em></p>
+      <p class="big-p" style="margin-top:14px">Translation: if you contribute 5% of your paycheck, your employer adds another 5%. You saved 5%, but <strong>10%</strong> landed in your account. The other half came from them — free.</p>
+      <div class="callout">
+        <div class="callout-title">Common formulas you'll see</div>
+        <div><strong>100% of the first 5%</strong> — they match every dollar up to 5% of pay. <strong>50% of the first 6%</strong> — they add 50 cents per dollar up to 6% (so you contribute 6% to get a 3% match). Different shapes, same idea: contribute up to the threshold to collect it all.</div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Public-sector readers</div>
+        <p style="font-size:15px;color:var(--text-soft);line-height:1.65">Federal employees under <strong>FERS</strong> get a strong version: the government automatically adds <strong>1%</strong> of your pay to your TSP even if you contribute nothing, then <strong>matches</strong> your contributions up to another 4%. Contribute 5% and the government adds a full 5%. Many state and local plans have their own match or pension-plus-savings setups — check yours, because the free portion is often generous.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="math" class="section">
+  <div class="section-head">
+    <span class="kicker">03 · See the math</span>
+    <h2>What "100% of 5%" looks like</h2>
+    <p class="lead">Imagine a $60,000 salary and a "100% match on the first 5%." Here's what hits your account each year, depending on what you contribute.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">Annual money into your account · $60,000 salary</div>
+    <div class="card-sub">You (sage) + employer match (gold)</div>
+    <div class="matchbox">
+      <div class="match-row">
+        <span class="match-label">You put in 0%</span>
+        <div class="match-bar"></div>
+        <span class="match-val">$0</span>
+      </div>
+      <div class="match-row">
+        <span class="match-label">You put in 2%</span>
+        <div class="match-bar"><span class="match-fill you" style="width:13.3%"></span><span class="match-fill them" style="left:13.3%;width:13.3%"></span></div>
+        <span class="match-val">$2,400</span>
+      </div>
+      <div class="match-row">
+        <span class="match-label">You put in 5%</span>
+        <div class="match-bar"><span class="match-fill you" style="width:33.3%"></span><span class="match-fill them" style="left:33.3%;width:33.3%"></span></div>
+        <span class="match-val">$6,000</span>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:20px">
+      <div class="callout-title">Read the gold</div>
+      <div>At 5%, you contribute $3,000 and your employer adds $3,000 — your money <strong>doubled</strong> before it was even invested. At 2%, you only collect $1,200 of free money instead of the full $3,000 available. The gold bar is the part most people accidentally leave behind.</div>
+    </div>
+  </div>
+</section>
+
+<section id="cost" class="section alt">
+  <div class="section-head">
+    <span class="kicker">04 · The cost of missing it</span>
+    <h2>Why a few percent matters so much</h2>
+    <p class="lead">Skipping the match isn't a small miss. It's free money you'll never get back — and it would have compounded for decades.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p">Say you leave $3,000 of match on the table every year for 10 years. That's <strong>$30,000</strong> of free money missed — and because it never got invested, you also miss everything it would have grown into.</p>
+      <p class="big-p" style="margin-top:14px">Invested over a long career, that missed match could have quietly become <strong>several times</strong> the original amount. No legitimate investment offers a guaranteed instant return like a match — which is exactly why it comes first.</p>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">The priority order</div>
+        <div class="card-sub">Where the match sits among money moves</div>
+        <ul class="feat-list">
+          <li><strong>1. Contribute enough to get the full match.</strong> The guaranteed win.</li>
+          <li><strong>2. Pay down high-interest debt</strong> (like credit cards).</li>
+          <li><strong>3. Build a starter emergency fund.</strong></li>
+          <li><strong>4. Then optimize</strong> — Roth vs traditional, extra contributions, an IRA.</li>
+          <li>The match is so good it usually jumps the line to the very top.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vesting" class="section">
+  <div class="section-head">
+    <span class="kicker">05 · The one catch</span>
+    <h2>Vesting: when the match is truly yours</h2>
+    <p class="lead">Your own contributions are always 100% yours. The <em>employer's</em> share sometimes comes with a waiting period before you fully own it.</p>
+  </div>
+  <div class="two-col">
+    <div>
+      <p class="big-p"><strong>Vesting</strong> is how long you must stay employed before the matched money is permanently yours to keep if you leave.</p>
+      <ul class="feat-list">
+        <li><strong>Immediate vesting:</strong> the match is yours right away. (The federal TSP match, for example, vests quickly.)</li>
+        <li><strong>Cliff vesting:</strong> you own 0% until a date (say 3 years), then 100% all at once.</li>
+        <li><strong>Graded vesting:</strong> you own a growing slice each year (e.g. 20% per year over 5 years).</li>
+      </ul>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title">Why it matters</div>
+        <p style="font-size:15px;color:var(--text-soft);line-height:1.65">Vesting only affects the <strong>employer's</strong> contributions, never your own. It's worth knowing your schedule before you change jobs — leaving a month before a vesting cliff could forfeit thousands in match. It's not a reason to avoid the match (you should still take it), just a date worth being aware of.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="get" class="section alt">
+  <div class="section-head">
+    <span class="kicker">06 · Make sure you get all of it</span>
+    <h2>Your 5-minute match checkup</h2>
+    <p class="lead">A quick check that can be worth thousands of dollars a year.</p>
+  </div>
+  <ol class="steps">
+    <li><strong>Find your match formula.</strong> Check your benefits portal, plan website, or ask HR: "What's our 401(k) match?" (or TSP/403(b)/457). Note the percentage and threshold.</li>
+    <li><strong>Check what you're contributing.</strong> Log into your plan and find your contribution rate. Compare it to the match threshold.</li>
+    <li><strong>Raise it to at least the full-match level</strong> if you can. Going from, say, 3% to 5% might cost you a little per paycheck but unlocks the rest of the free money.</li>
+    <li><strong>Watch the front-loading trap.</strong> If you max out early in the year, some plans stop matching once you hit the limit — unless they offer a "true-up." Spreading contributions across the whole year is the safe default.</li>
+    <li><strong>Note your vesting date</strong> so a job change doesn't accidentally cost you the employer's share.</li>
+  </ol>
+</section>
+
+<section id="glossary" class="section">
+  <div class="section-head">
+    <span class="kicker">07 · Plain-English glossary</span>
+    <h2>Jargon, translated</h2>
+  </div>
+  <div class="gloss-grid">
+    <div class="gloss-item"><div class="gloss-term">Employer match</div><div class="gloss-def">Money your employer adds to your retirement account when you contribute. Effectively free, extra pay.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Match formula</div><div class="gloss-def">The rule for how much they add, like "100% of the first 5%" or "50% of the first 6%."</div></div>
+    <div class="gloss-item"><div class="gloss-term">Match threshold</div><div class="gloss-def">The contribution level you must reach to collect the full match. Contribute at least this much.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Vesting</div><div class="gloss-def">How long you must stay employed before the employer's matched money is permanently yours.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Cliff vesting</div><div class="gloss-def">You own 0% of the match until a set date, then 100% at once.</div></div>
+    <div class="gloss-item"><div class="gloss-term">Graded vesting</div><div class="gloss-def">You own a growing percentage of the match each year until fully vested.</div></div>
+    <div class="gloss-item"><div class="gloss-term">True-up</div><div class="gloss-def">An employer feature that pays any match you missed by hitting the contribution limit early. Not all plans have it.</div></div>
+    <div class="gloss-item"><div class="gloss-term">FERS</div><div class="gloss-def">Federal Employees Retirement System — includes an automatic 1% plus a TSP match up to 5% of pay.</div></div>
+  </div>
+
+  <div style="margin-top:36px">
+    <div class="kicker" style="color:var(--gold);border-color:var(--gold)">Keep going</div>
+    <div class="next-card">
+      <a class="next-link" href="../roth-vs-traditional/">
+        <div class="next-tag">Level 0 · Next</div>
+        <div class="next-title">Roth or traditional?</div>
+        <div class="next-desc">Once you've got the match, the next decision: pay tax now or later.</div>
+      </a>
+      <a class="next-link" href="../paycheck/">
+        <div class="next-tag">Level 0 · Start</div>
+        <div class="next-title">Where does my paycheck money go?</div>
+        <div class="next-desc">The account vs. the investment — make sure your money (and your match) is actually invested.</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">Rose Ticker · The Basics</div>
+  <div>Educational — not financial advice</div>
+  <div class="foot-note">
+    Examples are illustrative and rounded to make the math clear. Match formulas, vesting schedules, and true-up rules vary by employer — check your own plan documents for the exact terms that apply to you.
+  </div>
+</footer>
+
+<script>
+  var t=document.getElementById('navToggle'),l=document.getElementById('navLinks');
+  if(t){t.addEventListener('click',function(){l.classList.toggle('open');});}
+  document.querySelectorAll('.nav-links a').forEach(function(a){a.addEventListener('click',function(){l.classList.remove('open');});});
+</script>
+</body>
+</html>
