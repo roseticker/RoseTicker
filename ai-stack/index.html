@@ -1,29 +1,510 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The AI Infrastructure Stack — Interactive Guide</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Follow the dollar — the AI infrastructure stack</title>
 <style>
   :root{
-    color-scheme: light;
-    --color-text-primary:#1a1a1a;
-    --color-text-secondary:#6b6b6b;
-    --color-border-primary:#1a1a1a;
-    --color-border-secondary:#cfcfcf;
-    --color-border-tertiary:#e6e6e6;
-    --color-background-primary:#ffffff;
-    --color-background-secondary:#f2f2f2;
+    --rose:#C24E78; --rose800:#8E2F4F; --rose100:#F3DFE7;
+    --cream:#FBF7F2; --card:#FFFFFF; --border:#E7DCD0;
+    --ink:#2A2620; --muted:#7A726B; --empty:#F0E7DE;
+    --direct:#1A7F5E; --indirect:#B07A1E; --private:#9A918A;
+    --gold:#B88A2A;
   }
-  html,body{margin:0;background:#ffffff;color:var(--color-text-primary);font-family:Georgia,serif;}
-  #root{min-height:100vh;}
-  #loading{max-width:720px;margin:0 auto;padding:2rem 1rem;color:#6b6b6b;font-size:13px;}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--cream); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    line-height:1.55; -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:780px; margin:0 auto; padding:40px 22px 80px}
+  .kicker{font-family:ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--rose); margin:0 0 10px}
+  h1{font-family:Georgia,"Times New Roman",serif; font-weight:600; font-size:33px; line-height:1.14; margin:0 0 14px}
+  .lede{color:var(--muted); font-size:16px; margin:0; max-width:62ch}
+  .lede strong{color:var(--ink); font-weight:600}
+  .stamp{font-family:ui-monospace,Menlo,monospace; font-size:10.5px; color:var(--muted); margin:14px 0 0}
+
+  .thesis{background:var(--card); border:1px solid var(--border); border-left:4px solid var(--rose);
+    border-radius:0 12px 12px 0; padding:14px 18px; margin:20px 0 0; font-size:14px}
+  .thesis b{color:var(--ink)}
+
+  .tabs{display:inline-flex; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:3px; margin:22px 0 0}
+  .tabs button{font:inherit; font-size:13px; font-weight:600; color:var(--muted); background:none; border:none; cursor:pointer; padding:8px 15px; border-radius:7px}
+  .tabs button.on{background:var(--rose); color:#fff}
+
+  /* spend console */
+  .console{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px; margin:14px 0 12px}
+  .console-label{font-family:ui-monospace,Menlo,monospace; font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:10px}
+  .presets{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px}
+  .preset{font-size:13px; padding:9px 13px; border:1px solid var(--border); border-radius:10px; background:var(--cream); color:var(--ink); cursor:pointer; text-align:left}
+  .preset:hover{border-color:var(--rose)}
+  .preset.on{border-color:var(--rose); background:var(--rose100)}
+  .preset b{display:block; font-size:14px; color:var(--ink)}
+  .preset span{font-size:11px; color:var(--muted)}
+  button{font-family:inherit; cursor:pointer; border:none; border-radius:9px; font-size:14px; padding:11px 16px; transition:.15s}
+  .btn-send{background:var(--rose); color:#fff; font-weight:600}
+  .btn-send:hover{background:var(--rose800)}
+  .btn-send:disabled{opacity:.45; cursor:default}
+  .controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:12px; padding-top:12px; border-top:1px solid #F1E9DF}
+  .ctrl{background:var(--cream); border:1px solid var(--border); color:var(--ink); font-size:12.5px; font-weight:600; padding:8px 12px; border-radius:8px}
+  .ctrl:hover{border-color:var(--rose)} .ctrl:disabled{opacity:.4; cursor:default}
+  .speedwrap{display:inline-flex; align-items:center; gap:6px; font-size:11.5px; color:var(--muted); font-family:ui-monospace,Menlo,monospace; margin-left:auto}
+  .speed{background:var(--cream); border:1px solid var(--border); color:var(--ink); font:inherit; font-size:12px; padding:6px 9px; border-radius:7px; cursor:pointer}
+
+  /* status */
+  .status{min-height:44px; display:flex; align-items:center; gap:12px; margin:6px 2px 6px; padding:8px 4px}
+  .status .phase{font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#fff; background:var(--muted); padding:4px 8px; border-radius:5px; white-space:nowrap; flex-shrink:0}
+  .status .phase.flow{background:var(--gold)} .status .phase.idle{background:var(--muted)}
+  .status .caption{font-size:14.5px; color:var(--ink); flex:1}
+  .status .remain{font-family:ui-monospace,Menlo,monospace; font-size:12px; color:var(--muted); white-space:nowrap; flex-shrink:0}
+  .status .remain b{color:var(--gold)}
+  .illus{font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); margin:0 2px 14px; letter-spacing:.02em}
+
+  /* depth axis */
+  .axis-top,.axis-bot{font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:9px; margin:0 0 4px 2px}
+  .axis-bot{margin:4px 0 0 2px}
+  .axis-top .ln,.axis-bot .ln{flex:1; height:1px; background:var(--border)}
+
+  /* THE STACK */
+  .stack{position:relative; padding-left:40px}
+  .rail{position:absolute; left:17px; top:6px; bottom:6px; width:3px; border-radius:3px; background:linear-gradient(to bottom, var(--empty), #C9BBA8 55%, var(--ink)); z-index:1}
+  .coin{position:absolute; left:9px; width:19px; height:19px; border-radius:50%; top:0; opacity:0;
+    background:radial-gradient(circle at 35% 30%, #F2D58A, var(--gold)); border:1px solid #9c7320;
+    box-shadow:0 0 0 5px rgba(184,138,42,.18); font-family:ui-monospace,Menlo,monospace; color:#5a4410;
+    font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; z-index:6;
+    transition:top 1.05s cubic-bezier(.45,0,.25,1), opacity .3s}
+  .coin:after{content:"$"}
+
+  .layer{position:relative; background:var(--card); border:1px solid var(--border); border-radius:11px; margin:5px 0; overflow:hidden;
+    transition:box-shadow .25s, border-color .25s, transform .2s, opacity .25s; box-shadow:0 1px 3px rgba(42,38,32,.05)}
+  .layer .spine{position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--lc,#ccc)}
+  .layer .node{position:absolute; left:-29px; top:24px; width:11px; height:11px; border-radius:50%; background:#fff; border:3px solid var(--lc,#ccc); z-index:3}
+  .layer .capfill{position:absolute; left:0; bottom:0; height:4px; background:var(--lc,#ccc); width:0; opacity:.9; transition:width .85s ease; z-index:2}
+  .layer-head{display:flex; align-items:center; gap:13px; padding:13px 15px 14px 18px; cursor:pointer; width:100%; background:none; border:none; font:inherit; color:inherit; text-align:left}
+  .ico{width:30px; height:30px; flex-shrink:0; color:var(--lc,#999); display:flex; align-items:center; justify-content:center}
+  .ico svg{width:24px; height:24px}
+  .floornum{font-family:ui-monospace,Menlo,monospace; font-size:9.5px; color:var(--muted); width:22px; text-align:center; flex-shrink:0; line-height:1.2}
+  .floornum b{display:block; font-size:14px; color:var(--ink)}
+  .l-text{flex:1; min-width:0}
+  .l-name{font-family:Georgia,serif; font-size:17px; font-weight:600; line-height:1.2}
+  .l-tag{font-size:12.5px; color:var(--muted)}
+  .l-beneath{font-size:10.5px; color:var(--muted); margin-top:2px; font-family:ui-monospace,Menlo,monospace; letter-spacing:.02em}
+  .l-meta{display:flex; flex-direction:column; align-items:flex-end; gap:5px; flex-shrink:0; min-width:54px}
+  .capamt{font-family:ui-monospace,Menlo,monospace; font-size:14px; font-weight:700; color:var(--lc,#999); opacity:0; transition:opacity .3s}
+  .capamt.show{opacity:1}
+  .tier{font-family:ui-monospace,Menlo,monospace; font-size:9.5px; letter-spacing:.03em; padding:3px 8px; border-radius:20px; white-space:nowrap; display:inline-flex; align-items:center; gap:5px}
+  .tier .tdot{width:6px;height:6px;border-radius:50%}
+  .tier.direct{color:var(--direct); background:rgba(26,127,94,.10)} .tier.direct .tdot{background:var(--direct)}
+  .tier.indirect{color:var(--indirect); background:rgba(176,122,30,.12)} .tier.indirect .tdot{background:var(--indirect)}
+  .tier.private{color:var(--private); background:#F2ECE4} .tier.private .tdot{background:var(--private)}
+  .chev{color:var(--muted); font-size:18px; transition:transform .25s; align-self:center}
+  .layer.open .chev{transform:rotate(90deg)}
+  .layer.active{border-color:var(--lc); box-shadow:0 6px 26px rgba(42,38,32,.16); transform:translateX(3px); z-index:2}
+  .layer.dimmed{opacity:.5}
+
+  .connector{position:relative; height:20px; margin:-1px 0}
+  .connector .ctxt{position:absolute; left:46px; top:50%; transform:translateY(-50%); font-family:ui-monospace,Menlo,monospace; font-size:9px; letter-spacing:.06em; text-transform:uppercase; color:#B6AC9F}
+
+  .detail{max-height:0; overflow:hidden; transition:max-height .35s ease}
+  .layer.open .detail{max-height:1600px}
+  .detail-inner{padding:2px 18px 18px 18px; border-top:1px solid var(--border)}
+  .detail-inner>*:first-child{margin-top:14px}
+  .analogy{background:var(--cream); border-left:3px solid var(--lc,#ccc); padding:11px 14px; border-radius:0 8px 8px 0; margin:0 0 13px}
+  .analogy .h{font-family:ui-monospace,Menlo,monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:4px}
+  .analogy p{margin:0; font-size:14px}
+  .blurb{font-size:14.5px; margin:0 0 14px}
+  .why{background:#FFFDF9; border:1px solid var(--border); border-radius:9px; padding:13px 15px; margin:0 0 16px}
+  .why .h{font-family:ui-monospace,Menlo,monospace; font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--rose); display:block; margin-bottom:5px}
+  .why p{margin:0; font-size:14px}
+  .players-h{font-family:ui-monospace,Menlo,monospace; font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); margin:0 0 9px; display:flex; justify-content:space-between}
+  .player{display:flex; gap:11px; padding:8px 0; border-top:1px solid var(--border); align-items:baseline}
+  .player:first-of-type{border-top:none}
+  .player .pn{font-weight:600; font-size:13.5px; min-width:118px; flex-shrink:0}
+  .player .pw{font-size:13px; color:var(--muted); flex:1}
+  .ptag{font-family:ui-monospace,Menlo,monospace; font-size:9.5px; letter-spacing:.03em; padding:2px 7px; border-radius:5px; white-space:nowrap; flex-shrink:0; align-self:center}
+  .ptag.public{background:rgba(26,127,94,.10); color:var(--direct)}
+  .ptag.backer{background:rgba(176,122,30,.12); color:var(--indirect)}
+  .ptag.private{background:#F2ECE4; color:var(--private)}
+  a.plink{color:var(--rose800); text-decoration:none; border-bottom:1px solid var(--rose100)}
+  a.plink:hover{border-bottom-color:var(--rose)}
+
+  .bedrock{background:var(--ink); color:var(--cream); border-radius:11px; padding:16px 20px; margin:6px 0 0; position:relative}
+  .bedrock .node{position:absolute; left:-29px; top:22px; width:11px; height:11px; border-radius:50%; background:var(--ink); border:3px solid var(--ink)}
+  .bedrock .bk{font-family:ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#C9A9B6}
+  .bedrock .bt{font-family:Georgia,serif; font-size:14.5px; margin-top:3px}
+
+  /* recap with distribution */
+  .recap{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px 20px; margin:16px 0 0; opacity:0; max-height:0; overflow:hidden; transition:opacity .4s}
+  .recap.show{opacity:1; max-height:1800px}
+  .recap h2{font-family:Georgia,serif; font-size:19px; font-weight:600; margin:0 0 4px}
+  .recap .rsub{color:var(--muted); font-size:13.5px; margin:0 0 16px}
+  .distrow{display:grid; grid-template-columns:120px 1fr 56px; align-items:center; gap:10px; padding:5px 0}
+  .distrow .dn{font-size:12.5px; font-weight:600}
+  .distrow .dn small{display:block; font-weight:400; color:var(--muted); font-size:10.5px; font-family:ui-monospace,Menlo,monospace}
+  .distrow .dbar{height:16px; border-radius:4px; background:var(--lc); min-width:3px}
+  .distrow .dv{font-family:ui-monospace,Menlo,monospace; font-size:13px; font-weight:700; text-align:right; color:var(--ink)}
+  .takeaway{background:var(--rose100); border-radius:9px; padding:12px 15px; margin:14px 0 4px; font-size:13.6px}
+  .takeaway b{color:var(--rose800)}
+  .qa{border-top:1px solid var(--border); padding:11px 0}
+  .qa .q{font-weight:600; font-size:14px; cursor:pointer; display:flex; gap:9px; align-items:flex-start}
+  .qa .q .qmark{color:var(--rose); font-family:ui-monospace,Menlo,monospace; flex-shrink:0}
+  .qa .a{max-height:0; overflow:hidden; transition:max-height .3s; font-size:13.5px; color:var(--muted); padding-left:22px}
+  .qa.open .a{max-height:220px; margin-top:6px}
+  .recap .cta{margin-top:12px}
+  .recap .cta button{background:var(--rose); color:#fff; font-weight:600; font-size:13px}
+
+  /* invest view */
+  .investview{display:none; margin-top:14px}
+  .investview.show{display:block}
+  .ivlede{color:var(--muted); font-size:14px; margin:0 0 18px; max-width:64ch}
+  .ivgroup{margin:0 0 24px; padding-left:16px}
+  .ivgroup.direct{border-left:3px solid var(--direct)} .ivgroup.indirect{border-left:3px solid var(--indirect)} .ivgroup.private{border-left:3px solid var(--private)}
+  .ivgh{display:flex; align-items:baseline; gap:10px; margin:0 0 3px}
+  .ivgh .gt{font-family:Georgia,serif; font-size:19px; font-weight:600}
+  .ivgh .gc{font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--muted)}
+  .ivgsub{font-size:13px; color:var(--muted); margin:0 0 12px}
+  .ivcard{display:flex; gap:12px; align-items:baseline; background:var(--card); border:1px solid var(--border); border-radius:9px; padding:10px 14px; margin:0 0 8px}
+  .ivcard .ivn{font-weight:600; font-size:14px; min-width:128px; flex-shrink:0}
+  .ivcard .ivn .tick{font-family:ui-monospace,Menlo,monospace; font-size:11px; color:var(--direct); margin-left:6px}
+  .ivcard .ivw{font-size:12.8px; color:var(--muted); flex:1}
+  .ivcard .ivfloor{font-family:ui-monospace,Menlo,monospace; font-size:10px; color:var(--muted); white-space:nowrap; align-self:center}
+  .ivcard .ivprimer{font-family:ui-monospace,Menlo,monospace; font-size:10.5px; white-space:nowrap; align-self:center}
+  .ivcard .ivprimer a{color:var(--rose800); text-decoration:none; border-bottom:1px solid var(--rose100)}
+
+  .foot{margin-top:34px; padding-top:18px; border-top:1px solid var(--border); font-size:12px; color:var(--muted)}
+  @media(max-width:520px){
+    h1{font-size:26px} .wrap{padding:28px 16px 60px}
+    .player{flex-wrap:wrap} .player .pn{min-width:0}
+    .ivcard{flex-wrap:wrap} .connector .ctxt{display:none}
+    .l-meta .tier{display:none}
+    .distrow{grid-template-columns:96px 1fr 48px}
+  }
+  @media(prefers-reduced-motion: reduce){
+    .coin{transition:none !important} .layer{transition:none !important} .capfill{transition:none !important} html{scroll-behavior:auto}
+  }
 </style>
 </head>
 <body>
-<div id="root"><div id="loading">Loading…</div></div>
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="app.js"></script>
+<div class="wrap">
+  <p class="kicker">Interactive guide · for investors</p>
+  <h1>Follow the dollar</h1>
+  <p class="lede">Spend a dollar on AI at the top, and watch it flow <strong>down</strong> the stack as
+  payments — the app pays the model, which pays the cloud, which pays for chips and power.
+  <strong>Read top to bottom: every floor runs on the one beneath it.</strong> Watch where the money
+  actually settles — because that's where the investable businesses are.</p>
+  <p class="stamp">Map as of June 2026 · educational, not advice</p>
+
+  <div class="thesis">
+    <b>The whole idea:</b> the hype lives up top (apps and AI models — mostly private, easy to copy), but the
+    money pools at the bottom (chips and cloud, where pricing power is real). Deeper = more boring = more of the dollar.
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="View">
+    <button id="tabFlow" class="on" role="tab" aria-selected="true">Follow the dollar</button>
+    <button id="tabInvest" role="tab" aria-selected="false">Who can I buy?</button>
+  </div>
+
+  <!-- FLOW VIEW -->
+  <div id="flowView">
+    <div class="console">
+      <div class="console-label">How much is spent on AI?</div>
+      <div class="presets" id="presets"></div>
+      <div class="input-row">
+        <button class="btn-send" id="send">Send it down ↓</button>
+      </div>
+      <div class="controls" id="controls">
+        <button class="ctrl" id="playpause" disabled>Pause</button>
+        <button class="ctrl" id="stepbtn" disabled>Step ›</button>
+        <button class="ctrl" id="replay" disabled>Replay</button>
+        <span class="speedwrap">speed
+          <select class="speed" id="speed" aria-label="Animation speed">
+            <option value="0.6">0.6×</option><option value="1" selected>1×</option><option value="1.6">1.6×</option><option value="2.4">2.4×</option>
+          </select>
+        </span>
+      </div>
+    </div>
+
+    <div class="status" aria-live="polite">
+      <span class="phase idle" id="phase">Idle</span>
+      <span class="caption" id="caption"><em>Pick an amount, then press “Send it down.”</em></span>
+      <span class="remain" id="remain"></span>
+    </div>
+    <p class="illus">Illustrative — how value tends to settle given each floor's pricing power, not exact accounting.</p>
+
+    <div class="axis-top"><span>Surface — where you pay</span><span class="ln"></span></div>
+    <div class="stack" id="stack">
+      <div class="rail"></div>
+      <div class="coin" id="coin"></div>
+      <div class="bedrock" id="bedrock">
+        <span class="node"></span>
+        <span class="bk">Bedrock</span>
+        <div class="bt">Power and physics. The dollar's journey ends on the metal above this line.</div>
+      </div>
+    </div>
+    <div class="axis-bot"><span class="ln"></span><span>Bedrock — where the money lands</span></div>
+
+    <div class="recap" id="recap">
+      <h2>Where the dollar landed</h2>
+      <p class="rsub">Sorted by how much of each dollar each floor keeps. Notice the shape: top-heavy in hype, bottom-heavy in money.</p>
+      <div id="dist"></div>
+      <div class="takeaway" id="takeaway"></div>
+      <div id="qaWrap"></div>
+      <div class="cta"><button id="toInvest">See who actually collects it →</button></div>
+    </div>
+  </div>
+
+  <!-- INVEST VIEW -->
+  <div class="investview" id="investView">
+    <p class="ivlede">The companies that collect the dollar, re-sorted by whether you can own them today, must buy a
+    public backer, or can't yet. Tickers and primer links where they exist.</p>
+    <div id="ivBuy" class="ivgroup direct"></div>
+    <div id="ivBacker" class="ivgroup indirect"></div>
+    <div id="ivPrivate" class="ivgroup private"></div>
+  </div>
+
+  <div class="foot">
+    Educational only — not investment advice. The dollar split is an illustrative teaching model of where pricing power
+    lets value settle, not precise accounting. Companies, tickers and status can change; verify before acting.
+  </div>
+</div>
+
+<script>
+const ICON = {
+  apps:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><circle cx="6" cy="6.5" r=".6" fill="currentColor"/></svg>',
+  orch:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M7.6 7.6 10.6 16M16.4 7.6 13.4 16M8 6h8"/></svg>',
+  inf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+  mod:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>',
+  mlops:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6L5 18a2 2 0 0 0 1.8 3h10.4A2 2 0 0 0 19 18l-5-9V3"/><line x1="8" y1="14" x2="16" y2="14"/></svg>',
+  pipe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a9 9 0 0 0-15-3L3 8"/><polyline points="3 4 3 8 7 8"/><path d="M3 16a9 9 0 0 0 15 3l3-3"/><polyline points="21 20 21 16 17 16"/></svg>',
+  stor:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>',
+  cloud:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.3 9.5 4 4 0 0 0 7 19z"/></svg>',
+  silicon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M10 3v2M14 3v2M10 19v2M14 19v2M3 10h2M3 14h2M19 10h2M19 14h2"/></svg>'
+};
+
+// share = illustrative fraction of each $1 that settles on this floor (sums to 1). take = the reason (pricing power).
+const LAYERS = [
+  { id:"apps", name:"Applications", color:"#E8785A", tagline:"What you actually use", tier:"private", share:.08,
+    take:"keeps a thin slice — the app is easy to copy, so the margin rarely lasts.",
+    analogy:"A restaurant. It buys ingredients from suppliers and hands you a finished plate. The kitchen sits on a long supply chain you never see.",
+    blurb:"The apps you actually open: ChatGPT, Cursor, Perplexity, Harvey. They don't create the intelligence — they rent it from below and package it into something you'd pay for.",
+    why:"A great product isn't always a great business. When the AI underneath gets cheaper, someone builds a copy. Almost nothing here is public — the investable angle is usually the cloud or chip floor these apps pay every month.",
+    players:[["Cursor","AI code editor — one of the fastest-growing dev tools","private"],["GitHub Copilot","Microsoft's AI coding assistant","backer","MSFT"],["Perplexity","AI search engine with cited sources","private"],["Midjourney","AI image generation — bootstrapped, profitable","private"],["ElevenLabs","Realistic text-to-voice","private"],["Harvey","AI for law firms","private"]] },
+  { id:"orch", name:"Orchestration", color:"#7B7B72", tagline:"The connective tissue", tier:"private", share:.02,
+    take:"takes barely a toll — the big labs keep absorbing these features.",
+    analogy:"The general contractor on a site. They don't pour concrete — they make sure every specialist shows up in the right order.",
+    blurb:"Orchestration tools connect models to the rest of an app, handling the hand-offs when it reads an email, looks something up, and drafts a reply.",
+    why:"Probably the shakiest layer. OpenAI and Anthropic keep folding these features into their own products — like selling charger adapters the year everyone switches to USB-C.",
+    players:[["LangChain","Most popular framework for chaining model calls","private"],["LlamaIndex","Connects AI to your own documents","private"],["CrewAI","Build teams of AI agents","private"],["AutoGen","Microsoft Research's multi-agent framework","backer","MSFT"]] },
+  { id:"inf", name:"Inference & Serving", color:"#4A9E6F", tagline:"Where AI runs in real time", tier:"private", share:.08,
+    take:"earns a slice, but price wars keep it thin.",
+    analogy:"A kitchen at the dinner rush. The recipe exists (the model); the skill is cooking it fast, cheaply, for hundreds of tables at once.",
+    blurb:"When you send a message and get an answer seconds later, that's inference — running the model quickly, for huge numbers of people at once.",
+    why:"A rough business. Amazon, Google, and Microsoft sell the same thing and keep cutting prices. The only way to survive is to be much faster or cheaper — which is why Groq built its own chip.",
+    players:[["vLLM","Open-source engine — default way teams self-host","private"],["Groq","Custom speed chip — fast LLM API","private"],["Together AI","Fast API for open-source models","private"],["Replicate","Serverless GPU inference","private"],["Ollama","Run models on your own laptop","private"]] },
+  { id:"mod", name:"Foundation Models", color:"#D4882A", tagline:"The actual AI intelligence", tier:"indirect", share:.15,
+    take:"collects a big chunk — but burns most of it on the compute below.",
+    analogy:"Power plants. Every home runs on electricity but nobody thinks about where it's generated. Apps plug into these models like a building plugs into the grid.",
+    blurb:"The labs building the intelligence itself. Everything above is renting this. The most heavily funded, fiercely contested part of the stack.",
+    why:"Where the upside is, and where most doors are closed. You can't buy OpenAI or Anthropic directly — the usual way in is their backers: Microsoft, Amazon, and Google.",
+    players:[["OpenAI","GPT-5.5 (Apr 2026) — ~900M weekly ChatGPT users","backer","MSFT"],["Anthropic","Claude — safety-focused, strong enterprise adoption","backer","AMZN / GOOGL"],["Google DeepMind","Gemini — owned by Alphabet","public","GOOGL"],["Meta AI","Llama — open-weight, owned by Meta","public","META"],["Mistral","European lab — efficient models","private"],["xAI","Grok — access to X data","private"]] },
+  { id:"mlops", name:"Training & MLOps", color:"#6B5ECD", tagline:"How AI gets built", tier:"indirect", share:.04,
+    take:"keeps a small, sticky cut — mostly collected up front, during training.",
+    analogy:"Drug research and clinical trials. The finished medicine gets the attention; behind it sits a lab running thousands of experiments.",
+    blurb:"Before a model can answer, it has to be trained — months of work costing tens of millions. MLOps tools run those experiments and track what's working.",
+    why:"This floor got more investable: Meta bought 49% of Scale AI in 2025, and CoreWeave (CRWV) now owns Weights & Biases — two of the stickiest names are reachable through public stocks.",
+    players:[["Scale AI","Data labeling — Meta took a 49% stake in 2025","backer","META"],["Weights & Biases","Experiment tracking — now part of CoreWeave","backer","CRWV"],["Ray / Anyscale","Scales ML jobs to a cluster","private"],["MLflow","Open-source experiment tracking","private"]] },
+  { id:"pipe", name:"Data Pipeline", color:"#C85A35", tagline:"Moving and cleaning data", tier:"indirect", share:.03,
+    take:"collects a quiet, sticky toll on moving data.",
+    analogy:"The plumbing of a city. Nobody thinks about it, but nothing works without it.",
+    blurb:"Before AI can learn from data, that data has to be pulled in, cleaned, and moved where it's needed. Pipeline tools do that automatically.",
+    why:"Not glamorous, but sticky. Once a company runs its data through Fivetran or dbt, pulling it out is a headache. Confluent is the clean public name; the rest are private or open-source.",
+    players:[["Apache Kafka","Real-time event streaming","private"],["Confluent","Managed Kafka with enterprise tooling","public","CFLT"],["dbt","SQL-based data transformation","private"],["Fivetran","Connects 500+ apps to your warehouse","private"],["Apache Spark","Processes massive datasets","private"]] },
+  { id:"stor", name:"Data Storage", color:"#1A9E80", tagline:"Where information lives", tier:"indirect", share:.06,
+    take:"keeps a steady slice — data gravity makes it hard to leave.",
+    analogy:"A library system. A vector database is the one that finds a book by feel — 'something like the last thing I read.'",
+    blurb:"Everything AI reads and looks up lives somewhere fast and searchable: databases, cloud warehouses, and newer vector databases built around how AI searches for meaning.",
+    why:"Data gravity: once years of data sit in one place, moving it costs a fortune. That stickiness keeps Snowflake and MongoDB valuable. Databricks is the big one still private.",
+    players:[["Snowflake","Cloud data warehouse — dominant in analytics","public","SNOW"],["MongoDB","Document database with AI vector search","public","MDB"],["Databricks","Lakehouse platform — strongest ML/AI integration","private"],["Pinecone","First managed vector database","private"],["PostgreSQL","Open-source database — pgvector adds AI search","private"],["Redis","Fast in-memory storage","private"]] },
+  { id:"cloud", name:"Cloud Infrastructure", color:"#2E7DD4", tagline:"The computing backbone", tier:"direct", share:.24,
+    take:"takes a cut of almost everything above it — serious pricing power.",
+    analogy:"Electricity. You don't run your own generator — you plug into the grid and pay for what you use.",
+    blurb:"Every model, app, and database runs on real computers in giant data centers. Cloud companies rent those out by the hour — for AI, mostly GPUs.",
+    why:"Just about every dollar of AI spend passes through the cloud. AWS, Azure, and Google Cloud don't care which model wins — they send the compute bill either way. One of the cleanest ways to own the buildout.",
+    players:[["AWS","Largest cloud — custom Trainium chips, Bedrock API","public","AMZN"],["Microsoft Azure","OpenAI's cloud home","public","MSFT"],["Google Cloud","Custom TPUs + Vertex AI","public","GOOGL"],["CoreWeave","GPU-only cloud — largest pure-play AI compute","public","CRWV"],["Oracle Cloud","Aggressive GPU expansion","public","ORCL"]] },
+  { id:"silicon", name:"Silicon & Hardware", color:"#D63B3B", tagline:"The physical foundation", tier:"direct", share:.30,
+    take:"keeps the most — the scarcest input, and NVIDIA's margins prove the pricing power.",
+    analogy:"Land in a gold rush. Everyone needs it, and NVIDIA owns most of it.",
+    blurb:"In the end, all of AI runs on physical chips. GPUs turned out ideal, and NVIDIA had a ~15-year head start on hardware and software. Broadcom builds the custom chips and networking the biggest clusters use.",
+    why:"NVIDIA's real moat is CUDA plus 15+ years of habit. The most directly investable floor: NVIDIA, Broadcom, and AMD are public, and the SMH ETF holds the whole floor at once.",
+    players:[["NVIDIA","Near-monopoly on AI GPUs","public","NVDA","NVDA_interactive_one_pager.html"],["Broadcom","Custom AI chips + networking","public","AVGO","broadcom-live-primer.html"],["AMD","Only real GPU rival","public","AMD"],["Google TPU","Custom AI chips for Google's models","public","GOOGL"],["AWS Trainium","Amazon's custom training chip","public","AMZN"],["Cerebras","Wafer-scale chip — IPO'd May 2026","public","CBRS"]] },
+];
+const ETF = { name:"SMH (VanEck Semis)", w:"Don't want to pick a chip stock? This ETF holds the whole silicon floor in one basket.", href:"smh/" };
+const AMOUNTS = [
+  {v:1, label:"A dollar", sub:"the simplest unit"},
+  {v:1000, label:"$1,000", sub:"your yearly AI bill"},
+  {v:80e9, label:"$80B", sub:"a hyperscaler's capex"},
+];
+
+const N = LAYERS.length, maxShare = Math.max(...LAYERS.map(L=>L.share));
+const stack=document.getElementById('stack'), coin=document.getElementById('coin'), bedrock=document.getElementById('bedrock');
+const phaseEl=document.getElementById('phase'), captionEl=document.getElementById('caption'), remainEl=document.getElementById('remain');
+const sendBtn=document.getElementById('send'), playPauseBtn=document.getElementById('playpause'), stepBtn=document.getElementById('stepbtn'), replayBtn=document.getElementById('replay'), speedSel=document.getElementById('speed');
+const recap=document.getElementById('recap');
+const tierLabel={direct:"Direct", indirect:"Indirect", private:"Mostly private"};
+const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let amount=1;
+
+function money(v){
+  if(v<1) return Math.round(v*100)+"¢";
+  if(v<1000) return "$"+(Number.isInteger(v)?v:v.toFixed(2));
+  if(v<1e6) return "$"+(v/1000).toFixed(v<1e4?1:0)+"K";
+  if(v<1e9) return "$"+(v/1e6).toFixed(1)+"M";
+  return "$"+(v/1e9).toFixed(1)+"B";
+}
+function ptagHtml(p){ if(p[2]==='public') return `<span class="ptag public">Public${p[3]?' '+p[3]:''}</span>`; if(p[2]==='backer') return `<span class="ptag backer">via ${p[3]}</span>`; return `<span class="ptag private">Private</span>`; }
+function pnameHtml(p){ return p[4]?`<a class="plink" href="${p[4]}">${p[0]}</a>`:p[0]; }
+
+// presets
+const presetsWrap=document.getElementById('presets');
+AMOUNTS.forEach((a,i)=>{ const b=document.createElement('button'); b.className='preset'+(i===0?' on':''); b.dataset.v=a.v;
+  b.innerHTML=`<b>${a.label}</b><span>${a.sub}</span>`;
+  b.onclick=()=>{ amount=a.v; document.querySelectorAll('.preset').forEach(x=>x.classList.remove('on')); b.classList.add('on'); resetFloors(); };
+  presetsWrap.appendChild(b); });
+
+// build floors
+const nodes={};
+LAYERS.forEach((L,i)=>{
+  const floorNo=N-i, beneath=floorNo-1;
+  const beneathTxt = beneath===0 ? "Sits on the bedrock — nothing beneath" : `${beneath} layer${beneath>1?'s':''} beneath you`;
+  const el=document.createElement('div'); el.className='layer'; el.id='layer-'+L.id; el.style.setProperty('--lc', L.color);
+  const players=L.players.map(p=>`<div class="player"><span class="pn">${pnameHtml(p)}</span><span class="pw">${p[1]}</span>${ptagHtml(p)}</div>`).join('');
+  el.innerHTML=`
+    <div class="spine"></div><div class="node"></div><div class="capfill"></div>
+    <button class="layer-head" aria-expanded="false" aria-controls="d-${L.id}">
+      <span class="floornum">L<b>${floorNo}</b></span>
+      <span class="ico">${ICON[L.id]}</span>
+      <span class="l-text">
+        <span class="l-name">${L.name}</span>
+        <span class="l-tag">${L.tagline}</span>
+        <span class="l-beneath">${beneathTxt}</span>
+      </span>
+      <span class="l-meta">
+        <span class="capamt"></span>
+        <span class="tier ${L.tier}"><span class="tdot"></span>${tierLabel[L.tier]}</span>
+        <span class="chev">›</span>
+      </span>
+    </button>
+    <div class="detail" id="d-${L.id}"><div class="detail-inner">
+      <div class="analogy"><span class="h">Think of it like</span><p>${L.analogy}</p></div>
+      <p class="blurb">${L.blurb}</p>
+      <div class="why"><span class="h">Investor angle</span><p>${L.why}</p></div>
+      <p class="players-h"><span>Key players — who collects the money</span><span>Investable?</span></p>
+      ${players}
+    </div></div>`;
+  const head=el.querySelector('.layer-head');
+  head.addEventListener('click', ()=>{ const open=el.classList.toggle('open'); head.setAttribute('aria-expanded', open?'true':'false'); });
+  stack.insertBefore(el, bedrock); nodes[L.id]=el;
+  if(i<N-1){ const c=document.createElement('div'); c.className='connector'; c.innerHTML='<span class="ctxt">↓ pays the floor below</span>'; stack.insertBefore(c, bedrock); }
+});
+
+function resetFloors(){
+  Object.values(nodes).forEach(n=>{ n.classList.remove('active','dimmed'); n.querySelector('.capfill').style.width='0'; const a=n.querySelector('.capamt'); a.classList.remove('show'); a.textContent=''; });
+}
+
+// ---- animation: single descent, money settles ----
+const steps=[]; for(let i=0;i<N;i++) steps.push({i}); steps.push({settle:true});
+let idx=0, paused=false, running=false, timer=null, settled=0;
+function moveCoin(el){ coin.style.top=(el.offsetTop+20)+'px'; }
+function setPhase(k,l){ phaseEl.className='phase '+k; phaseEl.textContent=l; }
+function delayFor(){ const sp=parseFloat(speedSel.value)||1; return (reduceMotion?160:2000)/sp; }
+function applyStep(s){
+  if(s.settle){
+    coin.style.opacity='0'; setPhase('idle','Landed'); remainEl.innerHTML='';
+    captionEl.innerHTML=`<strong>Done.</strong> Most of the dollar pooled at the bottom — chips and cloud.`;
+    showRecap(); finishRun(); return;
+  }
+  const L=LAYERS[s.i], el=nodes[L.id]; moveCoin(el);
+  Object.values(nodes).forEach(n=>n.classList.remove('active')); el.classList.add('active');
+  const cut=L.share*amount; settled+=cut;
+  const cap=el.querySelector('.capamt'); cap.textContent=money(cut); cap.classList.add('show');
+  el.querySelector('.capfill').style.width=(L.share/maxShare*100)+'%';
+  setPhase('flow','Flowing ↓');
+  captionEl.innerHTML=`<strong>${L.name}</strong> ${L.take}`;
+  const left=Math.max(0, amount-settled);
+  remainEl.innerHTML = left>0.0001 ? `<b>${money(left)}</b> still heading down` : `all settled`;
+}
+function tick(){ if(paused||!running||idx>=steps.length) return; applyStep(steps[idx]); idx++;
+  if(idx<steps.length){ timer=setTimeout(tick, delayFor()); } }
+function startRun(){
+  resetFloors(); recap.classList.remove('show'); settled=0;
+  idx=0; paused=false; running=true; coin.style.opacity='1'; coin.style.top='0px';
+  sendBtn.disabled=true; playPauseBtn.disabled=false; stepBtn.disabled=false; replayBtn.disabled=false; playPauseBtn.textContent='Pause';
+  tick();
+}
+function finishRun(){ running=false; sendBtn.disabled=false; playPauseBtn.disabled=true; stepBtn.disabled=true; }
+function togglePause(){ if(!running) return; paused=!paused; playPauseBtn.textContent=paused?'Play':'Pause'; if(!paused) tick(); }
+function stepOnce(){ if(!running){ startRun(); paused=true; playPauseBtn.textContent='Play'; clearTimeout(timer); return; }
+  paused=true; playPauseBtn.textContent='Play'; clearTimeout(timer); if(idx<steps.length){ applyStep(steps[idx]); idx++; } }
+sendBtn.addEventListener('click', startRun);
+playPauseBtn.addEventListener('click', togglePause);
+stepBtn.addEventListener('click', stepOnce);
+replayBtn.addEventListener('click', startRun);
+
+// ---- recap: distribution + test ----
+function showRecap(){
+  const dist=document.getElementById('dist'); dist.innerHTML='';
+  const sorted=[...LAYERS].map((L,i)=>({L, floorNo:N-i})).sort((a,b)=>b.L.share-a.L.share);
+  sorted.forEach(({L,floorNo})=>{
+    const row=document.createElement('div'); row.className='distrow';
+    row.innerHTML=`<span class="dn">${L.name}<small>L${floorNo} · ${tierLabel[L.tier]}</small></span>
+      <span class="dbar" style="width:${L.share/maxShare*100}%; background:${L.color}"></span>
+      <span class="dv">${money(L.share*amount)}</span>`;
+    dist.appendChild(row);
+  });
+  const bottomTwo=(LAYERS[N-1].share+LAYERS[N-2].share);
+  document.getElementById('takeaway').innerHTML=`<b>The shape of it:</b> silicon and cloud together keep about
+    ${money(bottomTwo*amount)} of every ${money(amount)} — over half — while the hyped app layer holds ${money(LAYERS[0].share*amount)}
+    that competitors can copy. The money pools exactly where the <b>Direct-to-invest</b> companies live.`;
+}
+const QA=[
+  ["Of a dollar spent on AI, how much sticks to the hyped app layer?","About 8¢ — and because the app is easy to copy, even that rarely lasts. The durable money is lower down."],
+  ["Which two floors keep the most?","Silicon (~30¢) and cloud (~24¢) — together over half the dollar. Both are 'Direct' to invest in (NVIDIA, Broadcom, AMD, the hyperscalers)."],
+  ["Why do the boring bottom floors keep more?","Pricing power. Scarce chips and switching-cost-heavy clouds can hold their margin; commodity layers up top get competed away."],
+];
+const qaWrap=document.getElementById('qaWrap');
+QA.forEach(([q,a])=>{ const d=document.createElement('div'); d.className='qa';
+  d.innerHTML=`<div class="q"><span class="qmark">?</span><span>${q}</span></div><div class="a">${a}</div>`;
+  d.querySelector('.q').addEventListener('click', ()=> d.classList.toggle('open')); qaWrap.appendChild(d); });
+
+// ---- invest view ----
+const ivBuy=document.getElementById('ivBuy'), ivBacker=document.getElementById('ivBacker'), ivPrivate=document.getElementById('ivPrivate');
+(function buildInvest(){
+  const b={public:[],backer:[],private:[]};
+  LAYERS.forEach((L,i)=>L.players.forEach(p=>b[p[2]].push({p,floor:N-i,lname:L.name})));
+  const card=it=>{ const p=it.p;
+    const tick=(p[2]==='public'&&p[3])?`<span class="tick">${p[3]}</span>`:'';
+    const via=p[2]==='backer'?` <span class="tick" style="color:var(--indirect)">via ${p[3]}</span>`:'';
+    const primer=p[4]?`<span class="ivprimer"><a href="${p[4]}">read primer →</a></span>`:'';
+    return `<div class="ivcard"><span class="ivn">${p[0]}${tick}${via}</span><span class="ivw">${p[1]}</span>${primer}<span class="ivfloor">L${it.floor} · ${it.lname}</span></div>`; };
+  ivBuy.innerHTML=`<div class="ivgh"><span class="gt">Buy today</span><span class="gc">${b.public.length} names</span></div>
+    <p class="ivgsub">Publicly traded — own these directly. Mostly the bottom floors, where the dollar pools.</p>
+    <div class="ivcard" style="border-color:var(--rose100)"><span class="ivn">${ETF.name}<span class="tick">ETF</span></span><span class="ivw">${ETF.w}</span><span class="ivprimer"><a href="${ETF.href}">read primer →</a></span><span class="ivfloor">basket</span></div>`+b.public.map(card).join('');
+  ivBacker.innerHTML=`<div class="ivgh"><span class="gt">Buy the backer</span><span class="gc">${b.backer.length} names</span></div>
+    <p class="ivgsub">The company is private, but a public mega-cap funds it — your indirect way in.</p>`+b.backer.map(card).join('');
+  ivPrivate.innerHTML=`<div class="ivgh"><span class="gt">Can't buy yet</span><span class="gc">${b.private.length} names</span></div>
+    <p class="ivgsub">Private or open-source — nothing to own here today. Watch for IPOs.</p>`+b.private.map(card).join('');
+})();
+
+// ---- tabs ----
+const flowView=document.getElementById('flowView'), investView=document.getElementById('investView');
+const tabFlow=document.getElementById('tabFlow'), tabInvest=document.getElementById('tabInvest');
+function setView(f){ flowView.style.display=f?'':'none'; investView.classList.toggle('show', !f);
+  tabFlow.classList.toggle('on', f); tabFlow.setAttribute('aria-selected', f);
+  tabInvest.classList.toggle('on', !f); tabInvest.setAttribute('aria-selected', !f); }
+tabFlow.addEventListener('click', ()=>setView(true));
+tabInvest.addEventListener('click', ()=>setView(false));
+document.getElementById('toInvest').addEventListener('click', ()=>{ setView(false); window.scrollTo({top:0,behavior:'smooth'}); });
+</script>
 </body>
 </html>
